@@ -1,0 +1,70 @@
+{
+  "built_utc": "2026-06-18T22:19:52Z",
+  "studies": [
+    {
+      "study_id": "KMIA_NDFD_4Season_MaxT_Precision_2021",
+      "year": null,
+      "enriched": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_4Season_MaxT_Precision_2021\\accuracy_points_enriched.csv",
+      "suite": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_4Season_MaxT_Precision_2021\\kmia_chart_suite.html",
+      "report": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_4Season_MaxT_Precision_2021\\accuracy_report.md",
+      "is_multiyear": false
+    },
+    {
+      "study_id": "KMIA_NDFD_Year_MaxT_Precision_2020",
+      "year": 2020,
+      "enriched": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2020\\accuracy_points_enriched.csv",
+      "suite": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2020\\kmia_chart_suite.html",
+      "report": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2020\\accuracy_report.md",
+      "is_multiyear": false
+    },
+    {
+      "study_id": "KMIA_NDFD_Year_MaxT_Precision_2021",
+      "year": 2021,
+      "enriched": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2021\\accuracy_points_enriched.csv",
+      "suite": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2021\\kmia_chart_suite.html",
+      "report": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2021\\accuracy_report.md",
+      "is_multiyear": false
+    },
+    {
+      "study_id": "KMIA_NDFD_Year_MaxT_Precision_2022",
+      "year": 2022,
+      "enriched": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2022\\accuracy_points_enriched.csv",
+      "suite": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2022\\kmia_chart_suite.html",
+      "report": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2022\\accuracy_report.md",
+      "is_multiyear": false
+    },
+    {
+      "study_id": "KMIA_NDFD_Year_MaxT_Precision_2023",
+      "year": 2023,
+      "enriched": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2023\\accuracy_points_enriched.csv",
+      "suite": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2023\\kmia_chart_suite.html",
+      "report": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2023\\accuracy_report.md",
+      "is_multiyear": false
+    },
+    {
+      "study_id": "KMIA_NDFD_Year_MaxT_Precision_2024",
+      "year": 2024,
+      "enriched": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2024\\accuracy_points_enriched.csv",
+      "suite": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2024\\kmia_chart_suite.html",
+      "report": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2024\\accuracy_report.md",
+      "is_multiyear": false
+    },
+    {
+      "study_id": "KMIA_NDFD_Year_MaxT_Precision_2025",
+      "year": 2025,
+      "enriched": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2025\\accuracy_points_enriched.csv",
+      "suite": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2025\\kmia_chart_suite.html",
+      "report": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2025\\accuracy_report.md",
+      "is_multiyear": false
+    },
+    {
+      "study_id": "KMIA_NDFD_AllYears_MaxT_Precision",
+      "year": null,
+      "enriched": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_AllYears_MaxT_Precision\\accuracy_points_enriched.csv",
+      "suite": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_AllYears_MaxT_Precision\\kmia_chart_suite.html",
+      "report": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_AllYears_MaxT_Precision\\accuracy_report.md",
+      "is_multiyear": true
+    }
+  ],
+  "portal_html": "D:\\KMIA_Process\\analysis\\KMIA_Chart_Portal\\kmia_chart_portal.html"
+}

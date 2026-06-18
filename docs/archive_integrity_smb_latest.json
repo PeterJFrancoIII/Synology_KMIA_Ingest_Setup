@@ -1,0 +1,416 @@
+﻿[
+    {
+        "YearMonth":  "2020-04",
+        "Maxt":  885,
+        "Wdir":  0,
+        "Status":  "MISSING_WDIR"
+    },
+    {
+        "YearMonth":  "2020-05",
+        "Maxt":  0,
+        "Wdir":  0,
+        "Status":  "MISSING_BOTH"
+    },
+    {
+        "YearMonth":  "2020-06",
+        "Maxt":  6760,
+        "Wdir":  2455,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2020-07",
+        "Maxt":  0,
+        "Wdir":  2421,
+        "Status":  "MISSING_MAXT"
+    },
+    {
+        "YearMonth":  "2020-08",
+        "Maxt":  2540,
+        "Wdir":  2540,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2020-09",
+        "Maxt":  2456,
+        "Wdir":  2454,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2020-10",
+        "Maxt":  2520,
+        "Wdir":  2522,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2020-11",
+        "Maxt":  2458,
+        "Wdir":  2457,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2020-12",
+        "Maxt":  2539,
+        "Wdir":  2541,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2021-01",
+        "Maxt":  0,
+        "Wdir":  0,
+        "Status":  "MISSING_BOTH"
+    },
+    {
+        "YearMonth":  "2021-02",
+        "Maxt":  0,
+        "Wdir":  0,
+        "Status":  "MISSING_BOTH"
+    },
+    {
+        "YearMonth":  "2021-03",
+        "Maxt":  0,
+        "Wdir":  2397,
+        "Status":  "MISSING_MAXT"
+    },
+    {
+        "YearMonth":  "2021-04",
+        "Maxt":  2457,
+        "Wdir":  2458,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2021-05",
+        "Maxt":  2540,
+        "Wdir":  2540,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2021-06",
+        "Maxt":  2448,
+        "Wdir":  2449,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2021-07",
+        "Maxt":  2537,
+        "Wdir":  2533,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2021-08",
+        "Maxt":  2535,
+        "Wdir":  2533,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2021-09",
+        "Maxt":  2429,
+        "Wdir":  2429,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2021-10",
+        "Maxt":  2524,
+        "Wdir":  2524,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2021-11",
+        "Maxt":  2447,
+        "Wdir":  2448,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2021-12",
+        "Maxt":  2523,
+        "Wdir":  2520,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2022-01",
+        "Maxt":  0,
+        "Wdir":  0,
+        "Status":  "MISSING_BOTH"
+    },
+    {
+        "YearMonth":  "2022-02",
+        "Maxt":  0,
+        "Wdir":  2227,
+        "Status":  "MISSING_MAXT"
+    },
+    {
+        "YearMonth":  "2022-03",
+        "Maxt":  2533,
+        "Wdir":  2542,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2022-04",
+        "Maxt":  2459,
+        "Wdir":  2458,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2022-05",
+        "Maxt":  2524,
+        "Wdir":  2523,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2022-06",
+        "Maxt":  2453,
+        "Wdir":  2454,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2022-07",
+        "Maxt":  2512,
+        "Wdir":  2510,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2022-08",
+        "Maxt":  2535,
+        "Wdir":  2539,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2022-09",
+        "Maxt":  2456,
+        "Wdir":  2457,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2022-10",
+        "Maxt":  2531,
+        "Wdir":  2535,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2022-11",
+        "Maxt":  2457,
+        "Wdir":  2459,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2022-12",
+        "Maxt":  2481,
+        "Wdir":  2482,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2023-01",
+        "Maxt":  0,
+        "Wdir":  0,
+        "Status":  "MISSING_BOTH"
+    },
+    {
+        "YearMonth":  "2023-02",
+        "Maxt":  0,
+        "Wdir":  2211,
+        "Status":  "MISSING_MAXT"
+    },
+    {
+        "YearMonth":  "2023-03",
+        "Maxt":  2533,
+        "Wdir":  2528,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2023-04",
+        "Maxt":  2449,
+        "Wdir":  2452,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2023-05",
+        "Maxt":  2523,
+        "Wdir":  2521,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2023-06",
+        "Maxt":  2404,
+        "Wdir":  2415,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2023-07",
+        "Maxt":  2503,
+        "Wdir":  2506,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2023-08",
+        "Maxt":  2516,
+        "Wdir":  2518,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2023-09",
+        "Maxt":  2334,
+        "Wdir":  2334,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2023-10",
+        "Maxt":  2536,
+        "Wdir":  2537,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2023-11",
+        "Maxt":  2441,
+        "Wdir":  2442,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2023-12",
+        "Maxt":  2527,
+        "Wdir":  2527,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2024-01",
+        "Maxt":  0,
+        "Wdir":  0,
+        "Status":  "MISSING_BOTH"
+    },
+    {
+        "YearMonth":  "2024-02",
+        "Maxt":  0,
+        "Wdir":  2295,
+        "Status":  "MISSING_MAXT"
+    },
+    {
+        "YearMonth":  "2024-03",
+        "Maxt":  2528,
+        "Wdir":  2531,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2024-04",
+        "Maxt":  2459,
+        "Wdir":  2458,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2024-05",
+        "Maxt":  2551,
+        "Wdir":  2551,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2024-06",
+        "Maxt":  2398,
+        "Wdir":  2393,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2024-07",
+        "Maxt":  2541,
+        "Wdir":  2533,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2024-08",
+        "Maxt":  2511,
+        "Wdir":  2516,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2024-09",
+        "Maxt":  2455,
+        "Wdir":  2455,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2024-10",
+        "Maxt":  2533,
+        "Wdir":  2530,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2024-11",
+        "Maxt":  2454,
+        "Wdir":  2447,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2024-12",
+        "Maxt":  2531,
+        "Wdir":  2533,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2025-01",
+        "Maxt":  0,
+        "Wdir":  0,
+        "Status":  "MISSING_BOTH"
+    },
+    {
+        "YearMonth":  "2025-02",
+        "Maxt":  0,
+        "Wdir":  2233,
+        "Status":  "MISSING_MAXT"
+    },
+    {
+        "YearMonth":  "2025-03",
+        "Maxt":  2535,
+        "Wdir":  2535,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2025-04",
+        "Maxt":  2455,
+        "Wdir":  2456,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2025-05",
+        "Maxt":  2534,
+        "Wdir":  2534,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2025-06",
+        "Maxt":  2441,
+        "Wdir":  2441,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2025-07",
+        "Maxt":  2536,
+        "Wdir":  2536,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2025-08",
+        "Maxt":  2525,
+        "Wdir":  2526,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2025-09",
+        "Maxt":  2448,
+        "Wdir":  2454,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2025-10",
+        "Maxt":  2539,
+        "Wdir":  2530,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2025-11",
+        "Maxt":  2456,
+        "Wdir":  2455,
+        "Status":  "OK"
+    },
+    {
+        "YearMonth":  "2025-12",
+        "Maxt":  2539,
+        "Wdir":  2533,
+        "Status":  "OK"
+    }
+]

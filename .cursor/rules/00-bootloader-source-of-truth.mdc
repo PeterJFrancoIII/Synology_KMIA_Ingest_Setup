@@ -1,0 +1,33 @@
+---
+description: Zero-Drift Bootloader is the mandatory source of truth for all agent work in this repo.
+alwaysApply: true
+---
+
+# Bootloader source of truth
+
+All AI agents (Cursor AUTO, subagents, Claude Code, background agents) **must** follow:
+
+`docs/bootloader/AI_System_Architect_Bootloader_Zero-Drift_Build_5.18.26.md`
+
+## Before major work
+
+1. Read bootloader Sections **0–8** (master prompt, laws, Mission Control Packet, drift prevention).
+2. Read `MISSION.md` and `docs/specs/current-objective.md`.
+3. Read `AGENTS.md` for project-specific commands and risk classes.
+
+## Operating law (summary)
+
+- Mission before code · Plan before edits · Evidence before confidence
+- Narrow write scope · One writer per worktree
+- Memory in version-controlled files, not chat
+- Red-zone (secrets, prod, auth, migrations) requires explicit human approval
+
+## Project-specific rules (also always load)
+
+- `.cursor/rules/kmia-ingest-and-chart-bridge.mdc`
+- `.cursor/rules/legion5-processor-defaults.mdc`
+- `.cursor/skills/kmia-nas-ingest/SKILL.md` when operating NAS ingest
+
+## Handoff format
+
+Use bootloader Section 0 response format for architect sessions: MISSION, STATE, PLAN, SCOPE, VERIFY, RISKS, HANDOFF.

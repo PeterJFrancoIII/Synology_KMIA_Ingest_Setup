@@ -1,0 +1,33 @@
+# Secrets — never commit
+secrets/
+*.env
+!*.env.example
+**/nas_smb_password
+**/*credentials*
+**/*_password
+
+# Local backups (stored separately; not in git)
+BACKUPS_DO_NOT_TOUCH/
+
+# Large extracted data (lives on NAS / Legion5; backup separately)
+Research/**/Legion5_Extract/
+**/ndfd_kmia_point_forecasts_VALID_ONLY_*.csv
+**/monthly/**/ndfd_kmia_*_point_forecasts.csv
+
+# Logs and local artifacts
+*.log
+pull_to_mac.log
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+Thumbs.db
+
+# IDE / editor
+.idea/
+*.swp
+*~
+
+# Raw GRIB (never in repo)
+**/raw/forecast/
+**/raw/observed/

@@ -1,0 +1,17 @@
+services:
+  kmia-arch-ingest:
+    build: .
+    image: kmia-arch-ingest:latest
+    container_name: kmia-arch-ingest
+    restart: unless-stopped
+    command: ["sleep", "infinity"]
+    environment:
+      TZ: America/New_York
+      KMIA_ROOT: /data/KMIA_Ingest
+      KMIA_LAT: "25.7975"
+      KMIA_LON: "-80.2872"
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - /volume2/Data/App_Development:/data
+    working_dir: /data/KMIA_Ingest
+    mem_limit: 3g

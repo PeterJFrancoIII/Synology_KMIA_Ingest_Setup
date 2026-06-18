@@ -1,0 +1,12 @@
+{
+  "study_name": "KMIA_NDFD_Year_MaxT_Precision_2023",
+  "year": 2023,
+  "built_utc": "2026-06-18T12:49:30Z",
+  "inputs": {
+    "accuracy_points_enriched": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2023\\accuracy_points_enriched.csv"
+  },
+  "outputs": {
+    "chart_suite_html": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2023\\kmia_chart_suite.html",
+    "accuracy_report": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2023\\accuracy_report.md"
+  }
+}

@@ -1,0 +1,39 @@
+# Legion5 -> Synology MediaServer2 (LAN). Install: copy to ~/.ssh/config
+#   cat nas_ssh_config >> ~/.ssh/config
+
+Host nas-local nas MediaServer2Local
+    HostName 192.168.0.193
+    Port 23921
+    User Viper117
+    IdentityFile ~/.ssh/synology_nas_rsa
+    IdentitiesOnly yes
+    AddressFamily inet
+
+    # Reuse one connection for all month pulls (large speedup)
+    ControlMaster auto
+    ControlPath ~/.ssh/controlmasters/nas-%C
+    ControlPersist 4h
+
+    Compression no
+    IPQoS throughput
+    TCPKeepAlive yes
+    ServerAliveInterval 30
+    ServerAliveCountMax 6
+    ConnectTimeout 10
+    StrictHostKeyChecking accept-new
+    BatchMode yes
+
+    # Fast ciphers on LAN
+    Ciphers aes128-gcm@openssh.com,chacha20-poly1305@openssh.com
+    MACs hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com
+
+# Remote / DDNS fallback (disable ControlMaster — jump hosts)
+Host nas-remote MediaServer2
+    HostName peterjfrancoiii2.synology.me
+    Port 23921
+    User Viper117
+    IdentityFile ~/.ssh/synology_nas_rsa
+    IdentitiesOnly yes
+    Compression yes
+    ConnectTimeout 20
+    StrictHostKeyChecking accept-new

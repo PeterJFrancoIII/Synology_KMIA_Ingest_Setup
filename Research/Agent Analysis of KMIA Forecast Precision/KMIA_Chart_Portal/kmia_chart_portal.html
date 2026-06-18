@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>KMIA Max-Temperature Chart Portal</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a2332;
+      --text: #e8edf4;
+      --muted: #8b9cb3;
+      --border: #2d3a4f;
+      --accent: #4c9aff;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.5rem;
+      line-height: 1.5;
+    }
+    h1 { margin: 0 0 0.25rem; font-size: 1.35rem; }
+    h2 { font-size: 1rem; color: var(--muted); margin: 1.5rem 0 0.75rem; font-weight: 500; }
+    .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.75rem;
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 1rem;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card.wide { max-width: 320px; }
+    .year { font-size: 1.5rem; font-weight: 600; color: var(--accent); }
+    .label { font-size: 0.72rem; color: var(--muted); word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>KMIA Max-Temperature Chart Portal</h1>
+  <div class="sub">Historical NDFD forecast vs ISD observed · per-year interactive suites</div>
+  <section>
+    <h2>By year</h2>
+    <div class="grid">
+    <a class="card" href="../KMIA_NDFD_4Season_MaxT_Precision_2021/kmia_chart_suite.html">
+      <span class="year">None</span>
+      <span class="label">KMIA_NDFD_4Season_MaxT_Precision_2021</span>
+    </a>
+    <a class="card" href="../KMIA_NDFD_Year_MaxT_Precision_2020/kmia_chart_suite.html">
+      <span class="year">2020</span>
+      <span class="label">KMIA_NDFD_Year_MaxT_Precision_2020</span>
+    </a>
+    <a class="card" href="../KMIA_NDFD_Year_MaxT_Precision_2021/kmia_chart_suite.html">
+      <span class="year">2021</span>
+      <span class="label">KMIA_NDFD_Year_MaxT_Precision_2021</span>
+    </a>
+    <a class="card" href="../KMIA_NDFD_Year_MaxT_Precision_2022/kmia_chart_suite.html">
+      <span class="year">2022</span>
+      <span class="label">KMIA_NDFD_Year_MaxT_Precision_2022</span>
+    </a>
+    <a class="card" href="../KMIA_NDFD_Year_MaxT_Precision_2023/kmia_chart_suite.html">
+      <span class="year">2023</span>
+      <span class="label">KMIA_NDFD_Year_MaxT_Precision_2023</span>
+    </a>
+    <a class="card" href="../KMIA_NDFD_Year_MaxT_Precision_2024/kmia_chart_suite.html">
+      <span class="year">2024</span>
+      <span class="label">KMIA_NDFD_Year_MaxT_Precision_2024</span>
+    </a>
+    <a class="card" href="../KMIA_NDFD_Year_MaxT_Precision_2025/kmia_chart_suite.html">
+      <span class="year">2025</span>
+      <span class="label">KMIA_NDFD_Year_MaxT_Precision_2025</span>
+    </a>
+    </div>
+  </section>
+
+  <section>
+    <h2>All years combined</h2>
+    <a class="card wide" href="../KMIA_NDFD_AllYears_MaxT_Precision/kmia_chart_suite.html">
+      <span class="year">2020–2025</span>
+      <span class="label">KMIA_NDFD_AllYears_MaxT_Precision</span>
+    </a>
+  </section>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "study_name": "KMIA_NDFD_Year_MaxT_Precision_2021",
+  "year": 2021,
+  "built_utc": "2026-06-18T22:15:11Z",
+  "inputs": {
+    "accuracy_points_enriched": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2021\\accuracy_points_enriched.csv"
+  },
+  "outputs": {
+    "chart_suite_html": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2021\\kmia_chart_suite.html",
+    "accuracy_report": "D:\\KMIA_Process\\analysis\\KMIA_NDFD_Year_MaxT_Precision_2021\\accuracy_report.md"
+  }
+}

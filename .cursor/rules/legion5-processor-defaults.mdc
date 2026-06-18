@@ -1,0 +1,23 @@
+---
+description: Legion5 KMIA processor default workflow — SMB pull + parallel wgrib2
+globs: legion5/**,ingest/scripts/22_batch_extract_local_gribs.py,ingest/scripts/analyze_kmia_forecast_accuracy.py
+alwaysApply: true
+---
+
+# Legion5 processor defaults
+
+Legion5 (`D:\KMIA_Process`) pulls raw NDFD from NAS, extracts KMIA points, runs charts/analysis.
+
+**Default workflow (2026-06-15+):** Documented in `Research/Agent Analysis of KMIA Forecast Precision/OPTIMAL_ANALYSIS_WORKFLOW.md`
+
+1. **SMB pull** — `NAS_PULL_MODE=smb` when `Z:` is mounted (`43_setup_nas_smb.ps1` one-time). Fallback: SSH tar if `Z:` absent.
+2. **Parallel extract** — `KMIA_EXTRACT_WORKERS=4` (recommend 8 for full archive) passed to `22_batch_extract_local_gribs.py --workers`.
+3. **Canonical env** — source `legion5/kmia_legion5_env.sh` from all launchers (`run_*.sh`, `36_process_all_from_nas.sh`, `42_kmia_4season_*`).
+
+Research archive: `Research/Agent Analysis of KMIA Forecast Precision/` (workflow + analysis reports).
+
+SMB uses dedicated read-only NAS user `kmia_legion5` (password in `D:\KMIA_Process\secrets\nas_smb_password` on Legion5 only — not in repo).
+
+Do not revert to serial wgrib2 or tar-only pulls unless SMB is unavailable (off-LAN). SCP/SFTP subsystems on Synology are disabled; never use scp for NAS data.
+
+Key scripts: `35_process_month_from_nas.sh`, `nas_pull_helpers.sh`, `43_setup_nas_smb.ps1`, `43_benchmark_pull_modes.sh`.

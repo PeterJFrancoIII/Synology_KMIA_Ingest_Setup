@@ -1,0 +1,8 @@
+maxt
+temp
+td
+sky
+wdir
+wspd
+pop12
+qpf
