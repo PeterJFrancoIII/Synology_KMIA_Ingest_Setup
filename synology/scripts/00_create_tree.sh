@@ -42,6 +42,13 @@ mkdir -p "$ROOT/KMIA_Ingest/logs/container" 2>/dev/null || true
 mkdir -p "$ROOT/KMIA_Ingest/logs/ingestion" 2>/dev/null || true
 mkdir -p "$ROOT/KMIA_Ingest/logs/smoke_tests" 2>/dev/null || true
 mkdir -p "$ROOT/Docker/kmia-arch-ingest" 2>/dev/null || true
+mkdir -p "$ROOT/Docker/kmia-paper-research" 2>/dev/null || true
+mkdir -p "$ROOT/Kalshi/scripts" 2>/dev/null || true
+mkdir -p "$ROOT/Kalshi/backend/data/processed/mae" 2>/dev/null || true
+mkdir -p "$ROOT/Kalshi/backend/data/research" 2>/dev/null || true
+mkdir -p "$ROOT/logs/paper_research" 2>/dev/null || true
+mkdir -p "$ROOT/logs/paper_trading" 2>/dev/null || true
+mkdir -p "$ROOT/secrets" 2>/dev/null || true
 mkdir -p "$ROOT/Backups/kmia_ingest_config" 2>/dev/null || true
 mkdir -p "$ROOT/Backups/manifests" 2>/dev/null || true
 mkdir -p "$ROOT/Backups/scripts" 2>/dev/null || true

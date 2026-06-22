@@ -15,6 +15,8 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
+from kmia_station import KMIA_LAT, KMIA_LON
+
 TEMP_VARS = {"maxt", "mint", "temp", "td"}
 WIND_SPEED_VARS = {"wspd", "wgust"}
 PERCENT_VARS = {"sky", "pop12"}
@@ -188,8 +190,11 @@ def _extract_one_file(job: Tuple[str, str, str, str, float, float, str]) -> Tupl
 
 
 def default_workers() -> int:
+    env = os.environ.get("KMIA_EXTRACT_WORKERS")
+    if env and env.isdigit():
+        return max(1, int(env))
     cpus = os.cpu_count() or 4
-    return max(1, min(8, cpus - 1))
+    return max(1, min(10, cpus - 2))
 
 
 def main() -> int:
@@ -199,8 +204,8 @@ def main() -> int:
     p.add_argument("--year", required=True)
     p.add_argument("--month", required=True)
     p.add_argument("--pattern", default="YGUZ*", help="Filename glob; default KMIA-covering tiles.")
-    p.add_argument("--lat", type=float, default=25.7975)
-    p.add_argument("--lon", type=float, default=-80.2872)
+    p.add_argument("--lat", type=float, default=KMIA_LAT)
+    p.add_argument("--lon", type=float, default=KMIA_LON)
     p.add_argument("--station-id", default="KMIA")
     p.add_argument("--wgrib2", default="wgrib2")
     p.add_argument("--flush-every", type=int, default=25)

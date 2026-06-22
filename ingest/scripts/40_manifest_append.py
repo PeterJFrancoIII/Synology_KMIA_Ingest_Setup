@@ -7,6 +7,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from kmia_station import KMIA_LAT, KMIA_LON
+
 
 def sha256_file(path: Path) -> str:
     h = hashlib.sha256()
@@ -38,8 +40,8 @@ def main() -> int:
         "content_length": path.stat().st_size if path.is_file() else None,
         "format": args.format,
         "station_id": "KMIA",
-        "station_lat": 25.7975,
-        "station_lon": -80.2872,
+        "station_lat": KMIA_LAT,
+        "station_lon": KMIA_LON,
         "decoder": args.decoder,
         "status": args.status,
         "error_text": args.error_text or None,

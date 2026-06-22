@@ -33,6 +33,6 @@ Legion5 source: `D:\KMIA_Process\analysis\KMIA_NDFD_4Season_MaxT_Precision_2021\
 
 ## Related project docs
 
-- `docs/PROJECT_STATE_AND_OBJECTIVES.md` — system handoff
+- `0_Developer_Source_Files/PROJECT_STATE_AND_OBJECTIVES.md` — system handoff
 - `.cursor/rules/legion5-processor-defaults.mdc` — Legion5 default env (SMB + workers)
 - `legion5/44_benchmark_workflow.sh` — re-run benchmarks before scaling

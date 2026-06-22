@@ -1,0 +1,12 @@
+{
+  "generated_at_utc": "2026-06-22T01:04:27.157534+00:00",
+  "draft_path": "/Users/computer/Desktop/App Development/Kalshi/backend/data/research/trading_policy_draft.json",
+  "review_path": "/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/Kalshi_Price_Backtest/policy_review_for_human.txt",
+  "archive_coverage": {
+    "orderbook_vs_price_days": 1.6,
+    "candles_vs_price_days": 100.0
+  },
+  "backtest_prob_model": "integer_dist_v1",
+  "recommended_edge": 0.0,
+  "approved_by_human": true
+}

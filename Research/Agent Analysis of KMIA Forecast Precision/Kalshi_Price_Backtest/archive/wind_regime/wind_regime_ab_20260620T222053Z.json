@@ -1,0 +1,190 @@
+{
+  "generated_at_utc": "2026-06-20T22:20:53.399560+00:00",
+  "safety": {
+    "no_real_trading": true,
+    "no_order_execution": true,
+    "disclaimer": "NO REAL TRADING EXECUTION - CONSOLE 2 WIND A/B RESEARCH ONLY"
+  },
+  "prob_model": "integer_dist_v1",
+  "policy": {
+    "min_forecast_edge": 0.26,
+    "max_entry_yes_ask": 0.35,
+    "order_mode": "maker_limit"
+  },
+  "price_history_dir": "/Users/computer/Desktop/App Development/Kalshi/Kalshi - Miami Max Temp. Bet History",
+  "enriched_csv": "/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/KMIA_NDFD_AllYears_MaxT_Precision/accuracy_points_enriched.csv",
+  "priors_path": null,
+  "date_range": {
+    "start": "2026-04-20",
+    "end": "2026-06-20"
+  },
+  "n_days_in_price_history": 62,
+  "n_days_skipped": 62,
+  "skipped_sample": [
+    {
+      "day": "2026-04-20",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-04-21",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-04-22",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-04-23",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-04-24",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-04-25",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-04-26",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-04-27",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-04-28",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-04-29",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-04-30",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-05-01",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-05-02",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-05-03",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-05-04",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-05-05",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-05-06",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-05-07",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-05-08",
+      "reason": "missing_enriched_anchor_or_observed"
+    },
+    {
+      "day": "2026-05-09",
+      "reason": "missing_enriched_anchor_or_observed"
+    }
+  ],
+  "variant_summaries": {
+    "baseline": {
+      "n_days_evaluated": 0,
+      "n_trades": 0,
+      "n_settled": 0,
+      "n_wins": 0,
+      "n_losses": 0,
+      "win_rate_pct": null,
+      "total_simulated_pnl": 0,
+      "total_deployed": 0,
+      "roi_pct": null,
+      "avg_insurance_legs": null
+    },
+    "forecast_wind": {
+      "n_days_evaluated": 0,
+      "n_trades": 0,
+      "n_settled": 0,
+      "n_wins": 0,
+      "n_losses": 0,
+      "win_rate_pct": null,
+      "total_simulated_pnl": 0,
+      "total_deployed": 0,
+      "roi_pct": null,
+      "avg_insurance_legs": null
+    },
+    "forecast_wind_jja_only": {
+      "n_days_evaluated": 0,
+      "n_trades": 0,
+      "n_settled": 0,
+      "n_wins": 0,
+      "n_losses": 0,
+      "win_rate_pct": null,
+      "total_simulated_pnl": 0,
+      "total_deployed": 0,
+      "roi_pct": null,
+      "avg_insurance_legs": null
+    },
+    "observed_wind_oracle": {
+      "n_days_evaluated": 0,
+      "n_trades": 0,
+      "n_settled": 0,
+      "n_wins": 0,
+      "n_losses": 0,
+      "win_rate_pct": null,
+      "total_simulated_pnl": 0,
+      "total_deployed": 0,
+      "roi_pct": null,
+      "avg_insurance_legs": null
+    }
+  },
+  "delta_vs_baseline": {
+    "forecast_wind": {
+      "total_simulated_pnl": 0.0,
+      "win_rate_pct": null,
+      "n_trades": 0.0
+    },
+    "forecast_wind_jja_only": {
+      "total_simulated_pnl": 0.0,
+      "win_rate_pct": null,
+      "n_trades": 0.0
+    },
+    "observed_wind_oracle": {
+      "total_simulated_pnl": 0.0,
+      "win_rate_pct": null,
+      "n_trades": 0.0
+    }
+  },
+  "recommendation": {
+    "verdict": "neutral_drop",
+    "rationale": "Wind shifts did not change trades or P&L on this sample.",
+    "baseline_pnl": 0.0,
+    "forecast_wind_pnl": 0.0,
+    "forecast_wind_pnl_delta": 0.0,
+    "jja_only_pnl_delta": 0.0,
+    "trade_count_delta": 0,
+    "oracle_pnl": 0.0,
+    "n_days_with_outcome_change": 0,
+    "outcome_change_sample": []
+  },
+  "daily_results": {
+    "baseline": [],
+    "forecast_wind": [],
+    "forecast_wind_jja_only": [],
+    "observed_wind_oracle": []
+  }
+}

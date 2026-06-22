@@ -1,15 +1,14 @@
 # Synology KMIA Ingest Setup
 
-Historical NDFD ingest + KMIA forecast-precision research for Kalshi max-temperature analysis (**research / dry-run only**).
+Historical NDFD ingest + KMIA forecast-precision (MAE) research for Kalshi max-temperature analysis.
+
+**Console 2 of 3** — separate from the Kalshi Main Console (human live UI) and Auto Trader Console. See `docs/architecture/THREE_CONSOLE_ARCHITECTURE.md`.
+
+**Research / dry-run only** — no live trading in this repo.
 
 ## Start here
 
-| Document | Purpose |
-|----------|---------|
-| [Bootloader (source of truth)](docs/bootloader/AI_System_Architect_Bootloader_Zero-Drift_Build_5.18.26.md) | Zero-Drift Build OS for all AI agents |
-| [MISSION.md](MISSION.md) | Project mission and success criteria |
-| [AGENTS.md](AGENTS.md) | Agent operating rules and commands |
-| [Project state](docs/PROJECT_STATE_AND_OBJECTIVES.md) | Architecture, scripts, objectives |
+**Mission & governance (read first):** [0_Developer_Source_Files/](0_Developer_Source_Files/README.md) — bootloader, mission, current objective, project state, agent rules, Claude instructions (all in one directory).
 
 ## Machines
 

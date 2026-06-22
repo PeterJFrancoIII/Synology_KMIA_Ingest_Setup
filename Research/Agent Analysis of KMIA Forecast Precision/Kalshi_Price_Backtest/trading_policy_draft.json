@@ -1,0 +1,39 @@
+{
+  "generated_at_utc": "2026-06-22T01:04:26.862854+00:00",
+  "safety": {
+    "no_real_trading": true,
+    "no_order_execution": true,
+    "disclaimer": "NO REAL TRADING EXECUTION - CONSOLE 2 POLICY EXPORT ONLY"
+  },
+  "schema_version": "1.0",
+  "model_version": "integer_dist_v1",
+  "live_model_version": "integer_dist_v1",
+  "order_mode": "maker_limit",
+  "anchor_hour_et": 10,
+  "min_forecast_edge": 0.0,
+  "max_entry_yes_ask": 0.35,
+  "require_cheapest_at_open": true,
+  "insurance_enabled": true,
+  "insurance_mode": "fraction",
+  "insurance_budget_fraction": 1.0,
+  "insurance_price_k": 0.6,
+  "min_insurance_bin_prob": 0.1,
+  "confidence": "moderate",
+  "low_confidence_max_forecast_dollars": 5.0,
+  "avg_event_volume_usd": 121000.0,
+  "max_top_of_book_participation": 0.25,
+  "max_event_volume_participation": 0.005,
+  "abs_max_contracts_per_leg": 25,
+  "approved_by_human": false,
+  "source_sweep": "D:\\KMIA_Process\\analysis\\Kalshi_Price_Backtest\\policy_sweep_20260622T005444Z.json",
+  "selection_method": "max_win_rate_insured_min_trades_20",
+  "backtest_metrics": {
+    "n_trades": 46,
+    "n_wins": 33,
+    "win_rate_pct": 71.7,
+    "total_pnl": 287.125,
+    "roi_pct": 74.41,
+    "avg_insurance_legs": 2.17,
+    "insurance_covers_book_rate_pct": 30.4
+  }
+}

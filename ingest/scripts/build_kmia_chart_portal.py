@@ -76,6 +76,23 @@ def ensure_suite(root: Path, study: dict, python: str) -> str:
     return str(out)
 
 
+def study_coverage(enriched: Path) -> dict | None:
+    try:
+        import pandas as pd
+
+        df = pd.read_csv(enriched, usecols=["target_date_et"], low_memory=False)
+        df["target_dt"] = pd.to_datetime(df["target_date_et"])
+        years = sorted(df["target_dt"].dt.year.unique().astype(int).tolist())
+        return {
+            "n_days": int(df["target_date_et"].nunique()),
+            "date_min": str(df["target_date_et"].min()),
+            "date_max": str(df["target_date_et"].max()),
+            "years": years,
+        }
+    except Exception:
+        return None
+
+
 def render_portal(studies: list[dict], out_path: Path) -> None:
     year_cards = []
     multiyear = None
@@ -95,12 +112,22 @@ def render_portal(studies: list[dict], out_path: Path) -> None:
     multiyear_block = ""
     if multiyear and multiyear["suite"]:
         rel = Path(multiyear["suite"]).name
+        cov = study_coverage(Path(multiyear["enriched"]))
+        if cov and len(cov["years"]) > 1:
+            year_label = f"{cov['years'][0]}–{cov['years'][-1]}"
+            sub = f"{cov['n_days']} days · {cov['date_min']} → {cov['date_max']}"
+        elif cov:
+            year_label = str(cov["years"][0]) if cov["years"] else "All years"
+            sub = f"{cov['n_days']} days · {cov['date_min']} → {cov['date_max']}"
+        else:
+            year_label = "All years"
+            sub = multiyear["study_id"]
         multiyear_block = f"""
   <section>
     <h2>All years combined</h2>
     <a class="card wide" href="../{multiyear['study_id']}/{rel}">
-      <span class="year">2020–2025</span>
-      <span class="label">{multiyear['study_id']}</span>
+      <span class="year">{year_label}</span>
+      <span class="label">{sub}</span>
     </a>
   </section>"""
 

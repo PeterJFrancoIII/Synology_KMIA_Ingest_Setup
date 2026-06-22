@@ -1,0 +1,42 @@
+---
+description: Never simulate, backfill, or proxy weather forecast or observed data in Kalshi weather sets.
+alwaysApply: true
+---
+
+# No simulated weather data (mandatory)
+
+**Hard rule:** Console 2 and Kalshi backtest joins must never use simulated, synthetic, backfilled, or proxy weather for **forecasts** or **observed** values.
+
+## Allowed
+
+| Data | Source |
+|------|--------|
+| NWS forecast at anchor | Live `api.weather.gov` at **MFL/105,51**; historical gap fill via **NDFD point extract** at 25.7906/-80.3164 (`backfill_nws_snapshots_from_ndfd.py`) |
+| rules_v2 forecast | Real `kmia_forecast_*_rules_v2_*.json` reports from the live pipeline |
+| IEM GFS MOS archive | Real NOAA/NWS MOS via IEM in `iem_gfs_mos_forecast_archive.jsonl` (only when live NWS missing; never disguised as NWS snapshots) |
+| Observed hourly | Live-archived rows in `nws_observed_history.jsonl` via `archive_observed_history.py` |
+| Official daily TMAX (settlement research) | NCEI `USW00012839` climatological report / `kmia_daily_history.jsonl` — **read-only**, never injected into NWS JSONL as fake obs |
+
+## Forbidden (never implement or run)
+
+- IEM MOS / NDFD / ASOS **proxy** snapshots dressed as NWS JSON
+- Synthetic `nws_kmia_snapshot_*` files with `backfill: true`
+- Injected observed rows (`settlement_row`, `provider: ncei`, `provider: iem_asos`)
+- Any script that **writes** forecast or observed weather to fill backtest gaps
+- Climatological defaults standing in for missing live forecast/obs
+
+## Enforcement in this repo
+
+- `ingest/config/kmia_station.json` — canonical pin **25.7906, -80.3164** (NWS MFL/105,51)
+- `ingest/scripts/verify_kmia_station_alignment.py` — audit code + live NWS snapshot
+- `ingest/scripts/weather_data_policy.py` — grid alignment + simulation detection
+- `ingest/scripts/kalshi_nws_join.py` — rejects misaligned / simulated snapshots
+- `ingest/scripts/quarantine_mismatched_nws_snapshots.py` — moves legacy-grid NWS archives aside
+- `ingest/scripts/purge_simulated_weather.py` — removes bad artifacts from disk
+- `ingest/scripts/kalshi_weather_coverage_scorecard.py` — **read-only** gap report
+- `ingest/scripts/backfill_kalshi_nws_ncei.py` — **disabled**
+- IEM MOS backtest fallback — **off** unless `KALSHI_BACKTEST_ALLOW_IEM_MOS=1`
+
+When coverage is thin, report gaps honestly. Collect real data via live pipelines — do not simulate.
+
+**Observed settlement:** Official NCEI CLIMIA TMAX via `refresh_kmia_ncei_climatology.py` → `kmia_daily_history.jsonl` (not `nws_observed_history.jsonl`).

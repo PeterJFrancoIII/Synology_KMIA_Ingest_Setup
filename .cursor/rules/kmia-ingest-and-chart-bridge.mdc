@@ -4,13 +4,15 @@ globs: "**/*"
 alwaysApply: true
 ---
 
-# KMIA ingest → chart bridge
+# KMIA ingest → chart bridge (Console 2)
 
-This project feeds the Kalshi KMIA max-temperature research program. The downstream visualization standard is the golden master chart (`chart_kmia_PLUS_mean_median_stability_wind.py`).
+This project is **Console 2** — Weather Ingestion & MAE Probabilities. It feeds read-only research artifacts into the Kalshi KMIA program. It is **not** the Kalshi Main Console (human live UI) or the Auto Trader Console.
+
+Architecture: `docs/architecture/THREE_CONSOLE_ARCHITECTURE.md`
 
 Ingest priorities:
 1. Raw NDFD + ISD under `/volume2/Data/App_Development/KMIA_Ingest`
 2. Processed point CSVs compatible with golden master inputs (VALID_ONLY filtering, lead-time window)
 3. Manifest/checksum logging before scaling backfill
 
-Do not treat NDFD as observed data. No live trading. Active compose path: `Docker/kmia-arch-ingest/`.
+Do not treat NDFD as observed data. No live trading. No Streamlit or Kalshi order code in this repo. Active compose path: `Docker/kmia-arch-ingest/`.

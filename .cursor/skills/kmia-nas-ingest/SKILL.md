@@ -23,6 +23,11 @@ Durable data lake + ingestion worker for KMIA historical NDFD forecasts and NCEI
 
 Mount: `/volume2/Data/App_Development` → container `/data`
 
+## Canonical KMIA pin
+
+All NDFD point extracts and NWS forecast joins use **lat 25.7906, lon -80.3164** (NWS MapClick / MFL/105,51).  
+Config: `ingest/config/kmia_station.json`. Observations: ISD **722020/12839** (same airport, station ID).
+
 ## Container
 
 ```bash

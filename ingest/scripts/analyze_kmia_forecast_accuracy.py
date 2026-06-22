@@ -20,7 +20,7 @@ import pandas as pd
 
 MAX_HOURS_BEFORE_TARGET_ANCHOR = 36.0
 TARGET_ANCHOR_HOUR_ET = 16
-ACCURACY_THRESHOLDS_F = (1.0, 2.0, 3.0)
+ACCURACY_THRESHOLDS_F = (0.0, 1.0, 2.0, 3.0)
 
 
 def parse_wnd_dir(wnd_value) -> float:
@@ -157,12 +157,16 @@ def enrich_points(points: pd.DataFrame, daily_obs: pd.DataFrame) -> pd.DataFrame
     df["abs_error_f"] = (df["forecast_temp_f"] - df["observed_max_f"]).abs()
     df["signed_error_f"] = df["forecast_temp_f"] - df["observed_max_f"]
     for t in ACCURACY_THRESHOLDS_F:
-        df[f"within_{int(t)}f"] = df["abs_error_f"] <= t
+        if t == 0:
+            df["within_0f"] = df["forecast_temp_f"].round() == df["observed_max_f"].round()
+        else:
+            df[f"within_{int(t)}f"] = df["abs_error_f"] <= t
     df["verified_in_daily_range"] = (
         (df["observed_max_f"] >= df["min_forecast_f"]) & (df["observed_max_f"] <= df["max_forecast_f"])
     )
     df["target_dt"] = pd.to_datetime(df["target_date_et"])
     df["month"] = df["target_dt"].dt.month
+    df["week_of_year"] = df["target_dt"].dt.isocalendar().week.astype(int)
     df["quarter"] = df["target_dt"].dt.quarter
     season_map = {12: "DJF", 1: "DJF", 2: "DJF", 3: "MAM", 4: "MAM", 5: "MAM",
                   6: "JJA", 7: "JJA", 8: "JJA", 9: "SON", 10: "SON", 11: "SON"}
@@ -350,6 +354,8 @@ def main() -> int:
 
     seasonal_month = accuracy_table(df, ["month"], min_n=5)
     seasonal_month.to_csv(out_dir / "seasonal_by_month.csv", index=False)
+    seasonal_week = accuracy_table(df, ["week_of_year"], min_n=5)
+    seasonal_week.to_csv(out_dir / "seasonal_by_week_of_year.csv", index=False)
     seasonal_q = accuracy_table(df, ["quarter"], min_n=5)
     seasonal_q.to_csv(out_dir / "seasonal_by_quarter.csv", index=False)
     seasonal_s = accuracy_table(df, ["season"], min_n=5)

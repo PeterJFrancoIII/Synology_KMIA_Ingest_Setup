@@ -1,0 +1,25 @@
+{
+  "study_name": "KMIA_NDFD_AllYears_MaxT_Precision",
+  "built_utc": "2026-06-18T23:41:05Z",
+  "source_years": [
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "n_days": 1957,
+  "n_releases": 72084,
+  "date_min": "2020-04-16",
+  "date_max": "2025-08-26",
+  "inputs": [
+    "/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/KMIA_NDFD_Year_MaxT_Precision_2020/accuracy_points_enriched.csv",
+    "/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/KMIA_NDFD_Year_MaxT_Precision_2021/accuracy_points_enriched.csv",
+    "/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/KMIA_NDFD_Year_MaxT_Precision_2022/accuracy_points_enriched.csv",
+    "/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/KMIA_NDFD_Year_MaxT_Precision_2023/accuracy_points_enriched.csv",
+    "/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/KMIA_NDFD_Year_MaxT_Precision_2024/accuracy_points_enriched.csv",
+    "/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/KMIA_NDFD_Year_MaxT_Precision_2025/accuracy_points_enriched.csv"
+  ],
+  "output": "/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/KMIA_NDFD_AllYears_MaxT_Precision/accuracy_points_enriched.csv"
+}

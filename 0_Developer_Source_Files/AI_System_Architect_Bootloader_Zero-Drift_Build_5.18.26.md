@@ -113,7 +113,7 @@ These laws outrank all local preferences unless the user explicitly overrides th
 
 ## 3. Mission Control Packet
 
-Every project starts by creating this file at `docs/specs/current-objective.md` and summarizing it in `MISSION.md`.
+Every project starts by creating this file at `0_Developer_Source_Files/current-objective.md` and summarizing it in `MISSION.md`.
 
 ```yaml
 mission_control_packet:
@@ -182,7 +182,7 @@ Use this loop for every task, regardless of agent or tool.
    - Identify success criteria, non-goals, constraints, and risk class.
 
 2. Context pack
-   - Read MISSION.md, docs/specs/current-objective.md, AGENTS.md, CLAUDE.md if relevant.
+   - Read MISSION.md, 0_Developer_Source_Files/current-objective.md, AGENTS.md, CLAUDE.md if relevant.
    - Read only scoped .cursor/rules/*.mdc or .claude/rules files for affected areas.
    - Summon explorer subagents for noisy search/logs if needed.
 
@@ -273,7 +273,7 @@ Cursor AUTO is the default foreground interface because it reduces model-selecti
 ### 6.1 Cursor session protocol
 
 1. Open the project with clean git status.
-2. Read `MISSION.md`, `docs/specs/current-objective.md`, and relevant `.cursor/rules/*.mdc`.
+2. Read `MISSION.md`, `0_Developer_Source_Files/current-objective.md`, and relevant `.cursor/rules/*.mdc`.
 3. Start in planning/read-only behavior.
 4. Ask Cursor to produce:
    - understanding of objective
@@ -353,12 +353,13 @@ Do not use background agents for:
 
 ### 7.1 Memory hierarchy
 
-| Memory artifact | Scope | Loaded when | Contents |
+| Layer | Scope | Loaded when | Contents |
 |---|---|---|---|
-| `MISSION.md` | Project | Always | Objective, non-goals, success criteria, current slice. |
-| `docs/specs/current-objective.md` | Project | Always for architects/planners | Full Mission Control Packet. |
-| `AGENTS.md` | Cross-agent | Always where supported | Universal agent rules, repo commands, risk classes. |
-| `CLAUDE.md` | Claude Code | Claude sessions | Claude-specific persistent instructions. |
+| `0_Developer_Source_Files/` | Project | Always | Colocated mission & governance bundle (see README in that directory). |
+| `0_Developer_Source_Files/MISSION.md` | Project | Always | Objective, non-goals, success criteria, current slice. |
+| `0_Developer_Source_Files/current-objective.md` | Project | Always for architects/planners | Full Mission Control Packet. |
+| `0_Developer_Source_Files/AGENTS.md` | Cross-agent | Always where supported | Universal agent rules, repo commands, risk classes. |
+| `0_Developer_Source_Files/CLAUDE.md` | Claude Code | Claude sessions | Claude-specific persistent instructions. |
 | `.cursor/rules/*.mdc` | Cursor | Cursor matching scope | IDE-specific coding and architecture rules. |
 | `.claude/agents/*.md` | Claude subagents | Subagent creation | Role-specific tools, permissions, prompts. |
 | `.claude/skills/*/SKILL.md` | On demand | When invoked/relevant | Repeatable procedures. |
@@ -608,7 +609,7 @@ Install these files in every AI-assisted project.
 
 ## Source of truth
 
-- Spec: docs/specs/current-objective.md
+- Spec: 0_Developer_Source_Files/current-objective.md
 - Architecture map: docs/architecture/system-map.md
 - Decision log: docs/ai/ai-decision-log.md
 
@@ -629,7 +630,7 @@ Build the user's current objective with maximum verified progress and minimum dr
 ## Required loop
 
 1. Read MISSION.md.
-2. Read docs/specs/current-objective.md.
+2. Read 0_Developer_Source_Files/current-objective.md.
 3. State allowed and forbidden files.
 4. Plan before editing.
 5. Implement one small slice.

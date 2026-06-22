@@ -411,8 +411,8 @@ services:
     environment:
       TZ: America/New_York
       KMIA_ROOT: /data/KMIA_Ingest
-      KMIA_LAT: "25.7975"
-      KMIA_LON: "-80.2872"
+      KMIA_LAT: "25.7906"
+      KMIA_LON: "-80.3164"
       PYTHONUNBUFFERED: "1"
     volumes:
       - /volume2/Data/App_Development:/data
@@ -496,9 +496,9 @@ qpf
 {
   "station_id": "KMIA",
   "name": "Miami International Airport",
-  "lat": 25.7975,
-  "lon": -80.2872,
-  "lon_360": 279.7128,
+  "lat": 25.7906,
+  "lon": -80.3164,
+  "lon_360": 279.6836,
   "timezone": "America/New_York",
   "isd_usaf": "722020",
   "isd_wban": "12839",
@@ -513,9 +513,9 @@ qpf
 gridtype = lonlat
 xsize    = 1
 ysize    = 1
-xfirst   = -80.2872
+xfirst   = -80.3164
 xinc     = 0
-yfirst   = 25.7975
+yfirst   = 25.7906
 yinc     = 0
 ```
 
@@ -540,8 +540,8 @@ SUBCATEGORY="maxt"
 YEAR="2020"
 MONTH="06"
 DAY="01"
-KMIA_LON="-80.2872"
-KMIA_LAT="25.7975"
+KMIA_LON="-80.3164"
+KMIA_LAT="25.7906"
 
 OUT="$ROOT/raw/forecast/ndfd_aws/$SUBCATEGORY/$YEAR/$MONTH/$DAY"
 LOG="$ROOT/logs/smoke_tests/ndfd_aws_maxt_${YEAR}${MONTH}${DAY}.log"
@@ -658,8 +658,8 @@ def main() -> int:
         "content_length": path.stat().st_size if path.exists() else None,
         "format": args.format,
         "station_id": "KMIA",
-        "station_lat": 25.7975,
-        "station_lon": -80.2872,
+        "station_lat": 25.7906,
+        "station_lon": -80.3164,
         "decoder": args.decoder,
         "status": args.status,
         "error_text": args.error_text or None,
@@ -839,7 +839,7 @@ Acceptance:
 
 ```bash
 wgrib2 -version
-wgrib2 <file> -s -vt -lon -80.2872 25.7975
+wgrib2 <file> -s -vt -lon -80.3164 25.7906
 ```
 
 ### Phase 5: Manifest and gap ledger

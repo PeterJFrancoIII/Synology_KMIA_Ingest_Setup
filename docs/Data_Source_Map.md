@@ -1,7 +1,9 @@
 # Data Source Map — KMIA Forecast And Observation Ingest
 
 **Station:** KMIA (Miami International Airport)  
-**Lat/Lon:** 25.7975, -80.2872  
+**Lat/Lon:** 25.7906, -80.3164 (NWS MapClick / MFL/105,51)
+
+Canonical config: `ingest/config/kmia_station.json` (mirrored in Kalshi `backend/src/shared/kmia_station.py`).  
 **ISD:** USAF 722020, WBAN 12839
 
 ## Forecast Sources

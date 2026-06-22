@@ -25,8 +25,8 @@ docker run -d `
   --restart unless-stopped `
   -e TZ=America/New_York `
   -e KMIA_ROOT=/data/KMIA_Ingest `
-  -e KMIA_LAT=25.7975 `
-  -e KMIA_LON=-80.2872 `
+  -e KMIA_LAT=25.7906 `
+  -e KMIA_LON=-80.3164 `
   -e PYTHONUNBUFFERED=1 `
   -v "${data}:/data/KMIA_Ingest" `
   -w /data/KMIA_Ingest `

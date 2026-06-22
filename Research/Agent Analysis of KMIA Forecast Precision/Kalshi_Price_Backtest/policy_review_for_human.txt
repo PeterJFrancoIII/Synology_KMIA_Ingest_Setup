@@ -1,0 +1,49 @@
+KMIA Kalshi Trading Policy — Human Review
+Generated: 2026-06-22T01:04:27.157311+00:00
+
+=== What this policy does ===
+Order style: maker limit bids at prior-day 10 AM Eastern
+Minimum edge: 0%
+Max YES price (forecast leg): $0.35
+Require cheapest bin at open: True
+Insurance legs: ON
+Research confidence: MODERATE
+
+=== Backtest evidence (historical, not a guarantee) ===
+Trades with known outcome: 46
+Win rate: 71.7%
+Total simulated P&L: $287.12
+ROI on deployed: 74.41%
+Avg insurance legs per trade: 2.17
+
+=== Policy tiers from full sweep (62 days, 5642 configs) ===
+Draft export uses RECOMMENDED (balanced ROI × win-rate, win≥68%).
+  Balanced (ROI×win): edge=0% cap=$0.35 mode=fraction → win=69.6% ROI=77.64% P&L=$244.31 n=46
+  Max ROI: edge=9% cap=$0.35 mode=cover_book → win=58.3% ROI=102.42% P&L=$125.99 n=24
+  Max ROI guarded (win≥65%): edge=6% cap=$0.35 mode=cover_book → win=66.7% ROI=93.3% P&L=$173.76 n=33
+  Max total P&L: edge=0% cap=$0.35 mode=fraction → win=71.7% ROI=74.41% P&L=$287.12 n=46
+
+Note: You cannot maximize ROI, win-rate, and total P&L simultaneously.
+
+Latest maker backtest run:
+  Days tested: 62
+  Open purchase eligible rate: 11.3%
+  Maker fill sources: {'minute_csv': 6, 'archived_candle_at_anchor': 1}
+  Days with archived orderbook: 0
+  Days with archived candles: 62
+
+=== Data coverage ===
+Price history days: 62
+Orderbook archive match: 1.6%
+Candle archive match: 100.0%
+Backtest P(bin) model: integer_dist_v1
+Gaussian vs integer_dist max |ΔP|: 0.0
+
+=== Approval status ===
+STALE APPROVAL — trading_policy.json was approved but differs from latest draft (model/edge/cap/mode). Re-approve after review.
+
+To approve (Kalshi repo):
+  bash scripts/approve_trading_policy.sh
+Or set approved_by_human: true on backend/data/research/trading_policy.json
+
+NO REAL TRADING — research and paper simulation only.

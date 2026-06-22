@@ -20,7 +20,10 @@ for y in 2020 2021 2022 2023 2024 2025; do
 done
 
 all_study="KMIA_NDFD_AllYears_MaxT_Precision"
-if [ -f "$ROOT/analysis/${all_study}/accuracy_points_enriched.csv" ]; then
+if ls "$ROOT/analysis"/KMIA_NDFD_Year_MaxT_Precision_*/accuracy_points_enriched.csv >/dev/null 2>&1; then
+  echo "=== rebuild AllYears from yearly studies ==="
+  bash "$SCRIPTS/50_rebuild_all_years_study.sh" || echo "WARN AllYears rebuild"
+elif [ -f "$ROOT/analysis/${all_study}/accuracy_points_enriched.csv" ]; then
   bash "$SCRIPTS/47_build_kmia_chart_suite.sh" "$all_study" "2020" || echo "WARN $all_study"
 fi
 

@@ -6,8 +6,9 @@ SUBCATEGORY="maxt"
 YEAR="2020"
 MONTH="06"
 DAY="01"
-KMIA_LON="-80.2872"
-KMIA_LAT="25.7975"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck disable=SC1091
+source "$SCRIPT_DIR/kmia_station_env.sh"
 S3_PREFIX="s3://noaa-ndfd-pds/wmo/${SUBCATEGORY}/${YEAR}/${MONTH}/${DAY}/"
 
 OUT="$ROOT/raw/forecast/ndfd_aws/$SUBCATEGORY/$YEAR/$MONTH/$DAY"

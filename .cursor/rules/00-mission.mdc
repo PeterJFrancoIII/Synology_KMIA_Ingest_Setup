@@ -5,9 +5,9 @@ alwaysApply: true
 
 # Mission alignment
 
-- Read `MISSION.md` before planning major changes.
+- Read `0_Developer_Source_Files/MISSION.md` before planning major changes.
 - Restate the current objective before editing.
-- Respect non-goals in `docs/specs/current-objective.md`.
+- Respect non-goals in `0_Developer_Source_Files/current-objective.md`.
 - Prefer the smallest coherent slice.
 - If a change requires new architecture, create or update an ADR under `docs/adr/` before implementation.
 - Do not touch secrets, production infrastructure, or NAS raw writes without explicit approval.

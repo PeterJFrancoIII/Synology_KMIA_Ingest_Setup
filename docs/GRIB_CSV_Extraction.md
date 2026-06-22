@@ -27,8 +27,8 @@ NDFD GRIB2 tiles (NAS raw lake)
 | Item | Value |
 |------|-------|
 | Archive | AWS `s3://noaa-ndfd-pds/wmo/{subcategory}/{YYYY}/{MM}/{DD}/` |
-| Station | KMIA — lat **25.7975**, lon **-80.2872** |
-| Method | **Nearest grid point** per file (`wgrib2 ... -lon -80.2872 25.7975`) |
+| Station | KMIA — lat **25.7906**, lon **-80.3164** (MapClick / MFL/105,51) |
+| Method | **Nearest grid point** per file (`wgrib2 ... -lon -80.3164 25.7906`) |
 | Tile filter | `maxt`: `YGUZ*` (KMIA-covering tiles); `wdir`: `YBUZ*` |
 
 **Important:** We do **not** extract the full grid. Each GRIB file can contain **multiple GRIB messages** (forecast lead times); `wgrib2 -s -vt -lon` returns **one line per message**, each becoming one CSV row.
@@ -91,7 +91,7 @@ Defined in `POINT_FIELDS` in [22_batch_extract_local_gribs.py](../ingest/scripts
 | `local_path` | Path to GRIB file on Legion5/NAS |
 | `requested_subcategory` | `maxt` or `wdir` |
 | `station_id` | `KMIA` |
-| `station_lat`, `station_lon` | Requested coordinates (25.7975, -80.2872) |
+| `station_lat`, `station_lon` | Requested coordinates (25.7906, -80.3164) |
 | `interp_method` | `nearest` |
 | `decoder` | `wgrib2` |
 | `message_number`, `byte_offset` | GRIB message index inside file |
@@ -181,6 +181,6 @@ This is why the **CSV lake on NAS** matters: repeat analysis pulls megabytes, no
 
 ## Related docs
 
-- [PROJECT_STATE_AND_OBJECTIVES.md](PROJECT_STATE_AND_OBJECTIVES.md) — mission, architecture, pipeline overview
+- [PROJECT_STATE_AND_OBJECTIVES.md](../0_Developer_Source_Files/PROJECT_STATE_AND_OBJECTIVES.md) — mission, architecture, pipeline overview
 - [Data_Source_Map.md](Data_Source_Map.md) — upstream sources and NDFD variable list
 - [OPTIMAL_ANALYSIS_WORKFLOW.md](OPTIMAL_ANALYSIS_WORKFLOW.md) — BUILD/ANALYZE performance workflow

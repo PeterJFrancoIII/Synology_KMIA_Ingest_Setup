@@ -1,12 +1,17 @@
 {
   "station_id": "KMIA",
   "name": "Miami International Airport",
-  "lat": 25.7975,
-  "lon": -80.2872,
-  "lon_360": 279.7128,
+  "lat": 25.7906,
+  "lon": -80.3164,
+  "lon_360": 279.6836,
+  "nws_grid_id": "MFL",
+  "nws_grid_x": 105,
+  "nws_grid_y": 51,
+  "nws_mapclick_url": "https://forecast.weather.gov/MapClick.php?lat=25.7906&lon=-80.3164",
   "timezone": "America/New_York",
   "isd_usaf": "722020",
   "isd_wban": "12839",
   "isd_global_hourly_file_example": "72202012839.csv",
-  "isd_lite_file_example": "722020-12839-2025.gz"
+  "isd_lite_file_example": "722020-12839-2025.gz",
+  "kalshi_mirror_module": "Kalshi/backend/src/shared/kmia_station.py"
 }

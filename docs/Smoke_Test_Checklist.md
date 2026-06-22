@@ -23,7 +23,7 @@
 - [ ] Downloads files to `/data/KMIA_Ingest/raw/forecast/ndfd_aws/maxt/2020/06/01/`
 - [ ] SHA256 recorded in log
 - [ ] Manifest record appended via `40_manifest_append.py`
-- [ ] If `wgrib2` present: `wgrib2 <file> -s -vt -lon -80.2872 25.7975` succeeds
+- [ ] If `wgrib2` present: `wgrib2 <file> -s -vt -lon -80.3164 25.7906` succeeds
 - [ ] If `wgrib2` missing: script exits 2 with clear message (download still OK)
 
 ## ISD Smoke (`11_isd_smoke_kmia.sh`)

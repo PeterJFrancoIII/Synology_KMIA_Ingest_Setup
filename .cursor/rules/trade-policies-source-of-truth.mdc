@@ -1,0 +1,17 @@
+---
+description: Kalshi trading policy reasoning doc — read before policy work; sync on export
+globs: "**/*"
+alwaysApply: true
+---
+
+# Trading policy source of truth
+
+Canonical strategy document: `0_Developer_Source_Files/trade_policies.md`
+
+When changing policy selection, sweep, insurance, or exported drafts:
+
+1. Read `trade_policies.md` before editing policy code.
+2. After sweep/export, run or verify `ingest/scripts/update_trade_policies_doc.py` (auto-wired in optimizer, export, human review).
+3. Cite `trade_policies.md` in handoffs and code reviews.
+
+Manual sync: `PYTHONPATH=ingest/scripts python3 ingest/scripts/update_trade_policies_doc.py`

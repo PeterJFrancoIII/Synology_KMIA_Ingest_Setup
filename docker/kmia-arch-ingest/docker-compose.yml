@@ -8,8 +8,8 @@ services:
     environment:
       TZ: America/New_York
       KMIA_ROOT: /data/KMIA_Ingest
-      KMIA_LAT: "25.7975"
-      KMIA_LON: "-80.2872"
+      KMIA_LAT: "25.7906"
+      KMIA_LON: "-80.3164"
       PYTHONUNBUFFERED: "1"
     volumes:
       - /volume2/Data/App_Development:/data

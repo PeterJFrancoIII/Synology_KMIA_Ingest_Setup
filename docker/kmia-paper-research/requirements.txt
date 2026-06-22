@@ -1,0 +1,4 @@
+# Pinned in install_toolchain.sh (/opt/kmia-venv)
+pandas>=2.0.0
+requests>=2.31.0
+python-dateutil>=2.8.2

@@ -1,0 +1,36 @@
+---
+description: Console 2 boundaries — this repo is Weather Ingestion & MAE only; never merge Kalshi human console or auto-trader code.
+alwaysApply: true
+---
+
+# Console 2 — Weather Ingestion & MAE Probabilities
+
+This workspace is **Console 2** in the three-console Kalshi KMIA system. See `docs/architecture/THREE_CONSOLE_ARCHITECTURE.md`.
+
+## This repo owns
+
+- NAS Docker historical ingest (`Docker/kmia-arch-ingest/`)
+- Legion5 batch extract, merge, analyze (`legion5/`, `ingest/scripts/`)
+- MAE / bracket research charts (`chart_kmia_interactive_accuracy_explorer.py`, chart portal)
+- Export manifests for downstream consoles (`merge_all_years_enriched.py`)
+
+## This repo must NOT contain or import
+
+- **Console 1 (Kalshi Main):** Streamlit `web_console.py`, `console/pages/`, live NWS/TWC operator UI, human betting console tabs
+- **Console 3 (Auto Trader):** Strategy engines, Kalshi order execution, paper ledger writes, position sizing, live bet placement
+- Any code path that places orders or sets `no_real_trading: False`
+
+## Cross-repo rules
+
+- **Do not** copy Streamlit dashboard code from `/Users/computer/Desktop/App Development/Kalshi` into this repo.
+- **Do not** move Legion5 batch ingest or NAS pipeline into the Kalshi repo.
+- **Integrate via files only** — `accuracy_points_enriched.csv`, manifests, chart HTML (see `docs/architecture/CONSOLE_2_EXPORT_CONTRACT.md`).
+- Golden master *chart methodology* is shared; live human console UI stays in Kalshi.
+
+## When user asks for "console" features
+
+| Request | Route to |
+|---------|----------|
+| Live dashboard, command center, human review | Kalshi workspace (Console 1) |
+| Historical MAE, brackets, chart portal, NAS backfill | This repo (Console 2) |
+| Strategies, paper/auto trading, constraints | Console 3 module (future) |

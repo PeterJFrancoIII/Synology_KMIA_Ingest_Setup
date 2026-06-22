@@ -2,8 +2,9 @@
 set -euo pipefail
 
 ROOT="/data/KMIA_Ingest"
-KMIA_LON="${KMIA_LON:--80.2872}"
-KMIA_LAT="${KMIA_LAT:-25.7975}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck disable=SC1091
+source "$SCRIPT_DIR/kmia_station_env.sh"
 GRIB_FILE="${1:-}"
 
 if [ -z "$GRIB_FILE" ]; then

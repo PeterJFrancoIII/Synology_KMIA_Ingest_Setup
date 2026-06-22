@@ -1,7 +1,7 @@
 # KMIA NDFD Ingest & Forecast-Precision System — State, Objectives, and Charting Tools
 
 **Document purpose:** Handoff summary for onboarding a new chat or contributor.  
-**Last updated:** 2026-06-16  
+**Last updated:** 2026-06-20  
 **Canonical repo:** `/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup`  
 **Operating mode:** Research / dry-run / ingestion only — **no live trading**
 
@@ -494,6 +494,7 @@ After this study validates the pipeline, scale to **full 2020–2025** processin
 4. **Scale processing** 2020–2025 on Legion5 (`36_process_all_from_nas.sh`) with `KMIA_EXTRACT_WORKERS=8`.
 5. **Sync VALID_ONLY CSVs to NAS** `processed/points/station=KMIA/monthly/` after each month.
 6. **Close 2026 ingest bug** and backfill 2021 Q1 if raw exists elsewhere.
+7. **Kalshi trading bridge:** Run `ingest/scripts/run_daily_policy_refresh.sh`; review `policy_review_for_human.txt` in Kalshi repo; approve policy when satisfied. See `docs/architecture/KALSHI_TRADING_BRIDGE_STATE.md`.
 
 ---
 
@@ -542,6 +543,25 @@ The charts are not decorative output — they are the **design spec** for what �
 # Legion5 processor
 D:\KMIA_Process
 ```
+
+---
+
+## 12. Kalshi trading-policy bridge (2026-06-20)
+
+Console 2 now exports **backtested trading policy** for Console 3 (Kalshi repo) — file-only, no shared imports.
+
+| Topic | Detail |
+|-------|--------|
+| **Anchor** | Prior-day **10 AM ET** (Kalshi bin open), not 4 PM NDFD research anchor |
+| **Weather join** | NWS snapshot → rules_v2 → IEM GFS MOS (forecast); NCEI CLIMIA TMAX (observed) |
+| **Backtest** | `historical_checksum_backtest.py --mode kalshi`; hedged maker/taker sim |
+| **Policy export** | `trading_policy.json` / `trading_policy_draft.json` via `export_trading_policy.py` |
+| **Liquidity** | ~$121k/event-day; caps at 25% top-of-book, 0.5% volume, 25 contracts/leg |
+| **Human gate** | `approved_by_human: true` required before Console 3 applies policy overrides |
+| **State doc** | `docs/architecture/KALSHI_TRADING_BRIDGE_STATE.md` |
+| **Kalshi doc** | `../Kalshi/docs/TRADING_POLICY_AND_LIQUIDITY.md` |
+
+**Do not conflate:** MAE charts use **4 PM ET** NDFD releases; Kalshi backtest uses **10 AM ET** prior-day prices and forecast-at-anchor join.
 
 ---
 

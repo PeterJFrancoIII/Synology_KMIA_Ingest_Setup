@@ -1,0 +1,19 @@
+services:
+  kmia-paper-research:
+    build: .
+    image: kmia-paper-research:latest
+    container_name: kmia-paper-research
+    restart: unless-stopped
+    command: ["sleep", "infinity"]
+    environment:
+      TZ: America/New_York
+      CONSOLE2_ROOT: /data/KMIA_Ingest/setup_repo
+      KMIA_KALSHI_ROOT: /data/Kalshi
+      KALSHI_PRICE_DIR: /data/Kalshi/Kalshi - Miami Max Temp. Bet History
+      KALSHI_PROCESSED_DIR: /data/Kalshi/backend/data/processed
+      KALSHI_RESEARCH_DIR: /data/Kalshi/backend/data/research
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - /volume2/Data/App_Development:/data
+    working_dir: /data
+    mem_limit: 2g
