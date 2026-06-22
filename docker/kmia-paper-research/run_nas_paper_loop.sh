@@ -1,5 +1,5 @@
 #!/bin/bash
-# NAS paper trading loop (Console 3) — every 15 min via DSM cron.
+# NAS paper trading loop (Console 3) — every 5 min via DSM cron.
 # NO REAL TRADING EXECUTION
 
 set -euo pipefail

@@ -47,6 +47,37 @@ def _dir_status(root: Optional[Path], subdir: str, pattern: str) -> dict[str, An
     }
 
 
+def _read_ws_daemon_status(ob_root: Optional[Path]) -> dict[str, Any]:
+    if ob_root is None or not ob_root.is_dir():
+        return {"exists": False, "path": None}
+    path = ob_root / "ws_daemon_status.json"
+    if not path.is_file():
+        return {"exists": False, "path": str(path)}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {"exists": True, "path": str(path), "parse_error": True}
+    updated = data.get("updated_at_utc")
+    age_sec: Optional[float] = None
+    if updated:
+        try:
+            ts = datetime.fromisoformat(updated.replace("Z", "+00:00"))
+            age_sec = (datetime.now(timezone.utc) - ts).total_seconds()
+        except ValueError:
+            pass
+    return {
+        "exists": True,
+        "path": str(path),
+        "connected": data.get("connected"),
+        "subscribed_tickers": data.get("subscribed_tickers") or [],
+        "reconnect_count": data.get("reconnect_count"),
+        "seq_gap_count": data.get("seq_gap_count"),
+        "last_message_utc": data.get("last_message_utc"),
+        "heartbeat_age_sec": round(age_sec, 1) if age_sec is not None else None,
+        "stale": age_sec is not None and age_sec > 120,
+    }
+
+
 def build_archive_status(
     *,
     price_history_dir: Optional[Path] = None,
@@ -62,6 +93,9 @@ def build_archive_status(
         price_days = sorted(discover_price_history_files(price_dir).keys())
 
     ob_status = _dir_status(ob_root, "orderbooks", "*.jsonl")
+    ws_status = _dir_status(ob_root, "orderbook_ws", "*.jsonl")
+    ws_snap_status = _dir_status(ob_root, "orderbook_ws_snapshots", "*.jsonl")
+    ws_daemon = _read_ws_daemon_status(ob_root)
     candle_files = []
     if candle_root.is_dir():
         candle_files = sorted(candle_root.glob("*-candles.jsonl"))
@@ -102,6 +136,9 @@ def build_archive_status(
         },
         "orderbook_archive": ob_status,
         "n_orderbook_jsonl_files": ob_status.get("files", 0),
+        "orderbook_ws_archive": ws_status,
+        "orderbook_ws_snapshots": ws_snap_status,
+        "ws_daemon": ws_daemon,
         "n_price_days_with_orderbook": overlap_price_ob,
         "candle_archive": {
             "path": str(candle_root),
@@ -155,6 +192,22 @@ def main(argv: Optional[list[str]] = None) -> int:
             f"Candle archive: {status['candle_archive']['files']} files; "
             f"{status['n_price_days_with_candles']} match price days "
             f"({status['coverage_pct']['candles_vs_price_days']}%)"
+        )
+        ws = status.get("ws_daemon") or {}
+        if ws.get("exists"):
+            stale = ws.get("stale")
+            print(
+                f"WS orderbook daemon: connected={ws.get('connected')} "
+                f"tickers={len(ws.get('subscribed_tickers') or [])} "
+                f"heartbeat_age_sec={ws.get('heartbeat_age_sec')} "
+                f"{'STALE' if stale else 'OK'}"
+            )
+        else:
+            print("WS orderbook daemon: no ws_daemon_status.json")
+        ws_arch = status.get("orderbook_ws_archive") or {}
+        print(
+            f"WS orderbook archive: {ws_arch.get('files', 0)} JSONL files "
+            f"(latest={ws_arch.get('latest')})"
         )
     return 0
 

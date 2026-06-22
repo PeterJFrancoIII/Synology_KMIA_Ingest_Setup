@@ -16,6 +16,12 @@ Read in order for a new session:
 | 6 | [CLAUDE.md](CLAUDE.md) | Claude Code session instructions |
 | 7 | [trade_policies.md](trade_policies.md) | **Kalshi algorithmic trading policy — cite for reviews & prompts; auto-sync on policy export** |
 
+Kalshi market data (Console 2 + NAS):
+
+- [KALSHI_WS_ORDERBOOK_INGEST.md](../docs/architecture/KALSHI_WS_ORDERBOOK_INGEST.md) — WebSocket orderbook daemon design (deployed NAS)
+- [KALSHI_DATA_COLLECTION.md](../docs/architecture/KALSHI_DATA_COLLECTION.md) — all Kalshi ingest tiers
+- [KALSHI_API_RESPONSE_FIELDS.md](../docs/architecture/KALSHI_API_RESPONSE_FIELDS.md) — REST API field catalog
+
 Related (outside this folder):
 
 - Three-console architecture: `docs/architecture/THREE_CONSOLE_ARCHITECTURE.md`

@@ -100,6 +100,10 @@ Smoke + manual run:
   sudo docker exec kmia-paper-research /usr/local/bin/smoke_container.sh
   sudo docker exec kmia-paper-research /usr/local/bin/run_nas_policy_pipeline.sh
 
+WebSocket orderbook daemon (finest book granularity):
+  sudo docker compose up -d kmia-orderbook-ws
+  sudo docker logs -f kmia-orderbook-ws
+
 Schedule: synology/scripts/90_cron_install.sh (DSM Task Scheduler)
 
 EOF

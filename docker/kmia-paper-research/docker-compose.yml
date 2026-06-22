@@ -1,3 +1,13 @@
+x-kmia-paper-env: &kmia_paper_env
+  TZ: America/New_York
+  CONSOLE2_ROOT: /data/KMIA_Ingest/setup_repo
+  KMIA_KALSHI_ROOT: /data/Kalshi
+  KALSHI_PRICE_DIR: /data/Kalshi/Kalshi - Miami Max Temp. Bet History
+  KALSHI_PROCESSED_DIR: /data/Kalshi/backend/data/processed
+  KALSHI_RESEARCH_DIR: /data/Kalshi/backend/data/research
+  KALSHI_MARKET_ARCHIVE_DIR: /data/Kalshi/backend/data/processed/kalshi_market_archive
+  PYTHONUNBUFFERED: "1"
+
 services:
   kmia-paper-research:
     build: .
@@ -6,14 +16,26 @@ services:
     restart: unless-stopped
     command: ["sleep", "infinity"]
     environment:
-      TZ: America/New_York
-      CONSOLE2_ROOT: /data/KMIA_Ingest/setup_repo
-      KMIA_KALSHI_ROOT: /data/Kalshi
-      KALSHI_PRICE_DIR: /data/Kalshi/Kalshi - Miami Max Temp. Bet History
-      KALSHI_PROCESSED_DIR: /data/Kalshi/backend/data/processed
-      KALSHI_RESEARCH_DIR: /data/Kalshi/backend/data/research
-      PYTHONUNBUFFERED: "1"
+      <<: *kmia_paper_env
     volumes:
       - /volume2/Data/App_Development:/data
     working_dir: /data
     mem_limit: 2g
+
+  kmia-orderbook-ws:
+    image: kmia-paper-research:latest
+    container_name: kmia-orderbook-ws
+    restart: unless-stopped
+    command: ["/usr/local/bin/run_nas_orderbook_ws.sh"]
+    environment:
+      <<: *kmia_paper_env
+      KALSHI_WS_ENABLED: "true"
+      KALSHI_WS_SNAPSHOT_INTERVAL_SEC: "60"
+      KALSHI_WS_ARCHIVE_RAW_DELTAS: "true"
+      NAS_ORDERBOOK_WS_LOG_DIR: /data/logs/orderbook_ws
+    volumes:
+      - /volume2/Data/App_Development:/data
+    working_dir: /data
+    mem_limit: 512m
+    depends_on:
+      - kmia-paper-research

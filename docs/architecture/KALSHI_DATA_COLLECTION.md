@@ -1,25 +1,45 @@
 # Kalshi data collection — what we pull and when to stop
 
-**Updated:** 2026-06-20  
+**Updated:** 2026-06-22  
 **Scope:** Console 2 + Kalshi read-only ingest. No order execution.
+
+**API field reference:** [KALSHI_API_RESPONSE_FIELDS.md](KALSHI_API_RESPONSE_FIELDS.md) — every documented REST response field from Kalshi OpenAPI v3.22.0 (regenerate via `ingest/scripts/generate_kalshi_api_fields_doc.py`).
 
 ## What runs automatically
 
 | Layer | Source | Frequency | Storage |
 |-------|--------|-----------|---------|
-| **Live orderbooks** | `GET /markets/{ticker}/orderbook` | Every paper loop (~15 min, NAS) | `latest_kalshi_orderbooks.json` + **`kalshi_market_archive/orderbooks/YYYY-MM-DD.jsonl`** |
+| **WebSocket orderbooks (finest)** | `orderbook_delta` channel | Continuous (sub-second deltas) | **`kalshi_market_archive/orderbook_ws/YYYY-MM-DD.jsonl`** + **`orderbook_ws_snapshots/`** (60s checkpoints) |
+| **Live orderbooks (REST fallback)** | `GET /markets/{ticker}/orderbook` | Every paper loop (~5 min, NAS) | `latest_kalshi_orderbooks.json` + **`kalshi_market_archive/orderbooks/YYYY-MM-DD.jsonl`** |
 | **Live market metadata** | Discovery + selected KXHIGHMIA markets | Same | Timestamped JSON + **`kalshi_market_archive/markets/YYYY-MM-DD.jsonl`** |
 | **Minute yes-ask CSV** | Candlesticks API | Daily policy refresh (2:30 AM ET, NAS) | `Kalshi - Miami Max Temp. Bet History/*.csv` |
 | **Full candle JSONL** | Same candlesticks (bid/ask/volume/raw) | Daily policy refresh step 0b | `backend/data/processed/kalshi_candle_archive/*-candles.jsonl` |
 
-Disable live archival: `KALSHI_ARCHIVE_ENABLED=false`.
+Disable live archival: `KALSHI_ARCHIVE_ENABLED=false`.  
+Disable WebSocket daemon: `KALSHI_WS_ENABLED=false` or stop `kmia-orderbook-ws` container.
+
+### WebSocket orderbook daemon (NAS)
+
+Long-running container `kmia-orderbook-ws` subscribes to Kalshi `orderbook_delta` for all open KXHIGHMIA bins.
+
+| Env | Default | Purpose |
+|-----|---------|---------|
+| `KALSHI_WS_ENABLED` | `true` | Kill switch |
+| `KALSHI_WS_SNAPSHOT_INTERVAL_SEC` | `60` | Full-book checkpoint interval |
+| `KALSHI_WS_ARCHIVE_RAW_DELTAS` | `true` | Store every snapshot/delta event |
+
+**Deploy:** `sudo docker compose up -d kmia-orderbook-ws` in `Docker/kmia-paper-research/`.  
+**Health:** `kalshi_market_archive/ws_daemon_status.json`  
+**WebSocket spec:** `docs/specs/kalshi_asyncapi.yaml`
+
+Requires authenticated Kalshi API (`setup_nas_kalshi_secrets.sh`).
 
 ## Where files live
 
 **Kalshi repo (live + archive):**
 
 - `backend/data/processed/kalshi_market_snapshots/` — latest + timestamped snapshots
-- `backend/data/processed/kalshi_market_archive/` — append-only JSONL (orderbooks, markets)
+- `backend/data/processed/kalshi_market_archive/` — append-only JSONL (REST orderbooks, markets, **WS orderbook_ws/**)
 - `backend/data/processed/kalshi_candle_archive/` — per-settlement full candle JSONL
 
 **Console 2 backtest inputs:**
@@ -71,9 +91,9 @@ Goal: improve **P(profitable trade)** and **realistic maker fills**, not archive
 6. **Align live `integer_dist_v1` with backtest** (probability model parity)  
 7. **Event volume / open interest time series** from market metadata archive  
 
-### Tier 3 — **Diminishing returns** (skip until live trading)
+### Tier 3 — **Optional / specialized**
 
-8. WebSocket delta books (sub-second)  
+8. ~~WebSocket delta books (sub-second)~~ **Active on NAS** (`kmia-orderbook-ws`) — backtest loader Phase 2  
 9. Tick-level trade prints  
 10. Cross-market arb / full exchange crawl  
 
@@ -93,7 +113,7 @@ Tiers 8–10 help HFT-style execution, not a once-per-day 10 AM ET weather bin s
 
 ## Trim later
 
-- Compress JSONL older than 90 days to `.jsonl.gz`  
+- Compress JSONL older than 90 days to `.jsonl.gz` (include `orderbook_ws/`)  
 - Drop `raw` candle payloads after validating flattened fields  
 - Sample orderbook archive to 5-min if 15-min is sufficient for fill replay  
 

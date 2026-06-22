@@ -10,7 +10,8 @@ python -m venv /opt/kmia-venv
   python-dateutil \
   pydantic \
   beautifulsoup4 \
-  pyyaml
+  pyyaml \
+  websockets
 
 echo 'export PATH="/opt/kmia-venv/bin:${PATH}"' > /etc/profile.d/kmia-venv.sh
 

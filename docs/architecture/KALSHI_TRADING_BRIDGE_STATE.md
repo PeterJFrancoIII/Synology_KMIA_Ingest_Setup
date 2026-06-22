@@ -1,6 +1,6 @@
 # Kalshi trading policy bridge — program state
 
-**Last updated:** 2026-06-21  
+**Last updated:** 2026-06-22  
 **Console:** 2 (research/backtest) → 3 (paper loop) via files only  
 **Mode:** Dry-run / paper only — **no live order execution in this repo**
 
@@ -31,7 +31,8 @@ Full export schema: [CONSOLE_2_EXPORT_CONTRACT.md](./CONSOLE_2_EXPORT_CONTRACT.m
 | Source | Role | Path (Kalshi processed data) |
 |--------|------|------------------------------|
 | Kalshi price history CSV | Bin asks at 10 AM open | `Kalshi - Miami Max Temp. Bet History/` |
-| Kalshi orderbook archive | Top-of-book ask/size at anchor (maker fill replay) | `backend/data/processed/kalshi_market_archive/orderbooks/` |
+| Kalshi orderbook archive | Top-of-book ask/size at anchor (maker fill replay) | `backend/data/processed/kalshi_market_archive/orderbooks/` (REST, 5 min) |
+| Kalshi WS orderbook archive | **Finest granularity** — raw deltas + 60s full-book checkpoints | `backend/data/processed/kalshi_market_archive/orderbook_ws/`, `orderbook_ws_snapshots/` |
 | Kalshi candle archive | Full bid/ask/volume JSONL (future slippage work) | `backend/data/processed/kalshi_candle_archive/` |
 | NWS live snapshots | Forecast high when available | `backend/data/processed/weather_nws/nws_kmia_snapshot_*.json` |
 | IEM GFS MOS archive | Historical MOS when no live snapshot | `backend/data/processed/weather_nws/iem_gfs_mos_forecast_archive.jsonl` |

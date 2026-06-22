@@ -169,7 +169,7 @@ Human approval still happens on Mac via `approve_trading_policy.sh` in the Kalsh
 
 ### Paper trading loop (Console 3 — NAS only)
 
-**Runtime:** `kmia-paper-research` container every 15 minutes. Mac is **deploy-only** — do not run `run_paper_trading_loop.sh` or Mac launchd schedules.
+**Runtime:** `kmia-paper-research` container every 5 minutes. Mac is **deploy-only** — do not run `run_paper_trading_loop.sh` or Mac launchd schedules.
 
 Deploy Kalshi runtime (backend + scripts):
 
@@ -196,7 +196,7 @@ NAS_HOST=MediaServer2Local ./synology/scripts/90_cron_install.sh
 
 | Schedule | Job |
 |----------|-----|
-| `*/15 * * * *` | Paper loop (`run_nas_paper_loop.sh`) |
+| `*/5 * * * *` | Paper loop (`run_nas_paper_loop.sh`) |
 | `30 2 * * *` | Policy research (`run_nas_policy_pipeline.sh`) — after NCEI CLIMIA ~2 AM |
 
 Logs:
@@ -207,6 +207,30 @@ Logs:
 ```
 
 **Legion5** remains batch-only (GRIB extract, MAE charts, `accuracy_points_enriched.csv`). No paper loop or live Kalshi API calls on Legion5.
+
+### WebSocket orderbook archiver (finest book granularity)
+
+**Runtime:** `kmia-orderbook-ws` container — long-running daemon (not cron). Archives `orderbook_snapshot` + `orderbook_delta` to `kalshi_market_archive/orderbook_ws/` and 60s checkpoints to `orderbook_ws_snapshots/`.
+
+Prerequisites: Kalshi API secrets (`setup_nas_kalshi_secrets.sh`).
+
+```bash
+cd /volume2/Data/App_Development/Docker/kmia-paper-research
+sudo docker compose build
+sudo docker compose up -d kmia-orderbook-ws
+sudo docker logs -f kmia-orderbook-ws
+```
+
+Health:
+
+```bash
+cat /volume2/Data/App_Development/Kalshi/backend/data/processed/kalshi_market_archive/ws_daemon_status.json
+ls -la /volume2/Data/App_Development/Kalshi/backend/data/processed/kalshi_market_archive/orderbook_ws/
+```
+
+Logs: `/volume2/Data/App_Development/logs/orderbook_ws/`
+
+Disable: `KALSHI_WS_ENABLED=false` in secrets or `sudo docker compose stop kmia-orderbook-ws`.
 
 ## No-Go Conditions
 

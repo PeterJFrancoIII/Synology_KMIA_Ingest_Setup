@@ -50,11 +50,13 @@ Build the user's current objective with maximum verified progress and minimum dr
 - **Legion5 NDFD + Kalshi research (MapClick pin):** `scp legion5/{52,54}*.sh legion5/kmia_kalshi_legion5_env.sh ingest/scripts/{ndfd_kalshi_forecast,backfill_nws_snapshots_from_ndfd,historical_checksum_backtest,kalshi_policy_optimizer,export_trading_policy,export_safest_policy_from_sweep,...}.py Legion5:D:/KMIA_Process/scripts/` then Git Bash: `bash D:/KMIA_Process/scripts/52_kalshi_ndfd_anchor_backfill.sh 2026 04 2026 06` (extract + merge + backfill/backtest on Z:)
 - **Legion5 autorun:** `bash D:/KMIA_Process/scripts/54b_autorun_ndfd_kalshi.sh --once 202604_202606`
 - **NAS scheduled policy:** `sudo docker exec kmia-paper-research /usr/local/bin/run_nas_policy_pipeline.sh`
+- **NAS WebSocket orderbook daemon:** `NAS_HOST=MediaServer2 ./synology/scripts/deploy_kalshi_runtime_to_nas.sh` then on NAS `docker compose up -d kmia-orderbook-ws` — see `docs/architecture/KALSHI_WS_ORDERBOOK_INGEST.md`
 - **Bridge artifacts (review + frontier):** `bash ingest/scripts/refresh_trading_bridge.sh`
 - **Archive coverage:** `python3 ingest/scripts/kalshi_archive_status.py`
+- **Kalshi API field reference:** `docs/architecture/KALSHI_API_RESPONSE_FIELDS.md` (regenerate: `python3 ingest/scripts/generate_kalshi_api_fields_doc.py`; check live spec version when pulling API data)
 - **NAS ingest skill:** `.cursor/skills/kmia-nas-ingest/SKILL.md`
 
-**Runtime placement:** NAS = ingest + scheduled policy/paper loop (`kmia-paper-research`). Legion5 = NDFD extract + Kalshi backtest/sweep (writes to `Z:/App_Development/Kalshi`). **Mac = deploy + human review only — never run research pipelines on Mac.**
+**Runtime placement:** NAS = ingest + scheduled policy/paper loop (`kmia-paper-research`) + **WS orderbook archive** (`kmia-orderbook-ws`). Legion5 = NDFD extract + Kalshi backtest/sweep (writes to `Z:/App_Development/Kalshi`). **Mac = deploy + human review only — never run research pipelines on Mac.**
 
 ## Risk classes
 

@@ -1,0 +1,48 @@
+---
+description: Kalshi API response field reference — use when pulling or parsing Kalshi API data
+globs: ingest/scripts/*kalshi*,ingest/scripts/generate_kalshi_api_fields_doc.py,docs/architecture/KALSHI_*.md,docs/specs/kalshi_openapi.yaml
+alwaysApply: false
+---
+
+# Kalshi API field reference
+
+When pulling, parsing, archiving, or backtesting **Kalshi API** data, use the generated field catalog as the quick reference — do not guess field names or types.
+
+## Canonical docs
+
+| Artifact | Path |
+|----------|------|
+| **Field catalog (read first)** | `docs/architecture/KALSHI_API_RESPONSE_FIELDS.md` |
+| **Vendor OpenAPI snapshot** | `docs/specs/kalshi_openapi.yaml` |
+| **Generator** | `ingest/scripts/generate_kalshi_api_fields_doc.py` |
+| **Live spec** | https://docs.kalshi.com/openapi.yaml |
+| **WebSocket spec** | `docs/specs/kalshi_asyncapi.yaml` |
+
+KMIA-used endpoints are marked **← KMIA** in the catalog (markets, orderbook, candlesticks, trades, events).
+
+## When to consult
+
+- Adding or changing Kalshi ingest, archive, or backtest parsers
+- Mapping API JSON to CSV/JSONL columns
+- Debugging missing or renamed fields after API changes
+- Writing new scripts that call Kalshi REST endpoints
+
+## Periodic update check
+
+At the **start of any Kalshi API data task** (or when field mismatches appear):
+
+1. Note cached version in `docs/specs/kalshi_openapi.yaml` → `info.version`.
+2. Compare to live: `curl -fsSL https://docs.kalshi.com/openapi.yaml | head -20` (or fetch `info.version` only).
+3. If versions differ, regenerate:
+   ```bash
+   python3 ingest/scripts/generate_kalshi_api_fields_doc.py
+   ```
+4. Scan the diff in `KALSHI_API_RESPONSE_FIELDS.md` for endpoints KMIA uses; update parsers if needed.
+
+**Cadence:** Check on every substantive Kalshi API session; at minimum when the cached spec is >30 days old.
+
+## Parsing notes (from spec)
+
+- Many prices/sizes use fixed-point strings (`*_fp`, `*_dollars`) — see catalog Notes section.
+- Orderbook returns **bids only**; YES ask ≈ 100¢ − NO bid.
+- WebSocket orderbook fields: `docs/specs/kalshi_asyncapi.yaml` (`orderbook_snapshot`, `orderbook_delta`).

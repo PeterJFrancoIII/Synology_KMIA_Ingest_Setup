@@ -1,7 +1,7 @@
 # KMIA NDFD Ingest & Forecast-Precision System — State, Objectives, and Charting Tools
 
 **Document purpose:** Handoff summary for onboarding a new chat or contributor.  
-**Last updated:** 2026-06-20  
+**Last updated:** 2026-06-22  
 **Canonical repo:** `/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup`  
 **Operating mode:** Research / dry-run / ingestion only — **no live trading**
 
@@ -48,7 +48,7 @@ Three-machine **topology** is unchanged (Mac → NAS → Legion5). Production da
 | Machine     | Role                                                                | Transport / compute                                                                                                               |
 | ----------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | **Mac**     | Script source of truth, deploy, SSH launch to Legion5               | rsync/scp to NAS; ~1% wall-clock (orchestration only)                                                                             |
-| **NAS**     | Immutable raw GRIB lake + durable processed CSV lake; Docker ingest | Storage — **not** primary `wgrib2` compute (Celeron J4125 ≪ Legion5)                                                              |
+| **NAS**     | Immutable raw GRIB lake + durable processed CSV lake; **Kalshi live ingest** (`kmia-arch-ingest`, `kmia-paper-research`, `kmia-orderbook-ws`) | Storage + scheduled policy/paper loop + **WS orderbook archive**; not primary `wgrib2` compute |
 | **Legion5** | Primary compute: BUILD + ANALYZE phases                             | **SMB3** robocopy from `Z:` (~95 MB/s LAN); parallel extract (`KMIA_EXTRACT_WORKERS`); SSH tar **fallback only** when `Z:` absent |
 
 
@@ -562,6 +562,27 @@ Console 2 now exports **backtested trading policy** for Console 3 (Kalshi repo) 
 | **Kalshi doc** | `../Kalshi/docs/TRADING_POLICY_AND_LIQUIDITY.md` |
 
 **Do not conflate:** MAE charts use **4 PM ET** NDFD releases; Kalshi backtest uses **10 AM ET** prior-day prices and forecast-at-anchor join.
+
+---
+
+## 13. Kalshi WebSocket orderbook ingest (2026-06-22)
+
+Finest book granularity for KXHIGHMIA: continuous WebSocket `orderbook_delta` on NAS.
+
+| Topic | Detail |
+|-------|--------|
+| **Container** | `kmia-orderbook-ws` (same image as `kmia-paper-research`, separate long-running service) |
+| **Code home** | Kalshi repo `backend/src/market_data/orderbook_ws_*.py`, `kalshi_ws_client.py` |
+| **NAS orchestration** | Console 2 `docker/kmia-paper-research/`, `synology/scripts/deploy_*_to_nas.sh` |
+| **Raw archive** | `Kalshi/backend/data/processed/kalshi_market_archive/orderbook_ws/YYYY-MM-DD.jsonl` |
+| **Checkpoints** | `.../orderbook_ws_snapshots/` (60s reconstructed full book) |
+| **Health** | `.../ws_daemon_status.json` |
+| **Fallback** | REST 5-min `orderbooks/` from paper loop |
+| **Phase 2** | Backtest loader at 10 AM ET anchor — not yet wired |
+| **Design doc** | `docs/architecture/KALSHI_WS_ORDERBOOK_INGEST.md` |
+| **Handoff** | `docs/handoffs/KALSHI_WS_ORDERBOOK_INGEST_20260622.md` |
+
+**Deploy:** `NAS_HOST=MediaServer2 ./synology/scripts/deploy_kalshi_runtime_to_nas.sh` then rebuild compose and `docker compose up -d kmia-orderbook-ws`.
 
 ---
 

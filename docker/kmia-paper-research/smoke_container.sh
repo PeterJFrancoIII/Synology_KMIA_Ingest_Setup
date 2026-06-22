@@ -19,7 +19,7 @@ echo
 
 echo "=== Python venv ==="
 python --version
-python -c "import pandas, requests; print('OK: pandas + requests')"
+python -c "import pandas, requests, websockets; print('OK: pandas + requests + websockets')"
 echo
 
 CONSOLE2="${CONSOLE2_ROOT:-/data/KMIA_Ingest/setup_repo}"
@@ -46,6 +46,39 @@ if [ -x /usr/local/bin/run_nas_paper_loop.sh ]; then
 else
   echo "WARN: run_nas_paper_loop.sh missing — rebuild container"
 fi
+
+if [ -x /usr/local/bin/run_nas_orderbook_ws.sh ]; then
+  echo "OK: run_nas_orderbook_ws.sh"
+else
+  echo "WARN: run_nas_orderbook_ws.sh missing — rebuild container"
+fi
+
+WS_STATUS="${KALSHI_MARKET_ARCHIVE_DIR:-$KALSHI/backend/data/processed/kalshi_market_archive}/ws_daemon_status.json"
+export WS_STATUS
+if [ -f "$WS_STATUS" ]; then
+  echo "=== WS daemon heartbeat ==="
+  cat "$WS_STATUS"
+  python - <<'PY'
+import json, os, sys
+from datetime import datetime, timezone
+from pathlib import Path
+p = Path(os.environ.get("WS_STATUS", ""))
+if not p.is_file():
+    sys.exit(0)
+data = json.loads(p.read_text())
+updated = data.get("updated_at_utc")
+if updated:
+    ts = datetime.fromisoformat(updated.replace("Z", "+00:00"))
+    age = (datetime.now(timezone.utc) - ts).total_seconds()
+    if age > 120:
+        print(f"WARN: WS heartbeat stale ({age:.0f}s)")
+    else:
+        print(f"OK: WS heartbeat age {age:.0f}s")
+PY
+else
+  echo "INFO: no ws_daemon_status.json (kmia-orderbook-ws not running yet)"
+fi
+
 
 if [ -x "$KALSHI/scripts/kmia_resolve_python.sh" ]; then
   # shellcheck disable=SC1091

@@ -13,8 +13,10 @@ Historical NDFD ingest + KMIA forecast-precision (MAE) research for Kalshi max-t
 ## Machines
 
 - **Mac** — repo source of truth, deploy scripts
-- **NAS (MediaServer2)** — raw GRIB lake + Docker ingest
+- **NAS (MediaServer2)** — raw GRIB lake, Docker ingest (`kmia-arch-ingest`), Kalshi policy/paper loop (`kmia-paper-research`), **WebSocket orderbook archive** (`kmia-orderbook-ws`)
 - **Legion5** — SMB pull + parallel wgrib2 extract + analysis + charts
+
+Kalshi WS orderbook design: `docs/architecture/KALSHI_WS_ORDERBOOK_INGEST.md`
 
 ## Charts (Legion5)
 

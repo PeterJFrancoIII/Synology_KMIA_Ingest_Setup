@@ -1,14 +1,15 @@
 # Current objective
 
-**Updated:** 2026-06-20  
-**Status:** Legion5 chart portal live; **Kalshi trading-policy bridge active** (Console 2 → 3)
+**Updated:** 2026-06-22  
+**Status:** Legion5 chart portal live; **Kalshi trading-policy bridge active**; **WebSocket orderbook ingest deployed on NAS**
 
 ## Active slice
 
 1. **Legion5 / MAE research** — chart portal, all-years merge, NAS gap documentation
 2. **Kalshi policy bridge** — price-history backtest, policy sweep, `trading_policy.json` export, thin-market liquidity caps, human review artifacts
+3. **Kalshi WS orderbook ingest** — `kmia-orderbook-ws` on NAS; finest book granularity for KXHIGHMIA bins
 
-See: `docs/architecture/KALSHI_TRADING_BRIDGE_STATE.md`
+See: `docs/architecture/KALSHI_TRADING_BRIDGE_STATE.md`, `docs/architecture/KALSHI_WS_ORDERBOOK_INGEST.md`
 
 ## Success for this slice
 
@@ -27,6 +28,12 @@ See: `docs/architecture/KALSHI_TRADING_BRIDGE_STATE.md`
 - [x] P(bin) aligned via `KALSHI_BACKTEST_PROB_MODEL=integer_dist_v1` (default in kmia_kalshi_env.sh)
 - [ ] Human approval of current draft policy (operator action — see `policy_review_for_human.txt`)
 
+### Kalshi WS orderbook ingest (NAS)
+- [x] WebSocket `orderbook_delta` daemon (`kmia-orderbook-ws` container)
+- [x] Raw event archive + 60s checkpoint snapshots on NAS
+- [x] Deploy scripts, monitoring (`kalshi_archive_status.py`), API field reference doc
+- [ ] Backtest loader for WS snapshots at 10 AM ET anchor (Phase 2 — after archive window)
+
 ## Non-goals (this slice)
 
 - Console 1 / Console 3 **order execution** code in this repo
@@ -39,4 +46,5 @@ See: `docs/architecture/KALSHI_TRADING_BRIDGE_STATE.md`
 - **Three consoles:** `docs/architecture/THREE_CONSOLE_ARCHITECTURE.md`
 - **Console 2 exports:** `docs/architecture/CONSOLE_2_EXPORT_CONTRACT.md`
 - **Kalshi bridge state:** `docs/architecture/KALSHI_TRADING_BRIDGE_STATE.md`
+- **WS orderbook ingest:** `docs/architecture/KALSHI_WS_ORDERBOOK_INGEST.md`
 - **Topology:** [PROJECT_STATE_AND_OBJECTIVES.md](PROJECT_STATE_AND_OBJECTIVES.md)
