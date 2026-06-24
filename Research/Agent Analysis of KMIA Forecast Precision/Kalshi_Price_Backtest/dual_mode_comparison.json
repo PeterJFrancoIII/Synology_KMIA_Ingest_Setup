@@ -1,17 +1,18 @@
 {
-  "generated_at_utc": "2026-06-20T01:32:24.532902+00:00",
+  "generated_at_utc": "2026-06-22T22:25:53.069422+00:00",
   "comparison": {
-    "taker": {
-      "n_traded_days": 1,
-      "hedged_win_rate": 100.0,
-      "total_simulated_pnl": 19.18,
-      "open_purchase_eligible_rate": 1.6
-    },
     "maker_limit": {
-      "n_traded_days": 45,
-      "hedged_win_rate": 20.9,
-      "total_simulated_pnl": 10.58,
-      "open_purchase_eligible_rate": 72.6
+      "n_traded_days": 7,
+      "hedged_win_rate": 42.9,
+      "total_simulated_pnl": 49.6,
+      "open_purchase_eligible_rate": 11.3,
+      "reused_report": "/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/Kalshi_Price_Backtest/kalshi_price_backtest_20260621T225427Z.json"
+    },
+    "taker": {
+      "n_traded_days": null,
+      "hedged_win_rate": null,
+      "total_simulated_pnl": null,
+      "open_purchase_eligible_rate": 0.0
     }
   },
   "note": "Low observed sample \u2014 compare modes directionally only until n_trades \u2265 20"

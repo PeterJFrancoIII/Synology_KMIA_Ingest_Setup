@@ -27,7 +27,7 @@ from kalshi_nws_join import (
     default_kalshi_observed_jsonl,
     default_kmia_daily_history_jsonl,
     forecast_high_at_anchor,
-    load_settlement_observed_maxes,
+    load_settlement_observed_maxes_with_sources,
 )
 from kalshi_price_history_loader import (
     DEFAULT_ORDER_MODE,
@@ -53,6 +53,8 @@ MIN_TRADES_DEFAULT = 20
 LOW_CONFIDENCE_TRADE_THRESHOLD = 20
 BALANCED_MIN_WIN_RATE = 0.68
 MAX_ROI_MIN_WIN_RATE = 0.65
+MAX_CALIBRATION_ECE = 0.12
+MAX_MEAN_BRIER = 0.35
 PURE_MAX_ROI_MIN_TRADES = 20
 
 
@@ -65,6 +67,7 @@ _POLICY_METRIC_KEYS = (
     "insurance_price_k", "n_trades", "n_wins", "n_losses", "win_rate",
     "win_rate_pct", "total_pnl", "total_deployed", "roi_pct",
     "avg_insurance_legs", "insurance_covers_book_rate_pct",
+    "mean_brier", "mean_crps", "ece", "calibration_pass",
 )
 
 _MP_DAYS: list[dict[str, Any]] | None = None
@@ -164,9 +167,8 @@ def load_forecast_validated_days(
     forecast_reports_dir = forecast_reports_dir or default_kalshi_forecast_reports_dir()
     observed_jsonl = observed_jsonl or default_kalshi_observed_jsonl()
     ncei_history_jsonl = ncei_history_jsonl or default_kmia_daily_history_jsonl()
-    observed_map = load_settlement_observed_maxes(
+    observed_map, observed_sources = load_settlement_observed_maxes_with_sources(
         ncei_history_jsonl=ncei_history_jsonl,
-        nws_observed_jsonl=observed_jsonl,
     )
 
     from kalshi_orderbook_archive_loader import (
@@ -266,7 +268,16 @@ def evaluate_policy_config(
     order_mode: str = DEFAULT_ORDER_MODE,
 ) -> dict[str, Any]:
     """Replay hedged policy on observed days; return aggregate metrics."""
+    from calibration_metrics import (
+        crps_multiclass,
+        expected_calibration_error,
+        reliability_table,
+    )
+
     trades: list[dict[str, Any]] = []
+    calibration_rows: list[dict[str, Any]] = []
+    brier_scores: list[float] = []
+    crps_scores: list[float] = []
     ins_frac = insurance_budget_fraction if insurance_enabled else 0.0
 
     for d in days:
@@ -300,6 +311,18 @@ def evaluate_policy_config(
             purchase["total_deployed"] = float(purchase.get("forecast_total_cost") or 0.0)
 
         trade = _settle_hedged_trade(purchase=purchase, observed_max_f=d["observed_max_f"])
+        model_p = purchase.get("model_probability")
+        if model_p is not None:
+            won = trade["trade_result"] == "WIN"
+            calibration_rows.append({
+                "model_probability": float(model_p),
+                "won": int(won),
+            })
+            brier_scores.append((float(model_p) - float(won)) ** 2)
+            bin_probs = purchase.get("model_bin_probs") or {d["market_bin"]: float(model_p)}
+            obs_bin = d["market_bin"] if won else f"__other__{d['day']}"
+            if won:
+                crps_scores.append(crps_multiclass(bin_probs, d["market_bin"]))
         trades.append({
             "day": d["day"],
             "market_bin": d["market_bin"],
@@ -318,6 +341,14 @@ def evaluate_policy_config(
     win_rate = round(n_wins / n_trades, 4) if n_trades else 0.0
     roi_pct = round(100.0 * total_pnl / total_deployed, 2) if total_deployed else 0.0
     covers = sum(1 for t in trades if t.get("insurance_covers_book"))
+    reliability = reliability_table(calibration_rows)
+    ece = expected_calibration_error(reliability)
+    mean_brier = round(sum(brier_scores) / len(brier_scores), 4) if brier_scores else None
+    mean_crps = round(sum(crps_scores) / len(crps_scores), 4) if crps_scores else None
+    calibration_pass = (
+        ece <= MAX_CALIBRATION_ECE
+        and (mean_brier is None or mean_brier <= MAX_MEAN_BRIER)
+    )
 
     return {
         "min_forecast_edge": min_forecast_edge,
@@ -341,6 +372,11 @@ def evaluate_policy_config(
         "insurance_covers_book_rate_pct": round(
             100.0 * covers / n_trades, 1
         ) if n_trades else 0.0,
+        "mean_brier": mean_brier,
+        "mean_crps": mean_crps,
+        "ece": ece,
+        "reliability": reliability,
+        "calibration_pass": calibration_pass,
         "trades": trades,
     }
 
@@ -380,7 +416,8 @@ def _insured_pool(
         pool = [c for c in configs if c["n_trades"] > 0 and c.get("insurance_enabled")]
     if not pool:
         pool = [c for c in configs if c["n_trades"] > 0]
-    return pool
+    calibrated = [c for c in pool if c.get("calibration_pass", True)]
+    return calibrated if calibrated else pool
 
 
 def _confidence_for(best: dict[str, Any]) -> tuple[str, Optional[str]]:
@@ -422,7 +459,7 @@ def select_max_pnl_policy(
             c["total_pnl"],
             c["roi_pct"],
             c["n_trades"],
-            -abs(c["max_entry_yes_ask"] - MAX_ENTRY_YES_ASK),
+            -c["max_entry_yes_ask"],
         ),
         reverse=True,
     )
@@ -549,9 +586,32 @@ def select_policy_tiers(
     }
 
 
-def default_sweep_grid() -> list[dict[str, Any]]:
+def _cap_grid_values(
+    *,
+    cap_min: Optional[float] = None,
+    cap_max: Optional[float] = None,
+    cap_step: float = 0.05,
+) -> list[float]:
+    """Build max_entry_yes_ask sweep values (default 0.15–0.45 step 0.05)."""
+    lo = 0.15 if cap_min is None else float(cap_min)
+    hi = 0.45 if cap_max is None else float(cap_max)
+    step = float(cap_step)
+    if step <= 0:
+        raise ValueError("cap_step must be positive")
+    caps: list[float] = []
+    v = lo
+    while v <= hi + 1e-9:
+        caps.append(round(v, 4))
+        v += step
+    return caps
+
+
+def default_sweep_grid(
+    *,
+    cap_values: Optional[list[float]] = None,
+) -> list[dict[str, Any]]:
     edges = [round(i / 100, 2) for i in range(0, 31)]
-    caps = [round(0.15 + 0.05 * i, 2) for i in range(7)]
+    caps = cap_values or _cap_grid_values()
     insurance_modes = ["fraction", "cover_book"]
     insurance_budgets = [0.25, 0.5, 1.0]
     insurance_ks = [0.5, 0.6]
@@ -596,6 +656,9 @@ def run_policy_sweep(
     orderbook_archive_dir: Optional[Path] = None,
     candle_archive_dir: Optional[Path] = None,
     selection: Optional[str] = None,
+    cap_min: Optional[float] = None,
+    cap_max: Optional[float] = None,
+    cap_step: float = 0.05,
 ) -> dict[str, Any]:
     days = load_forecast_validated_days(
         price_history_dir,
@@ -610,7 +673,8 @@ def run_policy_sweep(
     )
     observed_days = [d for d in days if d["observed_max_f"] is not None]
 
-    grid = default_sweep_grid()
+    cap_values = _cap_grid_values(cap_min=cap_min, cap_max=cap_max, cap_step=cap_step)
+    grid = default_sweep_grid(cap_values=cap_values)
     n_workers = workers if workers is not None else default_workers()
     configs = evaluate_config_grid(days, grid, order_mode=order_mode, workers=n_workers)
 
@@ -656,7 +720,13 @@ def run_policy_sweep(
         },
         "sweep_grid": {
             "edge_pct": "0-30 step 1",
-            "max_entry_yes_ask": "0.15-0.45 step 0.05",
+            "max_entry_yes_ask": {
+                "values": cap_values,
+                "min": cap_values[0] if cap_values else None,
+                "max": cap_values[-1] if cap_values else None,
+                "step": cap_step,
+                "n_values": len(cap_values),
+            },
             "require_cheapest_at_open": [True, False],
             "insurance_enabled": [True, False],
             "n_configs": len(configs),
@@ -800,6 +870,30 @@ def main(argv: Optional[list[str]] = None) -> int:
         default=None,
         help="Policy export selection (default: env KALSHI_POLICY_SELECTION or max_roi)",
     )
+    parser.add_argument(
+        "--order-mode",
+        choices=("taker", "maker_limit"),
+        default=os.environ.get("KALSHI_BACKTEST_ORDER_MODE", DEFAULT_ORDER_MODE),
+        help="Execution model for sweep (default: env KALSHI_BACKTEST_ORDER_MODE or maker_limit)",
+    )
+    parser.add_argument(
+        "--cap-min",
+        type=float,
+        default=None,
+        help="Minimum max_entry_yes_ask in sweep (default 0.15)",
+    )
+    parser.add_argument(
+        "--cap-max",
+        type=float,
+        default=None,
+        help="Maximum max_entry_yes_ask in sweep (default 0.45)",
+    )
+    parser.add_argument(
+        "--cap-step",
+        type=float,
+        default=0.05,
+        help="Step for max_entry_yes_ask grid (use 0.01 for fine cap search)",
+    )
     args = parser.parse_args(argv)
 
     price_dir = args.price_history_dir or default_price_history_dir()
@@ -825,6 +919,10 @@ def main(argv: Optional[list[str]] = None) -> int:
         orderbook_archive_dir=args.orderbook_archive_dir,
         candle_archive_dir=args.candle_archive_dir,
         selection=args.selection,
+        order_mode=args.order_mode,
+        cap_min=args.cap_min,
+        cap_max=args.cap_max,
+        cap_step=args.cap_step,
     )
     print(report["human_summary"])
     if report.get("sweep_path"):

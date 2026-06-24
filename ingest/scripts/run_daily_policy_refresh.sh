@@ -82,30 +82,38 @@ python3 ingest/scripts/compare_prob_models.py \
   echo "WARN: prob model comparison failed (non-fatal)"
 }
 
-echo "[4/8] Kalshi price backtest (maker_limit)..."
+if [ "${SKIP_POLICY_SWEEP:-0}" = "1" ]; then
+  echo "[4-8/8] SKIP_POLICY_SWEEP=1 — ingest-only; Legion5 owns backtest/sweep (weekly task)."
+  echo "Daily policy refresh (ingest-only) complete."
+  exit 0
+fi
+
+echo "[4/8] Kalshi price backtest (taker — matches paper execution)..."
 python3 ingest/scripts/historical_checksum_backtest.py \
   --mode kalshi \
-  --order-mode maker_limit \
+  --order-mode taker \
   --price-history-dir "$PRICE_DIR" \
   --orderbook-archive-dir "$OB_ARCHIVE" \
   --candle-archive-dir "$CANDLE_ARCHIVE" \
   --output-dir "$BACKTEST_DIR"
 
-echo "[5/8] Policy optimizer sweep (${POLICY_WORKERS} workers)..."
+echo "[5/8] Policy optimizer sweep (${POLICY_WORKERS} workers, taker)..."
 python3 ingest/scripts/kalshi_policy_optimizer.py \
   --price-history-dir "$PRICE_DIR" \
   --orderbook-archive-dir "$OB_ARCHIVE" \
   --candle-archive-dir "$CANDLE_ARCHIVE" \
   --output-dir "$BACKTEST_DIR" \
-  --workers "$POLICY_WORKERS"
+  --workers "$POLICY_WORKERS" \
+  --order-mode taker
 
 echo "[6/8] Export trading_policy draft..."
 python3 ingest/scripts/export_trading_policy.py \
   --backtest-dir "$BACKTEST_DIR" \
   --kalshi-research-dir "$KALSHI_RESEARCH" \
+  --order-mode taker \
   --no-copy
 
-echo "[7/8] Dual-mode comparison (taker only; reuses maker report from step 4)..."
+echo "[7/8] Dual-mode comparison (taker primary + maker reference)..."
 python3 ingest/scripts/historical_checksum_backtest.py \
   --mode kalshi \
   --price-history-dir "$PRICE_DIR" \

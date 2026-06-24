@@ -8,7 +8,16 @@ Historical NDFD ingest + KMIA forecast-precision (MAE) research for Kalshi max-t
 
 ## Start here
 
-**Mission & governance (read first):** [0_Developer_Source_Files/](0_Developer_Source_Files/README.md) — bootloader, mission, current objective, project state, agent rules, Claude instructions (all in one directory).
+| Layer | Where | When |
+|-------|-------|------|
+| **Agent boot** | [0_Developer_Source_Files/](0_Developer_Source_Files/README.md) | Every AI session — mission, objective, agent rules, bootloader |
+| **Reference docs** | [docs/README.md](docs/README.md) | Deploy, NAS ops, architecture, handoffs |
+
+**Live project state:** [`0_Developer_Source_Files/current-objective.md`](0_Developer_Source_Files/current-objective.md) (not dated handoffs under `docs/handoffs/`).
+
+## Documentation map
+
+See [docs/README.md](docs/README.md) for the full two-layer layout (boot bundle vs reference docs).
 
 ## Machines
 

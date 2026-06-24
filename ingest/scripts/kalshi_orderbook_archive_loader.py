@@ -142,6 +142,76 @@ def _iter_archive_records(
                     continue
 
 
+def _iter_ws_snapshot_records(
+    archive_dir: Path,
+    utc_dates: list[datetime.date],
+) -> Iterator[tuple[dict[str, Any], str]]:
+    """Yield WS checkpoint snapshots (60s full-book reconstructions)."""
+    for subdir in ("orderbook_ws_snapshots", "orderbook_vendor"):
+        for day in utc_dates:
+            path = archive_dir / subdir / f"{day.isoformat()}.jsonl"
+            if not path.is_file():
+                continue
+            with path.open(encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        yield json.loads(line), str(path)
+                    except json.JSONDecodeError:
+                        continue
+
+
+def _record_timestamp(record: dict[str, Any]) -> Optional[datetime]:
+    """REST uses fetched_at_utc; WS checkpoints use snapshot_at_utc."""
+    return _parse_ts(
+        record.get("snapshot_at_utc") or record.get("fetched_at_utc")
+    )
+
+
+def _ticker_suffix_to_bin_label(ticker: str, column_map: dict[str, str]) -> Optional[str]:
+    """Map KXHIGHMIA ticker suffix to a bin label present in column_map values."""
+    suffix = ticker.rsplit("-", 1)[-1].upper()
+    candidates: list[str] = []
+    if suffix.startswith("B") and "." in suffix:
+        try:
+            floor = int(float(suffix[1:]))
+            candidates.append(f"{floor}-{floor + 1}")
+        except (TypeError, ValueError):
+            pass
+    elif suffix.startswith("T"):
+        try:
+            t = int(float(suffix[1:]))
+            candidates.extend([f">={t}", f"<={t}", f">{t}", f"<{t}"])
+        except (TypeError, ValueError):
+            pass
+    valid_bins = set(column_map.values())
+    for cand in candidates:
+        if cand in valid_bins:
+            return cand
+    return None
+
+
+def _map_ws_orderbooks_to_bins(
+    record: dict[str, Any],
+    column_map: dict[str, str],
+    event_ticker: str,
+) -> dict[str, dict[str, Any]]:
+    """Map WS checkpoint orderbooks (ticker-keyed) to bin labels."""
+    event_ticker = event_ticker.upper()
+    by_bin: dict[str, dict[str, Any]] = {}
+    for ticker, ob in (record.get("orderbooks") or {}).items():
+        tick_u = str(ticker).upper()
+        if not tick_u.startswith(event_ticker + "-"):
+            continue
+        bin_label = _ticker_suffix_to_bin_label(tick_u, column_map)
+        if not bin_label:
+            continue
+        by_bin[bin_label] = extract_top_of_book(ob if isinstance(ob, dict) else {})
+    return by_bin
+
+
 def _record_matches_event(record: dict[str, Any], event_ticker: str) -> bool:
     event_ticker = event_ticker.upper()
     for m in record.get("markets_compact") or []:
@@ -229,37 +299,55 @@ def load_anchor_orderbook_context(
     best_record: Optional[dict[str, Any]] = None
     best_path: Optional[str] = None
     best_delta: Optional[float] = None
+    best_source: Optional[str] = None
 
-    for record, path in _iter_archive_records(archive_dir, utc_dates):
+    def _consider(record: dict[str, Any], path: str, source: str) -> None:
+        nonlocal best_record, best_path, best_delta, best_source
         if not _record_matches_event(record, event_ticker):
-            continue
-        ts = _parse_ts(record.get("fetched_at_utc"))
+            return
+        ts = _record_timestamp(record)
         if ts is None:
-            continue
+            return
         delta_min = (ts - anchor).total_seconds() / 60.0
         if delta_min < -5.0 or delta_min > max_delta_minutes:
-            continue
+            return
         if best_delta is None or abs(delta_min) < abs(best_delta):
             best_record = record
             best_path = path
             best_delta = delta_min
+            best_source = source
+
+    for record, path in _iter_ws_snapshot_records(archive_dir, utc_dates):
+        source = "orderbook_vendor" if "orderbook_vendor" in path else "orderbook_ws_snapshots"
+        _consider(record, path, source)
+
+    for record, path in _iter_archive_records(archive_dir, utc_dates):
+        _consider(record, path, "orderbooks")
 
     if best_record is None:
         base.reason = "no_snapshot_near_anchor"
         return base
 
-    by_bin = _map_record_to_bins(best_record, column_map, event_ticker)
+    if best_source in ("orderbook_ws_snapshots", "orderbook_vendor"):
+        by_bin = _map_ws_orderbooks_to_bins(best_record, column_map, event_ticker)
+        if not by_bin:
+            by_bin = _map_record_to_bins(best_record, column_map, event_ticker)
+    else:
+        by_bin = _map_record_to_bins(best_record, column_map, event_ticker)
     if not by_bin:
         base.reason = "snapshot_unmapped_to_bins"
-        base.fetched_at_utc = best_record.get("fetched_at_utc")
+        base.fetched_at_utc = (
+            best_record.get("snapshot_at_utc") or best_record.get("fetched_at_utc")
+        )
         base.archive_path = best_path
         return base
 
+    ts_iso = best_record.get("snapshot_at_utc") or best_record.get("fetched_at_utc")
     return AnchorOrderbookContext(
         settlement_date=settlement_date,
         found=True,
         event_ticker=event_ticker,
-        fetched_at_utc=best_record.get("fetched_at_utc"),
+        fetched_at_utc=ts_iso,
         delta_minutes_from_anchor=round(best_delta, 2) if best_delta is not None else None,
         archive_path=best_path,
         by_bin=by_bin,

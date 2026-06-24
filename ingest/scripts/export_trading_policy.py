@@ -91,6 +91,14 @@ def export_trading_policy(
     if approved_existing:
         result["diff_lines"] = _policy_diff(approved_existing, draft)
 
+    n_trades = int((draft.get("backtest_metrics") or {}).get("n_trades") or 0)
+    if n_trades < 20:
+        result["approval_warning"] = (
+            f"Low confidence: backtest n_trades={n_trades} < 20. "
+            "Hold approve_trading_policy.sh until sample grows or accept low_confidence cap."
+        )
+        print(f"WARN: {result['approval_warning']}", flush=True)
+
     if copy_to_kalshi and not approved_path.is_file():
         approved_path.write_text(json.dumps(draft, indent=2), encoding="utf-8")
         result["copied_to_kalshi"] = True

@@ -37,3 +37,26 @@ See `MANIFEST.txt` in that folder for checksums.
 ## Loop
 
 30-minute ticks for 9 hours via background shell sentinel `AGENT_LOOP_TICK_paper_watch`.
+
+## Daily health (LAN)
+
+```bash
+./ingest/scripts/kmia_paper_ops_watch.sh
+# or: NAS_HOST=MediaServer2 ./ingest/scripts/kmia_paper_ops_watch.sh
+```
+
+Checks: containers, WS heartbeat age, `verify_smarter_paper.py`, cron tail, policy/signal JSON.
+
+**Targets:** WS heartbeat &lt; 120s; 12 KXHIGHMIA tickers; `orderbook_artifact.source: kalshi_ws`; `candidate_to_buy_overlap` ≥ 90% when markets tradable.
+
+**Policy tier review:** [`POLICY_TIER_REVIEW.md`](POLICY_TIER_REVIEW.md) before next `approve_trading_policy.sh`.
+
+**Vendor inbound:** [`KALSHI_INBOUND_DATA_CONTRACT.md`](KALSHI_INBOUND_DATA_CONTRACT.md)
+
+**Readiness matrix:** [`PAPER_TRADING_READINESS.md`](PAPER_TRADING_READINESS.md)
+
+**Deep research prompt:** [`DEEP_RESEARCH_PAPER_TRADING_PROMPT.md`](DEEP_RESEARCH_PAPER_TRADING_PROMPT.md) — copy into Claude/Gemini for system review
+
+**Forward scorecard (weekly):** Kalshi `scripts/paper_forward_scorecard.py` — win rate, blocks, avg edge
+
+**Resilience env (NAS `kmia_paper_research.env`):** `PAPER_TRADING_WINDOW=dynamic` (default); `PAPER_LOOP_ANCHOR_ONLY=0`; `PAPER_ORDER_MODE=maker_limit` (aligns paper with maker backtest). Optional: `PAPER_TRADING_WINDOW=anchor_only` for debug; `PAPER_STRICT_MARKET_AGREEMENT`, `MAX_OBS_AGE_MINUTES`, `PAPER_MIN_CALIBRATED_EDGE_FLOOR`

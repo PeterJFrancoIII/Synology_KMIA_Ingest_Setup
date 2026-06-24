@@ -5,11 +5,11 @@
 #   bash "/path/to/Kalshi/scripts/setup_kalshi_api_credentials.sh"
 #
 # Usage:
-#   NAS_HOST=MediaServer2Local ./synology/scripts/setup_nas_kalshi_secrets.sh
+#   NAS_HOST=MediaServer2 ./synology/scripts/setup_nas_kalshi_secrets.sh
 
 set -euo pipefail
 
-NAS="${NAS_HOST:-MediaServer2Local}"
+NAS="${NAS_HOST:-MediaServer2}"
 KALSHI_ROOT="${KALSHI_ROOT:-$HOME/Desktop/App Development/Kalshi}"
 API_DIR="$KALSHI_ROOT/1_Downloads/API Keys & Dcoumentation"
 DEV_ENV="$API_DIR/Developer_API_Keys.env"

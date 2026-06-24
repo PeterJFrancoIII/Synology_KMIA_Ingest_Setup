@@ -1,6 +1,6 @@
 # KMIA Kalshi — Algorithmic Trading Policies
 
-**Last synced:** 2026-06-22T01:12:37.550046+00:00  
+**Last synced:** 2026-06-22T22:30:02.506529+00:00  
 **Maintainers:** AI agents + human operator  
 **Scope:** Console 2 research → Console 3 paper loop (file-only bridge)  
 **Safety:** `no_real_trading: true` — research and paper simulation only until explicitly approved.
@@ -37,10 +37,10 @@ Daily **KXHIGHMIA** markets: bet on which temperature bin contains NWS CLIMIA TM
 
 ## Selection objective (human intent)
 
-User requested max probability of profit — max win-rate tier (max_pnl)
+Maximize probability of profit over recurring daily sessions (highest win-rate insured tier).
 
-**Optimizer method:** `max_win_rate_insured_min_trades_20`  
-**Evidence sweep:** `D:\KMIA_Process\analysis\Kalshi_Price_Backtest\policy_sweep_20260622T005444Z.json`  
+**Optimizer method:** `max_total_pnl_insured_min_sample_then_roi`  
+**Evidence sweep:** `/Users/computer/Desktop/App Development/Synology_KMIA_Ingest_Setup/Research/Agent Analysis of KMIA Forecast Precision/Kalshi_Price_Backtest/policy_sweep_20260622T223002Z.json`  
 **Minimum sample:** ≥20 insured trades for tier eligibility.
 
 ### Trade-off law
@@ -63,13 +63,13 @@ Parameters below mirror `Kalshi/backend/data/research/trading_policy_draft.json`
 | Parameter | Value |
 |-----------|-------|
 | `min_forecast_edge` | 0% |
-| `max_entry_yes_ask` | $0.35 |
+| `max_entry_yes_ask` | $0.25 |
 | `order_mode` | maker_limit |
 | `anchor_hour_et` | 10 |
 | `require_cheapest_at_open` | True |
 | `insurance_enabled` | True |
 | `insurance_mode` | fraction |
-| `insurance_budget_fraction` | 100% |
+| `insurance_budget_fraction` | 25% |
 | `insurance_price_k` | 0.6 |
 | `live_model_version` | integer_dist_v1 |
 
@@ -77,17 +77,17 @@ Parameters below mirror `Kalshi/backend/data/research/trading_policy_draft.json`
 
 | Metric | Value |
 |--------|-------|
-| Trades | 46 |
-| Wins / losses | 33 / 13 |
-| Win rate | 71.7% |
-| Total P&L | $287.12 |
-| Total deployed | $385.88 |
-| ROI | 74.41% |
-| Avg insurance legs | 2.17 |
+| Trades | 4 |
+| Wins / losses | 3 / 1 |
+| Win rate | 75.0% |
+| Total P&L | $42.33 |
+| Total deployed | $19.67 |
+| ROI | 215.13% |
+| Avg insurance legs | 0.0 |
 
 ### Approval status
 
-**STALE** — `trading_policy.json` is approved but differs from draft. Re-approve via `bash scripts/approve_trading_policy.sh` in Kalshi repo.
+**APPROVED** — paper loop uses `trading_policy.json`.
 
 ---
 
@@ -95,11 +95,11 @@ Parameters below mirror `Kalshi/backend/data/research/trading_policy_draft.json`
 
 | Tier | Edge | Ins mode | Ins budget | k | Win % | ROI | P&L | Deployed | Trades |
 |------|------|----------|------------|---|-------|-----|-----|----------|--------|
-| **Active (draft export)** | 0% | fraction | 100% | 0.6 | 71.7% | 74.41% | $287.12 | $385.88 | 46 |
-| Max P&L / max win-rate | 0% | fraction | 100% | 0.6 | 71.7% | 74.41% | $287.12 | $385.88 | 46 |
-| Balanced (ROI×win≥68%) | 0% | fraction | 50% | 0.6 | 69.6% | 77.64% | $244.31 | $314.69 | 46 |
-| Max ROI guarded (win≥65%) | 6% | cover_book | 25% | 0.6 | 66.7% | 93.3% | $173.76 | $186.24 | 33 |
-| Max ROI | 9% | cover_book | 25% | 0.5 | 58.3% | 102.42% | $125.99 | $123.01 | 24 |
+| **Active (draft export)** | 0% | fraction | 25% | 0.6 | 75.0% | 215.13% | $42.33 | $19.67 | 4 |
+| Max P&L / max win-rate | 0% | fraction | 25% | 0.6 | 75.0% | 215.13% | $42.33 | $19.67 | 4 |
+| Balanced (ROI×win≥68%) | 14% | fraction | 25% | 0.5 | 100.0% | 398.01% | $19.18 | $4.82 | 1 |
+| Max ROI guarded (win≥65%) | 14% | fraction | 25% | 0.5 | 100.0% | 398.01% | $19.18 | $4.82 | 1 |
+| Max ROI | 14% | fraction | 25% | 0.5 | 100.0% | 398.01% | $19.18 | $4.82 | 1 |
 
 ---
 
@@ -142,5 +142,5 @@ See `docs/architecture/KALSHI_TRADING_BRIDGE_STATE.md` for operator commands.
 
 | Date (UTC) | Change |
 |------------|--------|
-| 2026-06-22 | Auto-sync from `D:\KMIA_Process\analysis\Kalshi_Price_Backtest\policy_sweep_20260622T005444Z.json` — active tier `max_win_rate_insured_min_trades_20`. |
+| 2026-06-22 | Auto-sync from `policy_sweep_20260622T223002Z.json` — active tier `max_total_pnl_insured_min_sample_then_roi`. |
 

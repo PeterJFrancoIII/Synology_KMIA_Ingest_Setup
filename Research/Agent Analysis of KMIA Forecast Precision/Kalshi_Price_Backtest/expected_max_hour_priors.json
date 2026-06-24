@@ -1,0 +1,438 @@
+{
+  "generated_at_utc": "2026-06-23T22:51:06.255576Z",
+  "safety": {
+    "no_real_trading": true,
+    "no_order_execution": true,
+    "disclaimer": "NO REAL TRADING EXECUTION - CONSOLE 2 RESEARCH ONLY"
+  },
+  "schema_version": "1.0",
+  "window_days": 7,
+  "trading_cutoff_rule": "expected_median_max_hour_et_minus_1h",
+  "n_days": 1957,
+  "weeks": {
+    "week:01": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.85,
+      "n_samples": 2059,
+      "window_days": 7
+    },
+    "week:02": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 13.14,
+      "n_samples": 2610,
+      "window_days": 7
+    },
+    "week:03": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.07,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:04": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.86,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:05": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.84,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:06": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.49,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:07": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.67,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:08": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 13.23,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:09": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 13.33,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:10": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.49,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:11": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.7,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:12": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.73,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:13": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.6,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:14": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.69,
+      "n_samples": 2629,
+      "window_days": 7
+    },
+    "week:15": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.84,
+      "n_samples": 2761,
+      "window_days": 7
+    },
+    "week:16": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.92,
+      "n_samples": 3331,
+      "window_days": 7
+    },
+    "week:17": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.92,
+      "n_samples": 3694,
+      "window_days": 7
+    },
+    "week:18": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.8,
+      "n_samples": 3524,
+      "window_days": 7
+    },
+    "week:19": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.58,
+      "n_samples": 3762,
+      "window_days": 7
+    },
+    "week:20": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.49,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:21": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.48,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:22": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.37,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:23": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 11.02,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.27,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:24": {
+      "median_hour_et": 13.35,
+      "p10_hour_et": 11.02,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.35,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:25": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.02,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.46,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:26": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.31,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:27": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.73,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.33,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:28": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.56,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:29": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.64,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:30": {
+      "median_hour_et": 13.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.62,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:31": {
+      "median_hour_et": 13.47,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.6,
+      "mean_hour_et": 13.47,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:32": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.28,
+      "mean_hour_et": 13.34,
+      "n_samples": 3780,
+      "window_days": 7
+    },
+    "week:33": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 13.2,
+      "n_samples": 3770,
+      "window_days": 7
+    },
+    "week:34": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 11.73,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 13.16,
+      "n_samples": 3596,
+      "window_days": 7
+    },
+    "week:35": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 13.15,
+      "n_samples": 2908,
+      "window_days": 7
+    },
+    "week:36": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.96,
+      "n_samples": 2628,
+      "window_days": 7
+    },
+    "week:37": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.95,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:38": {
+      "median_hour_et": 13.43,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 13.18,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:39": {
+      "median_hour_et": 13.82,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 13.28,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:40": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.16,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:41": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 12.99,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:42": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.98,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:43": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 11.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.21,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:44": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 15.88,
+      "mean_hour_et": 13.22,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:45": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.55,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:46": {
+      "median_hour_et": 11.88,
+      "p10_hour_et": 9.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.08,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:47": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.75,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.28,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:48": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.7,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:49": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 11.5,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.59,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:50": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.53,
+      "n_samples": 2625,
+      "window_days": 7
+    },
+    "week:51": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.69,
+      "n_samples": 2611,
+      "window_days": 7
+    },
+    "week:52": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.72,
+      "n_samples": 2026,
+      "window_days": 7
+    },
+    "week:53": {
+      "median_hour_et": 12.88,
+      "p10_hour_et": 10.88,
+      "p90_hour_et": 14.88,
+      "mean_hour_et": 12.65,
+      "n_samples": 313,
+      "window_days": 7
+    }
+  }
+}

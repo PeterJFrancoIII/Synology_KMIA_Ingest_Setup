@@ -54,6 +54,8 @@ def build_trading_policy_manifest(
         "live_model_version": INTEGER_DIST_MODEL,
         "order_mode": order_mode,
         "anchor_hour_et": ANCHOR_HOUR_ET,
+        "trading_window_mode": "dynamic",
+        "expected_max_hour_priors": "expected_max_hour_priors.json",
         "min_forecast_edge": recommended.get("min_forecast_edge", MIN_FORECAST_EXECUTABLE_EDGE),
         "max_entry_yes_ask": recommended.get("max_entry_yes_ask", MAX_ENTRY_YES_ASK),
         "require_cheapest_at_open": recommended.get("require_cheapest_at_open", True),

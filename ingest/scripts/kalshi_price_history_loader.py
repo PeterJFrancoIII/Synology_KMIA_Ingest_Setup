@@ -326,7 +326,21 @@ def derive_limit_bid(
 
 
 def fill_window_end_utc(settlement_date: str) -> datetime:
-    """Last instant of the prior-day posting window (settlement midnight ET)."""
+    """End of maker fill scan: dynamic trading cutoff, anchor-only, or settlement midnight ET."""
+    import os
+
+    mode = os.environ.get("BACKTEST_TRADING_WINDOW", "dynamic").strip().lower()
+    if mode == "dynamic":
+        try:
+            from trading_window_priors import maker_fill_deadline_utc
+
+            return maker_fill_deadline_utc(settlement_date)
+        except Exception:
+            pass
+    elif mode == "anchor":
+        return anchor_time_utc_for_settlement(settlement_date) + timedelta(
+            minutes=BIN_OPEN_MAX_MINUTES
+        )
     et = ZoneInfo("America/New_York")
     target = datetime.strptime(settlement_date, "%Y-%m-%d").replace(tzinfo=et)
     return target.astimezone(timezone.utc)

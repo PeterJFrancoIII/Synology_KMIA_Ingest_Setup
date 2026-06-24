@@ -24,8 +24,10 @@ Kalshi market data (Console 2 + NAS):
 
 Related (outside this folder):
 
+- **Documentation map:** `docs/README.md` — reference layer (runbooks, architecture, handoffs)
 - Three-console architecture: `docs/architecture/THREE_CONSOLE_ARCHITECTURE.md`
 - Console 2 export contract: `docs/architecture/CONSOLE_2_EXPORT_CONTRACT.md`
+- Moved paths: `docs/REDIRECTS.md`
 - Scoped rules: `.cursor/rules/`
 
 Root-level `MISSION.md`, `AGENTS.md`, and `CLAUDE.md` are thin pointers here for tool discoverability.

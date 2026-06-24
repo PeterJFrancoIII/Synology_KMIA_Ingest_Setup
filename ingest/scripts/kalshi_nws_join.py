@@ -306,20 +306,64 @@ def load_ncei_climatology_tmaxes(history_jsonl: Path) -> dict[str, float]:
     return out
 
 
+def _settlement_source_label(row_source: Optional[str]) -> str:
+    """Map kmia_daily_history.jsonl row source to audit label."""
+    src = (row_source or "").strip().lower()
+    if src == "nws_cli":
+        return "nws_cli"
+    return "ncei_climatology"
+
+
+def load_settlement_observed_maxes_with_sources(
+    *,
+    ncei_history_jsonl: Optional[Path] = None,
+) -> tuple[dict[str, float], dict[str, str]]:
+    """Settlement daily max from kmia_daily_history.jsonl only (NCEI finalized / NWS CLI).
+
+    Live NWS hourly obs (nws_observed_history.jsonl) is for intraday gates only — never settlement.
+    """
+    temps: dict[str, float] = {}
+    sources: dict[str, str] = {}
+    path = Path(ncei_history_jsonl) if ncei_history_jsonl else None
+    if not path or not path.is_file():
+        return temps, sources
+    with path.open(encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            day = row.get("date")
+            tmax = row.get("tmax_f")
+            if day is None or tmax is None:
+                continue
+            day_s = str(day)
+            temps[day_s] = float(tmax)
+            sources[day_s] = _settlement_source_label(row.get("source"))
+    return temps, sources
+
+
 def load_settlement_observed_maxes(
     *,
     ncei_history_jsonl: Optional[Path] = None,
     nws_observed_jsonl: Optional[Path] = None,
 ) -> dict[str, float]:
-    """Settlement daily max: official NCEI CLIMIA TMAX first, then live NWS archive."""
-    out: dict[str, float] = {}
-    if ncei_history_jsonl:
-        out.update(load_ncei_climatology_tmaxes(ncei_history_jsonl))
-    if nws_observed_jsonl:
-        live = load_observed_daily_maxes(nws_observed_jsonl)
-        for day, temp in live.items():
-            out.setdefault(day, temp)
-    return out
+    """Settlement daily max: NCEI/CLI from kmia_daily_history.jsonl only."""
+    if nws_observed_jsonl is not None:
+        import warnings
+
+        warnings.warn(
+            "nws_observed_jsonl is ignored for settlement labels; use gates only",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+    temps, _ = load_settlement_observed_maxes_with_sources(
+        ncei_history_jsonl=ncei_history_jsonl
+    )
+    return temps
 
 
 def rules_v2_forecast_at_anchor(

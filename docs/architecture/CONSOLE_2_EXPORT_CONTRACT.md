@@ -138,7 +138,7 @@ Key fields:
 
 **Kalshi price-history inputs:** `kalshi-price-history-kxhighmia-*.csv` (minute or hour). Kalshi uses **sliding 6-bin windows** per settlement day (e.g. Apr 21: `<=74` … `>=83`; Apr 20: `<=78` … `>=87`). The loader parses column headers dynamically and maps the forecast °F to the matching market bin.
 
-**Weather join for Kalshi mode (not NDFD enriched CSV by default):** Forecast at anchor uses `kalshi_nws_join.py` priority: NWS snapshot → NDFD backfill → rules_v2 → (opt-in) IEM GFS MOS. Observed settlement uses **NCEI CLIMIA daily TMAX only** (`kmia_daily_history.jsonl`). The 4 PM MAE file `accuracy_points_enriched.csv` is for `--mode enriched` or `--use-enriched-csv` (forecast-only override); default `--mode kalshi` uses **10 AM join** via `--no-enriched-csv` (default).
+**Weather join for Kalshi mode (not NDFD enriched CSV by default):** Forecast at anchor uses `kalshi_nws_join.py` priority: NWS snapshot → NDFD backfill → rules_v2 → (opt-in) IEM GFS MOS. Observed settlement uses **NCEI/CLI daily TMAX only** (`kmia_daily_history.jsonl`). `nws_observed_history.jsonl` is **intraday gates only** — never settlement labels. The 4 PM MAE file `accuracy_points_enriched.csv` is for `--mode enriched` or `--use-enriched-csv` (forecast-only override); default `--mode kalshi` uses **10 AM join** via `--no-enriched-csv` (default).
 
 **Opt-in live-aligned P(bin):** set `KALSHI_BACKTEST_PROB_MODEL=integer_dist_v1` before backtest/sweep (default remains gaussian; models match within floating noise for σ=2.2).
 

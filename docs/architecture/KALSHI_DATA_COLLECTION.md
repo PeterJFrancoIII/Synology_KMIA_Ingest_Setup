@@ -45,7 +45,7 @@ Requires authenticated Kalshi API (`setup_nas_kalshi_secrets.sh`).
 **Console 2 backtest inputs:**
 
 - Minute CSVs in Bet History folder (unchanged contract for policy optimizer)
-- **`kalshi_market_archive/orderbooks/`** — maker-fill replay at prior-day **10 AM ET** anchor (`kalshi_orderbook_archive_loader.py` → `scan_limit_fill`); falls back to minute CSV when archive missing or ask above limit
+- **`kalshi_market_archive/orderbooks/`** — REST maker-fill replay at prior-day **10 AM ET** anchor; **WS/vendor snapshots preferred** when closer (`kalshi_orderbook_archive_loader.py` → `scan_limit_fill`); falls back to minute CSV when archive missing or ask above limit
 - **`kalshi_candle_archive/*-candles.jsonl`** — bid/ask/volume at anchor; maker fill fallback after orderbook (`kalshi_candle_archive_loader.py`)
 
 Backtest CLI:
@@ -93,7 +93,7 @@ Goal: improve **P(profitable trade)** and **realistic maker fills**, not archive
 
 ### Tier 3 — **Optional / specialized**
 
-8. ~~WebSocket delta books (sub-second)~~ **Active on NAS** (`kmia-orderbook-ws`) — backtest loader Phase 2  
+8. ~~WebSocket delta books (sub-second)~~ **Active on NAS** (`kmia-orderbook-ws`); **10 AM backtest loader wired** (`kalshi_orderbook_archive_loader.py` reads `orderbook_ws_snapshots/` + `orderbook_vendor/`)  
 9. Tick-level trade prints  
 10. Cross-market arb / full exchange crawl  
 

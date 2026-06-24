@@ -29,6 +29,23 @@ source /usr/local/bin/load_kalshi_api_env_nas.sh
 
 export KMIA_KALSHI_ROOT="$KALSHI"
 export PYTHONPATH="$KALSHI/backend/src"
+
+# Dynamic window is default; anchor-only only if explicitly requested (after secrets load).
+export PAPER_TRADING_WINDOW="${PAPER_TRADING_WINDOW:-dynamic}"
+if [ "${PAPER_TRADING_WINDOW}" = "anchor_only" ]; then
+  export PAPER_LOOP_ANCHOR_ONLY=1
+else
+  export PAPER_TRADING_WINDOW=dynamic
+  export PAPER_LOOP_ANCHOR_ONLY=0
+fi
+echo "PAPER_TRADING_WINDOW=$PAPER_TRADING_WINDOW PAPER_LOOP_ANCHOR_ONLY=$PAPER_LOOP_ANCHOR_ONLY"
+
+# Paper execution mode: maker_limit aligns forward paper with Legion5 maker backtest.
+export PAPER_ORDER_MODE="${PAPER_ORDER_MODE:-maker_limit}"
+export KALSHI_BACKTEST_ORDER_MODE="${KALSHI_BACKTEST_ORDER_MODE:-maker_limit}"
+export KALSHI_BACKTEST_PROB_MODEL="${KALSHI_BACKTEST_PROB_MODEL:-integer_dist_v1}"
+echo "PAPER_ORDER_MODE=$PAPER_ORDER_MODE KALSHI_BACKTEST_ORDER_MODE=$KALSHI_BACKTEST_ORDER_MODE"
+
 cd "$KALSHI"
 
 bash scripts/run_paper_trading_loop.sh

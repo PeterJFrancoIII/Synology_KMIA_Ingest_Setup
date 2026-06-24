@@ -2,13 +2,15 @@
 # Deploy Kalshi Console 3 runtime (paper loop) to NAS.
 # Mac = deploy only; execution runs on kmia-paper-research container.
 #
+# Canonical deploy after any Kalshi backend/src or scripts change (replaces piecemeal hot-patches).
+#
 # Usage:
-#   NAS_HOST=MediaServer2Local ./synology/scripts/deploy_kalshi_runtime_to_nas.sh
-#   NAS_HOST=MediaServer2Local ./synology/scripts/deploy_kalshi_runtime_to_nas.sh --with-data
+#   NAS_HOST=MediaServer2 ./synology/scripts/deploy_kalshi_runtime_to_nas.sh
+#   NAS_HOST=MediaServer2 ./synology/scripts/deploy_kalshi_runtime_to_nas.sh --with-data
 
 set -euo pipefail
 
-NAS="${NAS_HOST:-MediaServer2Local}"
+NAS="${NAS_HOST:-MediaServer2}"
 KALSHI_LOCAL="${KALSHI_LOCAL:-$HOME/Desktop/App Development/Kalshi}"
 NAS_CANONICAL="/volume2/Data/App_Development/Kalshi"
 WITH_DATA=0

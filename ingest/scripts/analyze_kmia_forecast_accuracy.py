@@ -39,14 +39,9 @@ def deg_to_cardinal(deg: float) -> str:
 
 
 def classify_stability(row: pd.Series) -> str:
-    r, std, delta = row["forecast_range_f"], row["forecast_std_f"], abs(row["first_to_latest_change_f"])
-    if pd.isna(r):
-        return "NO DATA"
-    if r <= 1.5 and std <= 0.75 and delta <= 1.0:
-        return "STABLE"
-    if r <= 3.0 and std <= 1.5 and delta <= 2.0:
-        return "MIXED"
-    return "UNSTABLE"
+    from kmia_forecast_stability import classify_stability_row
+
+    return classify_stability_row(row)
 
 
 def classify_outcome(obs, lo, hi) -> str:

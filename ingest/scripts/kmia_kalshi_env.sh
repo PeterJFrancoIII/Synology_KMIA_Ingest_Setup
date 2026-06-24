@@ -14,4 +14,5 @@ export KALSHI_CANDLE_ARCHIVE_DIR="${KALSHI_CANDLE_ARCHIVE_DIR:-$KALSHI_PROCESSED
 export CONSOLE2_BACKTEST_DIR="${CONSOLE2_BACKTEST_DIR:-$CONSOLE2_ROOT/Research/Agent Analysis of KMIA Forecast Precision/Kalshi_Price_Backtest}"
 # Align backtest P(bin) with live paper loop (parity verified via compare_prob_models.py)
 export KALSHI_BACKTEST_PROB_MODEL="${KALSHI_BACKTEST_PROB_MODEL:-integer_dist_v1}"
-export PYTHONPATH="${CONSOLE2_ROOT}/ingest/scripts:${PYTHONPATH:-}"
+# Paper loop uses taker at live ask; backtest/sweep default matches paper execution.
+export KALSHI_BACKTEST_ORDER_MODE="${KALSHI_BACKTEST_ORDER_MODE:-taker}"

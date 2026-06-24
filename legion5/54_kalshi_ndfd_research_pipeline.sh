@@ -49,19 +49,20 @@ log "[1/5] NDFD → NWS snapshots (--replace-iem)…"
   --nws-dir "$KALSHI_NWS_DIR" \
   --replace-iem 2>&1 | tee -a "$LOG"
 
-log "[2/5] maker_limit backtest…"
+log "[2/5] taker backtest (matches live paper)…"
 "$PYTHON" "$SCRIPTS/historical_checksum_backtest.py" \
   --mode kalshi \
-  --order-mode maker_limit \
+  --order-mode taker \
   --price-history-dir "$KALSHI_PRICE_DIR" \
   --output-dir "$CONSOLE2_BACKTEST_DIR" 2>&1 | tee -a "$LOG"
 
-log "[3/5] policy sweep (workers=$WORKERS selection=${KALSHI_POLICY_SELECTION:-max_roi})…"
+log "[3/5] policy sweep (workers=$WORKERS selection=${KALSHI_POLICY_SELECTION:-max_roi} taker)…"
 "$PYTHON" "$SCRIPTS/kalshi_policy_optimizer.py" \
   --price-history-dir "$KALSHI_PRICE_DIR" \
   --output-dir "$CONSOLE2_BACKTEST_DIR" \
   --workers "$WORKERS" \
-  --selection "${KALSHI_POLICY_SELECTION:-max_roi}" 2>&1 | tee -a "$LOG"
+  --selection "${KALSHI_POLICY_SELECTION:-max_roi}" \
+  --order-mode taker 2>&1 | tee -a "$LOG"
 
 log "[4/5] export drafts…"
 "$PYTHON" "$SCRIPTS/export_trading_policy.py" \

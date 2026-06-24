@@ -76,6 +76,21 @@ Integration is **files only** — no cross-repo imports at runtime.
 4. **Every 60s (default):** Write reconstructed full book to `orderbook_ws_snapshots/YYYY-MM-DD.jsonl` and refresh `latest_kalshi_orderbooks.json`.
 5. **Heartbeat:** `ws_daemon_status.json` updated on connect, message, and checkpoint.
 
+### Paper loop consumption (2026-06-22+)
+
+The 5-minute paper loop reads **`latest_kalshi_orderbooks.json`** for decisions. Smarter paper trading upgrades:
+
+| Layer | Behavior |
+|-------|----------|
+| **Freshness** | `update_kalshi_snapshots.py` skips REST overwrite when existing `source: kalshi_ws` is newer (`orderbook_merge.py`) |
+| **Pricing** | `walk_yes_ask_ladder` derives taker VWAP from full NO-bid ladder through policy `max_entry_yes_ask` |
+| **Edge** | Signal, Kelly sizing, and bet engine share `calibrated_contract_edge` (MAE shrink + fee-aware edge) |
+| **Audit** | `latest_paper_signal.json` includes `orderbook_artifact` + per-signal `orderbook_source`, `fill_vwap`, `ladder_depth_contracts` |
+
+WS JSONL archives remain for backtest Phase 2; paper loop uses `latest_kalshi_orderbooks.json` only.
+
+**Deploy after Kalshi runtime changes:** `NAS_HOST=MediaServer2 ./synology/scripts/deploy_kalshi_runtime_to_nas.sh` — see `docs/NAS_Runbook.md` § Canonical deploy. Push approved `trading_policy.json` to NAS after human approval (policy JSON only; do not sync Mac ledger).
+
 ### Archive record shapes
 
 **Raw WS event** (`orderbook_ws/`):

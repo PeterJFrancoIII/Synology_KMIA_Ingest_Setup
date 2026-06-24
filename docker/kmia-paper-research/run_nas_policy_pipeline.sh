@@ -27,6 +27,9 @@ export KALSHI_PROCESSED_DIR="${KALSHI_PROCESSED_DIR:-$KALSHI/backend/data/proces
 export KALSHI_RESEARCH_DIR="${KALSHI_RESEARCH_DIR:-$KALSHI/backend/data/research}"
 export PYTHONPATH="$CONSOLE2/ingest/scripts:$KALSHI/backend/src"
 export POLICY_SWEEP_WORKERS="${POLICY_SWEEP_WORKERS:-2}"
+export KALSHI_BACKTEST_PROB_MODEL="${KALSHI_BACKTEST_PROB_MODEL:-integer_dist_v1}"
+# Legion5 weekly task owns backtest/sweep; NAS daily = ingest + NCEI + coverage only.
+export SKIP_POLICY_SWEEP="${SKIP_POLICY_SWEEP:-1}"
 
 if [ ! -d "$CONSOLE2/ingest/scripts" ]; then
   echo "ERROR: Console2 scripts missing at $CONSOLE2/ingest/scripts"

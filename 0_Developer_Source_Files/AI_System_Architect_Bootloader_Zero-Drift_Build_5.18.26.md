@@ -355,7 +355,8 @@ Do not use background agents for:
 
 | Layer | Scope | Loaded when | Contents |
 |---|---|---|---|
-| `0_Developer_Source_Files/` | Project | Always | Colocated mission & governance bundle (see README in that directory). |
+| `0_Developer_Source_Files/` | Project boot | Always | Mission & governance bundle — small, stable agent law (see README in that directory). |
+| `docs/` | Project reference | On demand | Runbooks, architecture, handoffs, specs — do not merge into boot bundle. |
 | `0_Developer_Source_Files/MISSION.md` | Project | Always | Objective, non-goals, success criteria, current slice. |
 | `0_Developer_Source_Files/current-objective.md` | Project | Always for architects/planners | Full Mission Control Packet. |
 | `0_Developer_Source_Files/AGENTS.md` | Cross-agent | Always where supported | Universal agent rules, repo commands, risk classes. |

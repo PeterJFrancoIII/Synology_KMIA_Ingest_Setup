@@ -19,6 +19,12 @@ DEFAULT_STD_F = 2.2
 DEFAULT_TEMP_RANGE = (60, 105)
 
 
+def std_f_from_nbm_band(p10_f: float, p90_f: float) -> float:
+    """Approximate Gaussian std from NBM p10–p90 band (80% interval)."""
+    width = max(0.5, float(p90_f) - float(p10_f))
+    return round(width / 2.56, 2)
+
+
 def active_prob_model() -> str:
     return os.environ.get("KALSHI_BACKTEST_PROB_MODEL", GAUSSIAN_MODEL).strip().lower()
 

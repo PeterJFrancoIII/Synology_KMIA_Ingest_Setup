@@ -101,6 +101,52 @@ class TestKalshiOrderbookArchiveLoader(unittest.TestCase):
             self.assertFalse(ctx.found)
             self.assertEqual(ctx.reason, "archive_dir_missing")
 
+    def test_load_prefers_ws_snapshot_near_anchor(self):
+        column_map = {
+            "95° to 96°": "95-96",
+        }
+        anchor = anchor_time_utc_for_settlement("2026-06-23")
+        ws_ts = anchor.replace(minute=1).isoformat()
+        rest_ts = anchor.replace(minute=40).isoformat()
+        event = "KXHIGHMIA-26JUN23"
+
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = Path(tmp)
+            (archive / "orderbooks").mkdir(parents=True)
+            (archive / "orderbook_ws_snapshots").mkdir(parents=True)
+
+            rest_record = {
+                "fetched_at_utc": rest_ts,
+                "markets_compact": [
+                    {"event_ticker": event, "ticker": f"{event}-B95.5", "subtitle": "95° to 96°"},
+                ],
+                "orderbooks": {
+                    f"{event}-B95.5": {"top_yes_ask_dollars": 0.40, "yes_ask_size": 10},
+                },
+            }
+            ws_record = {
+                "snapshot_at_utc": ws_ts,
+                "orderbooks": {
+                    f"{event}-B95.5": {
+                        "no_bids": [[75, 80]],
+                        "top_yes_ask_dollars": 0.25,
+                    },
+                },
+            }
+            day = anchor.date().isoformat()
+            (archive / "orderbooks" / f"{day}.jsonl").write_text(
+                json.dumps(rest_record) + "\n", encoding="utf-8"
+            )
+            (archive / "orderbook_ws_snapshots" / f"{day}.jsonl").write_text(
+                json.dumps(ws_record) + "\n", encoding="utf-8"
+            )
+
+            ctx = load_anchor_orderbook_context("2026-06-23", column_map, archive)
+            self.assertTrue(ctx.found)
+            self.assertIn("orderbook_ws_snapshots", ctx.archive_path or "")
+            self.assertAlmostEqual(ctx.yes_ask_dollars("95-96"), 0.25, places=2)
+            self.assertEqual(ctx.yes_ask_size("95-96"), 80)
+
     def test_scan_limit_fill_prefers_archived_book_at_anchor(self):
         ctx = AnchorOrderbookContext(
             settlement_date="2026-04-20",

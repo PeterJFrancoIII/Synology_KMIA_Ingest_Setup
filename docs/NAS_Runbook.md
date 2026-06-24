@@ -92,11 +92,11 @@ sudo du -h -d 3 /volume2/Data/App_Development | sort -hr | head -50
 
 Do not schedule full historical backfill until smoke tests pass. See `synology/scripts/90_cron_install.sh` for incremental job templates.
 
-## 7. Policy Research Container (`kmia-paper-research`)
+## 7. Policy Research & Paper Loop (`kmia-paper-research`)
 
-**Arch Linux** container — same basis as `kmia-arch-ingest`. Daily Kalshi price-history ingest, backtest, and `trading_policy_draft.json` export. **No order execution.**
+**Arch Linux** container. **NAS is the only production runtime** for paper loop, WS archive companion, and daily ingest. Legion5 owns backtest/sweep; Mac is deploy + human approval only.
 
-Scripts live in the same setup repo tree as ingest:
+Scripts:
 
 ```text
 /volume2/Data/App_Development/KMIA_Ingest/setup_repo/ingest/scripts/
@@ -104,9 +104,61 @@ Scripts live in the same setup repo tree as ingest:
 /volume2/Data/App_Development/Kalshi/
 ```
 
-### Deploy from Mac
+### Canonical deploy (single checklist — run from Mac on LAN)
 
-Synology disables the scp subsystem; use tar-over-SSH:
+Use this ordered flow after Console 2 or Kalshi `backend/src` changes. **Do not piecemeal hot-patch** unless debugging one file.
+
+```bash
+cd "$HOME/Desktop/App Development/Synology_KMIA_Ingest_Setup"
+export NAS_HOST=MediaServer2   # not MediaServer2Local (often times out off-LAN)
+
+# 1) Console 2 ingest scripts + docker launchers → setup_repo
+tar cf - ingest/scripts docker/kmia-paper-research docs/ops synology/scripts | \
+  ssh "$NAS_HOST" "sudo tar xf - -C /volume2/Data/App_Development/KMIA_Ingest/setup_repo"
+
+# 2) Docker compose tree → canonical Docker path (capital D)
+tar cf - -C docker kmia-paper-research | \
+  ssh "$NAS_HOST" "sudo tar xf - -C /volume2/Data/App_Development/Docker"
+
+# 3) Kalshi runtime (backend/src + scripts) — canonical deploy
+./synology/scripts/deploy_kalshi_runtime_to_nas.sh
+
+# 4) Paper window + maker_limit secrets + hot modules (tee, not scp)
+./synology/scripts/deploy_paper_trading_window_fix.sh
+
+# 5) Rebuild container so launchers survive recreate
+ssh "$NAS_HOST" 'sudo sh -c "cd /volume2/Data/App_Development/Docker/kmia-paper-research && \
+  /var/packages/ContainerManager/target/usr/bin/docker compose build kmia-paper-research && \
+  /var/packages/ContainerManager/target/usr/bin/docker compose up -d kmia-paper-research"'
+
+# 6) Cron (first time or after template change)
+./synology/scripts/90_cron_install.sh --activate-all
+
+# 7) Verify
+NAS_HOST="$NAS_HOST" ./ingest/scripts/kmia_paper_ops_watch.sh
+```
+
+**After Legion5 policy export** — push research JSON only (do not `--with-data` Mac ledger):
+
+```bash
+# Preferred: Legion5 robocopy (needs nas_smb_write_password)
+# powershell -File D:\KMIA_Process\scripts\55_sync_research_to_nas.ps1
+
+# Fallback from Mac after approve_trading_policy.sh:
+cat "$HOME/Desktop/App Development/Kalshi/backend/data/research/trading_policy.json" | \
+  ssh MediaServer2 "sudo tee /volume2/Data/App_Development/Kalshi/backend/data/research/trading_policy.json > /dev/null"
+```
+
+**Policy pipeline roles:**
+
+| Host | `run_daily_policy_refresh.sh` | Notes |
+|------|------------------------------|--------|
+| Legion5 | Full backtest + sweep | Weekly `55_quant_core_baseline.sh`, `55_trading_window_ab.sh` |
+| NAS | `SKIP_POLICY_SWEEP=1` (ingest-only) | Price ingest, NCEI, coverage — no taker/maker conflict |
+
+### Deploy from Mac (legacy / partial)
+
+Synology disables the scp subsystem; use tar-over-SSH or `deploy_*` scripts (not raw scp to NAS):
 
 ```bash
 cd "$HOME/Desktop/App Development/Synology_KMIA_Ingest_Setup"
@@ -143,10 +195,11 @@ sudo docker compose up -d
 sudo docker exec kmia-paper-research /usr/local/bin/smoke_container.sh
 ```
 
-Manual pipeline run (expect ~5–10 min on DS225+):
+Manual pipeline run (ingest-only — expect ~2–5 min):
 
 ```bash
 sudo docker exec kmia-paper-research /usr/local/bin/run_nas_policy_pipeline.sh
+# Log should show SKIP_POLICY_SWEEP=1 — not full [4/8] backtest on NAS
 ```
 
 Container stays alive with `sleep infinity` (like ingest). Schedule via DSM Task Scheduler — see `synology/scripts/90_cron_install.sh` (**2:30 AM ET** daily, after NCEI CLIMIA publish).
@@ -167,20 +220,19 @@ rsync -av MediaServer2:/volume2/Data/App_Development/Kalshi/backend/data/researc
 
 Human approval still happens on Mac via `approve_trading_policy.sh` in the Kalshi repo.
 
+Human approval on Mac; push **policy JSON only** to NAS (see § Canonical deploy). Do not sync Mac paper ledger to NAS unless intentionally resetting state.
+
 ### Paper trading loop (Console 3 — NAS only)
 
-**Runtime:** `kmia-paper-research` container every 5 minutes. Mac is **deploy-only** — do not run `run_paper_trading_loop.sh` or Mac launchd schedules.
+**Runtime:** `kmia-paper-research` every 5 minutes. **Approved policy (2026-06-24):** `maker_limit`, 18% edge, dynamic window.
 
-Deploy Kalshi runtime (backend + scripts):
+Use § Canonical deploy above — not the legacy commands below.
+
+Legacy reference:
 
 ```bash
-cd "$HOME/Desktop/App Development/Synology_KMIA_Ingest_Setup"
-NAS_HOST=MediaServer2Local ./synology/scripts/deploy_kalshi_runtime_to_nas.sh
-# Optional: sync Mac ledger/snapshots
-NAS_HOST=MediaServer2Local ./synology/scripts/deploy_kalshi_runtime_to_nas.sh --with-data
+NAS_HOST=MediaServer2 ./synology/scripts/deploy_kalshi_runtime_to_nas.sh
 ```
-
-After Dockerfile changes (new wrapper scripts), rebuild container (§ Build and start).
 
 Manual smoke:
 
@@ -191,13 +243,14 @@ sudo docker exec kmia-paper-research /usr/local/bin/run_nas_paper_loop.sh
 DSM cron (install from Mac):
 
 ```bash
-NAS_HOST=MediaServer2Local ./synology/scripts/90_cron_install.sh
+NAS_HOST=MediaServer2 ./synology/scripts/90_cron_install.sh --activate-all
 ```
 
 | Schedule | Job |
 |----------|-----|
 | `*/5 * * * *` | Paper loop (`run_nas_paper_loop.sh`) |
-| `30 2 * * *` | Policy research (`run_nas_policy_pipeline.sh`) — after NCEI CLIMIA ~2 AM |
+| `30 2 * * *` | Policy ingest (`run_nas_policy_pipeline.sh`) — ingest-only |
+| `0 7 * * 0` | Forward scorecard (`run_nas_paper_scorecard.sh`) |
 
 Logs:
 

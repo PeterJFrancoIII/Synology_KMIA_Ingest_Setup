@@ -28,6 +28,7 @@ from kalshi_nws_join import (
     forecast_high_at_anchor,
     load_ncei_climatology_tmaxes,
     load_settlement_observed_maxes,
+    load_settlement_observed_maxes_with_sources,
 )
 from kalshi_price_history_loader import (
     BIN_OPEN_MAX_MINUTES,
@@ -484,13 +485,8 @@ def run_kalshi_price_backtest(
     if end_date:
         days = [d for d in days if d <= end_date]
 
-    observed_map = load_settlement_observed_maxes(
+    observed_map, observed_sources = load_settlement_observed_maxes_with_sources(
         ncei_history_jsonl=ncei_history_jsonl,
-        nws_observed_jsonl=observed_jsonl,
-    )
-    ncei_map = (
-        load_ncei_climatology_tmaxes(ncei_history_jsonl)
-        if ncei_history_jsonl else {}
     )
     enriched_df: Optional[pd.DataFrame] = None
     if use_enriched_forecast and enriched_csv and Path(enriched_csv).is_file():
@@ -532,9 +528,7 @@ def run_kalshi_price_backtest(
 
         if observed_max is None and day in observed_map:
             observed_max = observed_map[day]
-            observed_source = (
-                "ncei_climatology" if day in ncei_map else "nws_observed_jsonl"
-            )
+            observed_source = observed_sources.get(day, "ncei_climatology")
 
         price_snapshot = load_anchor_prices_for_date(
             price_history_dir, day,
@@ -560,9 +554,7 @@ def run_kalshi_price_backtest(
 
         if forecast_temp is None:
             obs = observed_map.get(day)
-            obs_src = (
-                "ncei_climatology" if day in ncei_map else "nws_observed_jsonl"
-            ) if obs is not None else "none"
+            obs_src = observed_sources.get(day, "none") if obs is not None else "none"
             # Market-only day: still record Kalshi bin costs at anchor.
             prices = price_snapshot.get("bin_prices_cents", {})
             valid = {b: p for b, p in prices.items() if p is not None}
@@ -883,8 +875,15 @@ def write_dual_mode_comparison(
     payload = {
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "comparison": summaries,
+        "maker_taker_ab": {
+            "taker": summaries.get(ORDER_MODE_TAKER),
+            "maker_limit": summaries.get(ORDER_MODE_MAKER_LIMIT),
+            "note": "Same signals; taker crosses at ask, maker posts limit until dynamic window end",
+        },
         "note": "Low observed sample — compare modes directionally only until n_trades ≥ 20",
     }
+    ab_path = output_dir / "maker_taker_ab.json"
+    ab_path.write_text(json.dumps(payload["maker_taker_ab"], indent=2), encoding="utf-8")
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / "dual_mode_comparison.json"

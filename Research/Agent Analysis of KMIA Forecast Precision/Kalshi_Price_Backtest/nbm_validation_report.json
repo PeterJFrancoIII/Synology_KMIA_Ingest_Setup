@@ -1,0 +1,16 @@
+{
+  "generated_at_utc": "2026-06-21T00:00:00Z",
+  "pass": false,
+  "criteria": {
+    "min_spearman_week_instability": 0.35,
+    "max_insurance_neighbor_mass_error": 0.15,
+    "min_day_rows": 10
+  },
+  "metrics": {
+    "spearman_week_instability": 0.0,
+    "insurance_neighbor_mass_error_mean": null,
+    "n_day_rows": 0,
+    "n_nbm_archive_days": 0
+  },
+  "note": "Run validate_nbm_vs_historical_stability.py after fetch_nbm_maxt_kmia.py; set NBM_SPREAD_ENABLED=1 only when pass is true"
+}

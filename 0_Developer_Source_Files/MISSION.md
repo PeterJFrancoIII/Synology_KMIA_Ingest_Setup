@@ -55,11 +55,11 @@ Console 2 exports: `docs/architecture/CONSOLE_2_EXPORT_CONTRACT.md`
 
 - [x] Complete 2020–2025 NDFD maxt + wdir VALID_ONLY extracts on Legion5
 - [x] Per-year and all-years analysis + chart portal on Legion5
-- [x] Kalshi price backtest + `trading_policy.json` export path (Console 2 → 3)
-- [ ] Human approval of current trading policy draft (operator action in Kalshi repo)
+- [x] Kalshi price backtest + `trading_policy.json` export path (Console 2 → NAS runtime)
+- [x] Human approval of trading policy (`maker_limit`, 18% edge — 2026-06-24; NAS paper loop active)
 - [ ] Mac-local chart portal synced when needed (optional; primary view on Legion5)
 - [ ] NAS raw lake gaps documented and backfilled where write access allows
-- [ ] All agent work follows Zero-Drift Bootloader governance
+- [x] Agent governance via Zero-Drift Bootloader + `0_Developer_Source_Files/`
 
 ---
 
