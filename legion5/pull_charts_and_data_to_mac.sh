@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-# Pull chart portal + year studies + extracted point CSV lake from Legion5 to Mac Research.
+# DEPRECATED heavy pull — copies ~3–9 GB of raw point CSVs to Mac Research/Legion5_Extract/.
+#
+# Canonical compute + storage: Legion5 (D:\KMIA_Process) and MediaServer2 (NAS raw lake).
+# For Mac viewing only, use pull_all_charts_to_mac.sh (enriched CSV + chart HTML, ~tens of MB).
+#
+# Run this script only when you explicitly need offline Mac re-analysis of raw point extracts.
 set -euo pipefail
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"

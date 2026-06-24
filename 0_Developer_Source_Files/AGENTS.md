@@ -38,25 +38,63 @@ Build the user's current objective with maximum verified progress and minimum dr
 
 ## Commands
 
+### Deploy
+
+- **Canonical NAS deploy:** `docs/NAS_Runbook.md` § Canonical deploy (ordered checklist)
+- **SSH host:** `NAS_HOST=MediaServer2` (not `MediaServer2Local` — often times out)
+- **Kalshi runtime:** `NAS_HOST=MediaServer2 ./synology/scripts/deploy_kalshi_runtime_to_nas.sh`
+- **Paper window + maker fix:** `NAS_HOST=MediaServer2 ./synology/scripts/deploy_paper_trading_window_fix.sh`
+- **NAS DSM cron:** `NAS_HOST=MediaServer2 ./synology/scripts/90_cron_install.sh --activate-all`
+- **Ops watch:** `NAS_HOST=MediaServer2 ./ingest/scripts/kmia_paper_ops_watch.sh`
+
+### Legion5 — after any `legion5/*.sh` or `ingest/scripts/*.py` change
+
+Sync scripts to Legion5 before running pipelines there:
+
+```bash
+cd "$HOME/Desktop/App Development/Synology_KMIA_Ingest_Setup"
+scp legion5/{52,54,55}*.sh legion5/kmia_kalshi_legion5_env.sh legion5/43b_setup_nas_smb_write.ps1 \
+  Legion5:D:/KMIA_Process/scripts/
+scp ingest/scripts/{export_trading_policy,trading_policy_manifest,kalshi_policy_optimizer,kalshi_price_history_loader,kmia_kalshi_paths}.py \
+  Legion5:D:/KMIA_Process/scripts/
+```
+
+Policy export after trading-window A/B:
+
+```bash
+# Git Bash on Legion5
+bash D:/KMIA_Process/scripts/55_export_maker_policy.sh
+powershell -ExecutionPolicy Bypass -File D:/KMIA_Process/scripts/55_sync_research_to_nas.ps1
+```
+
+One-time writable SMB: `powershell -File D:\KMIA_Process\scripts\43b_setup_nas_smb_write.ps1`  
+(password: `D:\KMIA_Process\secrets\nas_smb_write_password` — never commit)
+
+### Legion5 research
+
 - **Deploy to Legion5:** `scp legion5/* Legion5:D:/KMIA_Process/scripts/`
 - **Resume BUILD:** `ssh Legion5 D:\KMIA_Process\scripts\48b_start_resume_build.bat`
 - **Build charts on Legion5:** `ssh Legion5 D:\KMIA_Process\scripts\49_build_all_charts.sh` (via Git bash)
 - **Pull charts to Mac:** `legion5/pull_all_charts_to_mac.sh`
-- **NAS policy research:** `NAS_HOST=MediaServer2Local ./synology/scripts/deploy_paper_research_to_nas.sh --kalshi-src`
-- **NAS paper loop runtime:** `NAS_HOST=MediaServer2Local ./synology/scripts/deploy_kalshi_runtime_to_nas.sh`
-- **NAS DSM cron:** `NAS_HOST=MediaServer2Local ./synology/scripts/90_cron_install.sh`
-- **Verify KMIA pin alignment:** `PYTHONPATH=ingest/scripts python3 ingest/scripts/verify_kmia_station_alignment.py`
-- **Quarantine wrong-grid NWS snapshots:** `PYTHONPATH=ingest/scripts python3 ingest/scripts/quarantine_mismatched_nws_snapshots.py`
-- **Legion5 NDFD + Kalshi research (MapClick pin):** `scp legion5/{52,54}*.sh legion5/kmia_kalshi_legion5_env.sh ingest/scripts/{ndfd_kalshi_forecast,backfill_nws_snapshots_from_ndfd,historical_checksum_backtest,kalshi_policy_optimizer,export_trading_policy,export_safest_policy_from_sweep,...}.py Legion5:D:/KMIA_Process/scripts/` then Git Bash: `bash D:/KMIA_Process/scripts/52_kalshi_ndfd_anchor_backfill.sh 2026 04 2026 06` (extract + merge + backfill/backtest on Z:)
+- **NDFD + Kalshi research:** `bash D:/KMIA_Process/scripts/52_kalshi_ndfd_anchor_backfill.sh …` then `54_kalshi_ndfd_research_pipeline.sh`
 - **Legion5 autorun:** `bash D:/KMIA_Process/scripts/54b_autorun_ndfd_kalshi.sh --once 202604_202606`
-- **NAS scheduled policy:** `sudo docker exec kmia-paper-research /usr/local/bin/run_nas_policy_pipeline.sh`
-- **NAS WebSocket orderbook daemon:** `NAS_HOST=MediaServer2 ./synology/scripts/deploy_kalshi_runtime_to_nas.sh` then on NAS `docker compose up -d kmia-orderbook-ws` — see `docs/architecture/KALSHI_WS_ORDERBOOK_INGEST.md`
-- **Bridge artifacts (review + frontier):** `bash ingest/scripts/refresh_trading_bridge.sh`
+- **Weekly baseline:** `bash D:/KMIA_Process/scripts/55_quant_core_baseline.sh`
+- **Trading window A/B:** `bash D:/KMIA_Process/scripts/55_trading_window_ab.sh`
+
+### NAS runtime (no research sweep on NAS)
+
+- **NAS scheduled ingest:** `sudo docker exec kmia-paper-research /usr/local/bin/run_nas_policy_pipeline.sh` (`SKIP_POLICY_SWEEP=1`)
+- **NAS WebSocket orderbook:** `docker compose up -d kmia-orderbook-ws` — see `docs/architecture/KALSHI_WS_ORDERBOOK_INGEST.md`
+
+### Other
+
+- **Bridge artifacts:** `bash ingest/scripts/refresh_trading_bridge.sh` (Legion5 or NAS only — not Mac)
 - **Archive coverage:** `python3 ingest/scripts/kalshi_archive_status.py`
-- **Kalshi API field reference:** `docs/architecture/KALSHI_API_RESPONSE_FIELDS.md` (regenerate: `python3 ingest/scripts/generate_kalshi_api_fields_doc.py`; check live spec version when pulling API data)
+- **Verify KMIA pin:** `PYTHONPATH=ingest/scripts python3 ingest/scripts/verify_kmia_station_alignment.py`
+- **Kalshi API fields:** `docs/architecture/KALSHI_API_RESPONSE_FIELDS.md`
 - **NAS ingest skill:** `.cursor/skills/kmia-nas-ingest/SKILL.md`
 
-**Runtime placement:** NAS = ingest + scheduled policy/paper loop (`kmia-paper-research`) + **WS orderbook archive** (`kmia-orderbook-ws`). Legion5 = NDFD extract + Kalshi backtest/sweep (writes to `Z:/App_Development/Kalshi`). **Mac = deploy + human review only — never run research pipelines on Mac.**
+**Runtime placement:** NAS = ingest + paper loop + WS archive (production). Legion5 = NDFD extract + backtest/sweep. **Mac = deploy + human approval only — do not run policy sweeps, NDFD extract, or backtest pipelines on Mac.**
 
 ## Risk classes
 

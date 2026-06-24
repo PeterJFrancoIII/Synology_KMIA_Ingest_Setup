@@ -3,6 +3,19 @@
 Research archive for KMIA NDFD forecast-vs-observed precision studies.  
 Use this folder for workflow decisions, benchmark conclusions, and short analysis reports.
 
+## Mac mirror policy
+
+**Compute on Legion5 and MediaServer2 only.** This Mac folder holds a **light mirror** for charts and export contracts — not raw extract lakes.
+
+| Keep on Mac | Do not pull to Mac |
+|-------------|-------------------|
+| `accuracy_points_enriched.csv`, chart HTML, chart portal | Raw NDFD point CSVs (`Legion5_Extract/`) |
+| `recommended_policy.json`, `trading_policy_draft.json` | Timestamped `policy_sweep_*` / `kalshi_price_backtest_*` (Legion5 mirror) |
+| Short analysis markdown | Kalshi minute price CSVs, WS orderbook JSONL |
+
+**Pull charts only:** `legion5/pull_all_charts_to_mac.sh`  
+**Deprecated heavy pull:** `legion5/pull_charts_and_data_to_mac.sh` (~GB of point CSVs)
+
 ## Canonical workflow (use for full 2020–2025 processing)
 
 **[OPTIMAL_ANALYSIS_WORKFLOW.md](./OPTIMAL_ANALYSIS_WORKFLOW.md)** — benchmarked three-machine workflow:

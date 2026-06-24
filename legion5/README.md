@@ -38,16 +38,17 @@ ssh Legion5               # Tailscale SSH (when logged in)
 
 ## One-time setup (from Mac)
 
+Legacy WSL/bootstrap scripts live in [`archive/legacy/`](archive/legacy/README.md). Legion5 may still have copies at `E:\KMIA_Setup\` from an earlier deploy.
+
 ```bash
-# Deploy + optimize + install WSL (may reboot Legion5)
+# Deploy + optimize + install WSL (may reboot Legion5) — legacy path on Legion5 host
 ssh Legion5 "powershell -ExecutionPolicy Bypass -File E:\\KMIA_Setup\\run_setup.ps1"
 
 # After reboot or if SSH dropped:
 ssh Legion5 "powershell -ExecutionPolicy Bypass -File E:\\KMIA_Setup\\06_resume.ps1"
-
-# If SSH/Tailscale lost (run on Legion5 locally or via RDP):
-E:\KMIA_Setup\fix_ssh_and_optimize.cmd
 ```
+
+**Current extract/analyze:** `35_process_month_from_nas.sh`, `36_process_all_from_nas.sh`, `45_kmia_year_maxt_precision_analysis.sh` — see [`README_PROCESSOR.md`](README_PROCESSOR.md).
 
 ## Monitor ingest
 

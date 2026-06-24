@@ -580,7 +580,7 @@ Finest book granularity for KXHIGHMIA: continuous WebSocket `orderbook_delta` on
 | **Fallback** | REST 5-min `orderbooks/` from paper loop |
 | **Phase 2** | Backtest loader at 10 AM ET anchor — not yet wired |
 | **Design doc** | `docs/architecture/KALSHI_WS_ORDERBOOK_INGEST.md` |
-| **Handoff** | `docs/handoffs/KALSHI_WS_ORDERBOOK_INGEST_20260622.md` |
+| **Handoff** | `docs/archive/handoffs/KALSHI_WS_ORDERBOOK_INGEST_20260622.md` |
 
 **Deploy:** `NAS_HOST=MediaServer2 ./synology/scripts/deploy_kalshi_runtime_to_nas.sh` then rebuild compose and `docker compose up -d kmia-orderbook-ws`.
 
