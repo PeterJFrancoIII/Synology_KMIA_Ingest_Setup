@@ -1,0 +1,58 @@
+{
+  "version": "2026-06-24",
+  "read_first": "0_Developer_Source_Files/ROUTING.md",
+  "active": {
+    "nas_docker_ingest": [
+      {"path": "ingest/scripts/10_ndfd_aws_smoke_maxt.sh", "purpose": "NDFD download + wgrib2 smoke"},
+      {"path": "ingest/scripts/11_isd_smoke_kmia.sh", "purpose": "ISD year smoke"},
+      {"path": "ingest/scripts/20_extract_kmia_point.sh", "purpose": "Point extract one GRIB"},
+      {"path": "ingest/scripts/21_backfill_ndfd_maxt_month.sh", "purpose": "One month NDFD backfill"},
+      {"path": "ingest/scripts/22_batch_extract_local_gribs.py", "purpose": "Parallel wgrib2 batch extract"},
+      {"path": "ingest/scripts/30_gap_audit.sh", "purpose": "Manifest gap audit"},
+      {"path": "ingest/scripts/40_manifest_append.py", "purpose": "Immutable manifest ledger"}
+    ],
+    "mae_charts": [
+      {"path": "ingest/scripts/analyze_kmia_forecast_accuracy.py", "purpose": "MAE analyze → enriched CSV"},
+      {"path": "ingest/scripts/merge_all_years_enriched.py", "purpose": "Merge per-year enriched CSVs"},
+      {"path": "ingest/scripts/build_kmia_chart_suite.py", "purpose": "Chart suite HTML"},
+      {"path": "ingest/scripts/build_kmia_chart_portal.py", "purpose": "Chart portal index"},
+      {"path": "ingest/scripts/chart_kmia_interactive_accuracy_explorer.py", "purpose": "Interactive explorer"}
+    ],
+    "kalshi_backtest": [
+      {"path": "ingest/scripts/historical_checksum_backtest.py", "purpose": "Kalshi + enriched backtest (see FILE MAP)"},
+      {"path": "ingest/scripts/kalshi_policy_optimizer.py", "purpose": "Policy sweep (see FILE MAP)"},
+      {"path": "ingest/scripts/kalshi_nws_join.py", "purpose": "NWS/NCEI weather join for backtest"},
+      {"path": "ingest/scripts/kalshi_price_history_loader.py", "purpose": "Minute price CSV loader"},
+      {"path": "ingest/scripts/kalshi_orderbook_archive_loader.py", "purpose": "WS/REST orderbook at anchor"},
+      {"path": "ingest/scripts/kalshi_integer_distribution.py", "purpose": "P(bin) integer distribution model"},
+      {"path": "ingest/scripts/chart_kalshi_policy_frontier.py", "purpose": "Policy frontier HTML"}
+    ],
+    "policy_export": [
+      {"path": "ingest/scripts/export_trading_policy.py", "purpose": "trading_policy.json export"},
+      {"path": "ingest/scripts/trading_policy_manifest.py", "purpose": "Policy schema builder"},
+      {"path": "ingest/scripts/run_daily_policy_refresh.sh", "purpose": "Daily refresh orchestrator"},
+      {"path": "ingest/scripts/update_trade_policies_doc.py", "purpose": "Sync trade_policies.md"},
+      {"path": "ingest/scripts/write_policy_human_review.py", "purpose": "Plain-English review text"},
+      {"path": "ingest/scripts/refresh_trading_bridge.sh", "purpose": "Bridge status + frontier refresh"}
+    ],
+    "ops": [
+      {"path": "ingest/scripts/kmia_paper_ops_watch.sh", "purpose": "NAS paper loop health watch"},
+      {"path": "ingest/scripts/kalshi_archive_status.py", "purpose": "Orderbook archive inventory"},
+      {"path": "ingest/scripts/verify_kmia_station_alignment.py", "purpose": "KMIA pin audit"},
+      {"path": "ingest/scripts/weather_data_policy.py", "purpose": "Simulation detection"},
+      {"path": "ingest/scripts/kalshi_weather_coverage_scorecard.py", "purpose": "Read-only gap report"}
+    ],
+    "calibration_nbm": [
+      {"path": "ingest/scripts/fetch_nbm_maxt_kmia.py", "purpose": "NBM max-T archive"},
+      {"path": "ingest/scripts/calibration_metrics.py", "purpose": "ECE/Brier metrics"},
+      {"path": "ingest/scripts/trading_window_priors.py", "purpose": "Dynamic window priors"},
+      {"path": "ingest/scripts/build_expected_max_hour_priors.py", "purpose": "Expected max hour priors"}
+    ]
+  },
+  "fixtures": "ingest/scripts/fixtures/",
+  "disabled": [
+    {"path": "ingest/scripts/backfill_kalshi_nws_ncei.py", "reason": "Disabled — no simulated weather"},
+    {"path": "ingest/scripts/archive/wind_regime/", "reason": "Archived experiment — no P&L benefit"}
+  ],
+  "tests": "ingest/scripts/test_*.py"
+}

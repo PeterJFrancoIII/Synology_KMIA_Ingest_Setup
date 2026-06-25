@@ -1,0 +1,61 @@
+{
+  "version": "2026-06-24",
+  "host": "Legion5",
+  "data_root": "D:/KMIA_Process",
+  "read_first": "legion5/README_PROCESSOR.md",
+  "env": [
+    "legion5/kmia_legion5_env.sh",
+    "legion5/kmia_kalshi_legion5_env.sh"
+  ],
+  "helpers": [
+    "legion5/nas_pull_helpers.sh",
+    "legion5/nas_push_helpers.sh"
+  ],
+  "active": {
+    "extract": [
+      {"path": "legion5/35_process_month_from_nas.sh", "purpose": "One month: NAS pull → wgrib2 extract → VALID_ONLY CSV"},
+      {"path": "legion5/36_process_all_from_nas.sh", "purpose": "Full BUILD all years/months"},
+      {"path": "legion5/36b_resume_build.sh", "purpose": "Resume interrupted BUILD"},
+      {"path": "legion5/48b_start_resume_build.bat", "purpose": "Windows launcher for 36b"},
+      {"path": "legion5/51_retry_failed_months.sh", "purpose": "Retry failed monthly extracts"},
+      {"path": "legion5/55_retry_and_resume_build.sh", "purpose": "Retry partial + resume BUILD"},
+      {"path": "legion5/43_setup_nas_smb.ps1", "purpose": "Read-only SMB mount (Z:)"},
+      {"path": "legion5/43b_setup_nas_smb_write.ps1", "purpose": "Writable SMB for research sync"},
+      {"path": "legion5/56_consolidate_legion5_grib_to_nas.sh", "purpose": "Push local GRIB → NAS raw lake"},
+      {"path": "legion5/57_cleanup_legion5_grib.sh", "purpose": "Delete local GRIB after NAS push"}
+    ],
+    "analyze": [
+      {"path": "legion5/45_kmia_year_maxt_precision_analysis.sh", "purpose": "Per-year MAE analyze + chart suite"},
+      {"path": "legion5/47_build_kmia_chart_suite.sh", "purpose": "Build kmia_chart_suite.html for one study"},
+      {"path": "legion5/49_build_all_charts.sh", "purpose": "All year + portal charts"},
+      {"path": "legion5/50_rebuild_all_years_study.sh", "purpose": "Merge years → AllYears enriched CSV"}
+    ],
+    "kalshi_research": [
+      {"path": "legion5/52_kalshi_ndfd_anchor_backfill.sh", "purpose": "NDFD anchor extract for Kalshi dates"},
+      {"path": "legion5/52c_merge_kalshi_ndfd.sh", "purpose": "Merge Kalshi NDFD monthly CSVs"},
+      {"path": "legion5/54_kalshi_ndfd_research_pipeline.sh", "purpose": "NDFD + price backtest pipeline"},
+      {"path": "legion5/54b_autorun_ndfd_kalshi.sh", "purpose": "Autorun backfill months"},
+      {"path": "legion5/55_daily_kalshi_research.sh", "purpose": "Daily price ingest + mirror prep"},
+      {"path": "legion5/55_daily_nbm_fetch.sh", "purpose": "NBM max-T archive fetch"},
+      {"path": "legion5/55_export_maker_policy.sh", "purpose": "Promote maker_limit policy + draft export"},
+      {"path": "legion5/55_prep_mirror_sync.sh", "purpose": "Prep kalshi_mirror before NAS sync"},
+      {"path": "legion5/55_sync_research_to_nas.ps1", "purpose": "Robocopy research artifacts → NAS"},
+      {"path": "legion5/55_quant_core_baseline.sh", "purpose": "Weekly quant baseline"},
+      {"path": "legion5/55_trading_window_ab.sh", "purpose": "Trading-window A/B on Legion5"}
+    ],
+    "mac_mirror": [
+      {"path": "legion5/pull_all_charts_to_mac.sh", "purpose": "Light pull: enriched CSV + chart HTML only"},
+      {"path": "legion5/pull_charts_and_data_to_mac.sh", "purpose": "DEPRECATED heavy point-CSV pull"}
+    ]
+  },
+  "legacy": {
+    "bootstrap": "legion5/archive/legacy/",
+    "year_2020_wsl_pipeline": "legion5/03_legion5_year_pipeline.sh",
+    "one_off_tests": [
+      "legion5/38_test_three_months.sh",
+      "legion5/38_test_3months.sh",
+      "legion5/39_test_seasonal_4months.sh",
+      "legion5/44_benchmark_workflow.sh"
+    ]
+  }
+}

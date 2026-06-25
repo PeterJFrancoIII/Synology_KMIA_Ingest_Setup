@@ -3,6 +3,18 @@
 
 Probability-first selection: maximize win_rate, then total_pnl, then n_trades.
 NO REAL TRADING — Console 2 research export only.
+
+FILE MAP (do not read whole file — jump by line):
+  L73-125   worker pool + grid eval helpers
+  L126-163  evaluate_config_grid
+  L164-251  load_forecast_validated_days
+  L270-395  evaluate_policy_config (single config backtest)
+  L396-420  pareto_frontier
+  L460-599  policy tier selectors (max_pnl, max_roi, balanced, recommended)
+  L621-655  default_sweep_grid
+  L656-802  run_policy_sweep (writes policy_sweep_*.json)
+  L851+     CLI main
+Schema sample: ingest/scripts/fixtures/sample_policy_sweep.json
 """
 
 from __future__ import annotations

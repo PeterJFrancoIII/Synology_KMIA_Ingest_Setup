@@ -1,0 +1,19 @@
+{
+  "fixture": true,
+  "mode": "kalshi",
+  "target_date_et": "2026-04-21",
+  "forecast_temp_f": 84,
+  "observed_max_f": 86,
+  "forecast_bin": "83-84",
+  "observed_bin": "85-86",
+  "market": {
+    "fill_source": "archived_orderbook_at_anchor",
+    "open_purchase_eligible": true,
+    "forecast_bin_cheapest_at_open": true,
+    "entry_within_cap": true
+  },
+  "trade": {
+    "net_pnl": 1.25,
+    "legs": 1
+  }
+}

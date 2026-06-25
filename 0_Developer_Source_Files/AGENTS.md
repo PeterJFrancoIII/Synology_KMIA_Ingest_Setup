@@ -28,7 +28,7 @@ Build the user's current objective with maximum verified progress and minimum dr
 
 ## Required loop
 
-1. Read [MISSION.md](MISSION.md) and [current-objective.md](current-objective.md).
+1. Read [MISSION.md](MISSION.md), [current-objective.md](current-objective.md), and [ROUTING.md](ROUTING.md).
 2. Read scoped `.cursor/rules/*.mdc` for the area you are editing.
 3. State allowed and forbidden files.
 4. Plan before editing.

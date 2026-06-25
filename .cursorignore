@@ -1,0 +1,16 @@
+# Cursor index exclusions — reduces agent context noise on Mac
+# See Research/.../README.md and 0_Developer_Source_Files/ROUTING.md
+
+Research/**/Kalshi_Price_Backtest/policy_sweep_*.json
+Research/**/Kalshi_Price_Backtest/kalshi_price_backtest_*.json
+Research/**/Kalshi_Price_Backtest/policy_frontier_*.html
+Research/**/Kalshi_Price_Backtest/policy_pattern_analysis_*.json
+Research/**/Kalshi_Price_Backtest/legion5_run_*/
+
+Research/**/Legion5_Extract/
+**/ndfd_kmia_point_forecasts_VALID_ONLY_*.csv
+
+Research/**/*_stability_wind.png
+Research/**/kmia_*_PLUS_mean_median_stability_wind_points.csv
+
+.git/

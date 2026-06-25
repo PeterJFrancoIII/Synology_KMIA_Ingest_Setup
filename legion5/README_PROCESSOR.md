@@ -1,5 +1,7 @@
 # Legion5 as KMIA Processor
 
+**Active scripts:** [`ACTIVE_MANIFEST.md`](ACTIVE_MANIFEST.md) · [`ACTIVE_MANIFEST.json`](ACTIVE_MANIFEST.json)
+
 Legion5 pulls raw GRIB **one month at a time** from the NAS (3 TB archive), extracts KMIA
 points with `wgrib2`, keeps VALID_ONLY CSVs on **D:**, and deletes raw after each month.
 

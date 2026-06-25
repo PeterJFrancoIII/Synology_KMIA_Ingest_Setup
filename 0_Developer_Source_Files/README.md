@@ -11,10 +11,11 @@ Read in order for a new session:
 | 1 | [AI_System_Architect_Bootloader_Zero-Drift_Build_5.18.26.md](AI_System_Architect_Bootloader_Zero-Drift_Build_5.18.26.md) | Zero-Drift Build OS — mandatory for all AI agents (Sections 0–8) |
 | 2 | [MISSION.md](MISSION.md) | Console 2 mission, success criteria, non-goals |
 | 3 | [current-objective.md](current-objective.md) | Active slice — Mission Control Packet |
-| 4 | [PROJECT_STATE_AND_OBJECTIVES.md](PROJECT_STATE_AND_OBJECTIVES.md) | Topology, scripts, handoff state |
-| 5 | [AGENTS.md](AGENTS.md) | Agent operating rules, commands, risk classes |
-| 6 | [CLAUDE.md](CLAUDE.md) | Claude Code session instructions |
-| 7 | [trade_policies.md](trade_policies.md) | **Kalshi algorithmic trading policy — cite for reviews & prompts; auto-sync on policy export** |
+| 4 | [ROUTING.md](ROUTING.md) | Task → script map (read before grepping legion5/ or ingest/scripts/) |
+| 5 | [PROJECT_STATE_AND_OBJECTIVES.md](PROJECT_STATE_AND_OBJECTIVES.md) | Topology, handoff state (long — use ROUTING for daily work) |
+| 6 | [AGENTS.md](AGENTS.md) | Agent operating rules, commands, risk classes |
+| 7 | [CLAUDE.md](CLAUDE.md) | Claude Code session instructions |
+| 8 | [trade_policies.md](trade_policies.md) | **Kalshi algorithmic trading policy — cite for reviews & prompts; auto-sync on policy export** |
 
 Kalshi market data (Console 2 + NAS):
 

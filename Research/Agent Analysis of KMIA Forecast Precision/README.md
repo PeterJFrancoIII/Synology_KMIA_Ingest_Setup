@@ -16,6 +16,8 @@ Use this folder for workflow decisions, benchmark conclusions, and short analysi
 **Pull charts only:** `legion5/pull_all_charts_to_mac.sh`  
 **Deprecated heavy pull:** `legion5/pull_charts_and_data_to_mac.sh` (~GB of point CSVs)
 
+**Agent routing:** [`0_Developer_Source_Files/ROUTING.md`](../../0_Developer_Source_Files/ROUTING.md) · **Fixtures:** `ingest/scripts/fixtures/`
+
 ## Canonical workflow (use for full 2020–2025 processing)
 
 **[OPTIMAL_ANALYSIS_WORKFLOW.md](./OPTIMAL_ANALYSIS_WORKFLOW.md)** — benchmarked three-machine workflow:

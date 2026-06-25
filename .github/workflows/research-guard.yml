@@ -1,0 +1,14 @@
+name: research-guard
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  research-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Research git contract + size guard
+        run: bash ingest/scripts/ci/check_research_git_contract.sh

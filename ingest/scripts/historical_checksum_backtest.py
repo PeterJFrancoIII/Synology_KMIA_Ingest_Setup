@@ -6,6 +6,16 @@ price-history bin costs.  Validates tolerance math, bin mapping, and bin-open
 purchase policy (10 AM ET prior day, entry ≤ $0.35, forecast bin cheapest, prob edge).
 
 NO REAL TRADING — regression guard / checksum export for Console 3.
+
+FILE MAP (do not read whole file — jump by line):
+  L79-127   fees, settlement helpers
+  L230-249  select_anchor_row
+  L250-405  evaluate_day (single day policy)
+  L406-441  aggregate_hit_rates
+  L464-787  run_kalshi_price_backtest (main Kalshi replay)
+  L820-904  write_dual_mode_comparison
+  L944-1084 run_checksum_backtest (enriched CSV mode)
+  L1124+    CLI main
 """
 
 from __future__ import annotations

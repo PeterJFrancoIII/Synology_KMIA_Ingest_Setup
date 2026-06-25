@@ -45,3 +45,7 @@ Research/**/Kalshi_Price_Backtest/.ndfd_autorun_*.state
 !Research/**/Kalshi_Price_Backtest/console2_bridge_status.json
 !Research/**/Kalshi_Price_Backtest/prob_model_comparison.json
 !Research/**/Kalshi_Price_Backtest/policy_review_for_human.txt
+
+# Large regenerable chart PNGs (HTML + enriched CSV are canonical)
+Research/**/*_stability_wind.png
+Research/**/kmia_*_PLUS_mean_median_stability_wind_points.csv

@@ -1,0 +1,30 @@
+{
+  "generated_at_utc": "2026-06-24T00:00:00+00:00",
+  "safety": {
+    "no_real_trading": true,
+    "no_order_execution": true,
+    "disclaimer": "FIXTURE — schema sample only"
+  },
+  "configs": [
+    {
+      "min_forecast_edge": 0.18,
+      "max_entry_yes_ask": 0.35,
+      "order_mode": "maker_limit",
+      "require_cheapest_at_open": true,
+      "insurance_enabled": true,
+      "insurance_mode": "fraction",
+      "n_trades": 22,
+      "win_rate_pct": 54.5,
+      "total_pnl": 12.34,
+      "calibration_pass": true
+    }
+  ],
+  "pareto_frontier": [],
+  "recommended_policy": {
+    "min_forecast_edge": 0.18,
+    "max_entry_yes_ask": 0.35,
+    "order_mode": "maker_limit",
+    "n_trades": 22,
+    "confidence": "moderate"
+  }
+}

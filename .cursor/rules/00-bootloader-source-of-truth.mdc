@@ -12,8 +12,9 @@ All AI agents (Cursor AUTO, subagents, Claude Code, background agents) **must** 
 ## Before major work
 
 1. Read bootloader Sections **0–8** (master prompt, laws, Mission Control Packet, drift prevention).
-2. Read `0_Developer_Source_Files/MISSION.md` and `0_Developer_Source_Files/current-objective.md`.
+2. Read `0_Developer_Source_Files/MISSION.md`, `0_Developer_Source_Files/current-objective.md`, and **`0_Developer_Source_Files/ROUTING.md`**.
 3. Read `0_Developer_Source_Files/AGENTS.md` for project-specific commands and risk classes.
+4. For script work: `legion5/ACTIVE_MANIFEST.json` and `ingest/scripts/ACTIVE_MANIFEST.json` — do not grep entire script trees.
 
 ## Operating law (summary)
 
@@ -28,6 +29,9 @@ All AI agents (Cursor AUTO, subagents, Claude Code, background agents) **must** 
 - `.cursor/rules/kmia-ingest-and-chart-bridge.mdc`
 - `.cursor/rules/legion5-processor-defaults.mdc`
 - `.cursor/skills/kmia-nas-ingest/SKILL.md` when operating NAS ingest
+- `.cursor/skills/kmia-policy-sweep/SKILL.md` when running Legion5 policy sweep
+- `.cursor/skills/kmia-nas-deploy/SKILL.md` when deploying NAS runtime from Mac
+- `.cursor/skills/kmia-mae-charts/SKILL.md` when building MAE charts on Legion5
 
 ## Three-console system
 

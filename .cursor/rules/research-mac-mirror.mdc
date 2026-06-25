@@ -1,0 +1,26 @@
+---
+description: Mac Research folder — open only contract files and enriched CSVs; never sweep JSON or raw extracts
+globs: Research/**
+alwaysApply: false
+---
+
+# Research folder (Mac mirror)
+
+**Read first:** `Research/Agent Analysis of KMIA Forecast Precision/README.md`  
+**Routing:** `0_Developer_Source_Files/ROUTING.md`
+
+## Safe to open
+
+- `*/accuracy_points_enriched.csv`, `all_years_merge_manifest.json`
+- `*/kmia_chart_suite.html`, `KMIA_Chart_Portal/`
+- `Kalshi_Price_Backtest/recommended_policy.json`, `trading_policy_draft.json`, `dual_mode_comparison.json`
+
+## Do not open (gitignored / Legion5 canonical)
+
+- `policy_sweep_*.json`, `kalshi_price_backtest_*.json`, `legion5_run_*/`
+- `Legion5_Extract/`, `*_stability_wind.png`
+- For JSON schema: `ingest/scripts/fixtures/`
+
+## Pull contract
+
+Mac: `legion5/pull_all_charts_to_mac.sh` only. Never `pull_charts_and_data_to_mac.sh` unless explicitly debugging raw extracts offline.
