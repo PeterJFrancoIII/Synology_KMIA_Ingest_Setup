@@ -49,3 +49,8 @@ Research/**/Kalshi_Price_Backtest/.ndfd_autorun_*.state
 # Large regenerable chart PNGs (HTML + enriched CSV are canonical)
 Research/**/*_stability_wind.png
 Research/**/kmia_*_PLUS_mean_median_stability_wind_points.csv
+
+# Regenerable NAS forward-analysis pulls (pull_paper_forward_dossier.sh)
+docs/ops/paper_forward_analysis/*_nas_*.json
+docs/ops/paper_forward_analysis/ledger_nas_*.json
+docs/ops/paper_forward_analysis/ws_replay_pilot/
