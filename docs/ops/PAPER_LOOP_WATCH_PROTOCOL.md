@@ -45,7 +45,11 @@ See `MANIFEST.txt` in that folder for checksums.
 # or: NAS_HOST=MediaServer2 ./ingest/scripts/kmia_paper_ops_watch.sh
 ```
 
-Checks: containers, WS heartbeat age, `verify_smarter_paper.py`, cron tail, policy/signal JSON.
+Checks: containers, WS heartbeat age, `verify_smarter_paper.py`, cron tail, policy/signal JSON, **real_kxhighmia ledger stats**, NWS snapshot.
+
+**Exit codes:** `kmia_paper_ops_watch.sh` returns `0` green · `1` yellow · `2` red.
+
+**Escalation:** RED → fix weather gate / containers / cron before trusting forward metrics. Do not re-approve policy on MOCK-inflated win rates.
 
 **Targets:** WS heartbeat &lt; 120s; 12 KXHIGHMIA tickers; `orderbook_artifact.source: kalshi_ws`; `candidate_to_buy_overlap` ≥ 90% when markets tradable.
 
@@ -54,6 +58,8 @@ Checks: containers, WS heartbeat age, `verify_smarter_paper.py`, cron tail, poli
 **Vendor inbound:** [`KALSHI_INBOUND_DATA_CONTRACT.md`](KALSHI_INBOUND_DATA_CONTRACT.md)
 
 **Readiness matrix:** [`PAPER_TRADING_READINESS.md`](PAPER_TRADING_READINESS.md)
+
+**Forward analysis dossier:** [`paper_forward_analysis/PAPER_FORWARD_ANALYSIS_20260625.md`](paper_forward_analysis/PAPER_FORWARD_ANALYSIS_20260625.md)
 
 **Deep research prompt:** [`DEEP_RESEARCH_PAPER_TRADING_PROMPT.md`](DEEP_RESEARCH_PAPER_TRADING_PROMPT.md) — copy into Claude/Gemini for system review
 

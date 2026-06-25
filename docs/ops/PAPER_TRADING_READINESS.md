@@ -1,17 +1,31 @@
 # Paper trading readiness — status matrix
 
-**Updated:** 2026-06-24  
+**Updated:** 2026-06-25  
 **Mode:** Paper simulation only — no live Kalshi orders  
 **Runtime:** NAS `kmia-paper-research` only (Mac = deploy + approve)
 
-## Short answer
+## North-star KPIs (mission-linked)
+
+| KPI | Green | Current (2026-06-25) | Status |
+|-----|-------|-------------------|--------|
+| Weather freshness (`current_temp_f` present) | 95% cycles / 24h | **Green** — 78.8°F after `nws_live_client.py` fix (2026-06-25) | Operational |
+| `weather_gate.allow_paper_recommendations` | true in window | **Green** — `OK` on NAS after deploy | Operational |
+| Real forward settled (KXHIGHMIA) | ≥ 20 | 16 | Yellow — accumulating |
+| maker_limit post-approval settled | ≥ 10 | 2 | Yellow — accumulating |
+| Honest win rate (MOCK excluded) | vs backtest after gates | 0% real (16 settled) | Collecting |
+| WS archive depth | ≥ 14 days | ~3 days | Yellow — ~2026-07-06 |
+| Policy drift NAS vs Legion5 | weekly human review | Manual sync | Yellow |
+
+Daily checklist: [`DAILY_OPERATOR_CHECKLIST.md`](DAILY_OPERATOR_CHECKLIST.md)
+
+---
 
 | Question | Answer |
 |----------|--------|
 | Is paper trading live on NAS? | **Yes** — 5-min cron, maker_limit, dynamic window |
 | Is orderbook ingest live? | **Yes** — WS daemon + REST archive |
 | Is backtest/policy at full capacity? | **Partial** — Legion5 owns sweep; WS archive still young |
-| Ready to optimize win rate? | **Collecting** — forward scorecard weekly; re-review at n≥20 |
+| Ready to optimize win rate? | **Collecting** — forward dossier 2026-06-25; re-review at real n≥20 (~Jul 6 WS gate) |
 
 ---
 
@@ -47,7 +61,9 @@
 |-----|--------|--------|
 | **Legion5→NAS robocopy** | Manual Mac SSH fallback | `43b_setup_nas_smb_write.ps1` + `55_sync_research_to_nas.ps1` |
 | **WS archive &lt; 14 days** | Thin maker book replay | Wait; optional vendor L2 |
-| **Forward paper sample thin** | Low confidence in live maker fills | Weekly scorecard; re-review at n≥20 |
+| **Forward paper sample thin** | Low confidence in live maker fills | Weekly scorecard (`trade_stats_real_kxhighmia`); re-review at n≥20 |
+| **Weather gate / NWS temp** | Blocks paper exercise | `nws_live_client.py` head-obs fallback + deploy; ops watch exit 2 on RED |
+| **MOCK scorecard contamination** | Misleading win rate | `paper_forward_scorecard.py` real-only splits |
 | **NAS raw / NWS gaps** | MAE priors under-scored on NAS | Legion5 `52_*` or NAS NDFD NWS backfill |
 | **NBM / isotonic gates** | Off until archive grows | Daily NBM fetch; re-fit isotonic when multi-year CSV ready |
 
@@ -69,7 +85,11 @@
 NAS_HOST=MediaServer2 ./ingest/scripts/kmia_paper_ops_watch.sh
 ```
 
-**Targets:** WS heartbeat &lt; 120s · 12 tickers · `orderbook_artifact.source: kalshi_ws` · `policy_approved: maker_limit`
+**Targets:** WS heartbeat &lt; 120s · 12 tickers · `orderbook_artifact.source: kalshi_ws` · `policy_approved: maker_limit` · **exit 0**
+
+**Exit codes:** `0` green · `1` yellow · `2` red (weather_gate ERROR, missing NWS temp, containers down, cron silent &gt;30m)
+
+**Daily checklist:** [`DAILY_OPERATOR_CHECKLIST.md`](DAILY_OPERATOR_CHECKLIST.md)
 
 ```bash
 ssh MediaServer2 'sudo grep KMIA /etc/crontab'
@@ -121,6 +141,9 @@ cat Kalshi/backend/data/research/trading_policy.json | ssh MediaServer2 \
 
 ## Related
 
+- Forward analysis dossier: [`paper_forward_analysis/PAPER_FORWARD_ANALYSIS_20260625.md`](paper_forward_analysis/PAPER_FORWARD_ANALYSIS_20260625.md)
+- Accumulation gates: [`ACCUMULATION_GATES.md`](ACCUMULATION_GATES.md)
+- Live trading (future): [`LIVE_TRADING_READINESS.md`](LIVE_TRADING_READINESS.md)
 - Watch protocol: [`PAPER_LOOP_WATCH_PROTOCOL.md`](PAPER_LOOP_WATCH_PROTOCOL.md)
 - Bridge state: [`../architecture/KALSHI_TRADING_BRIDGE_STATE.md`](../architecture/KALSHI_TRADING_BRIDGE_STATE.md)
 - Current objective: [`../../0_Developer_Source_Files/current-objective.md`](../../0_Developer_Source_Files/current-objective.md)

@@ -1,0 +1,213 @@
+{
+  "generated_at_utc": "2026-06-25T01:11:35.408736+00:00",
+  "total_trades": 21,
+  "mock_trades": 2,
+  "real_trades": 19,
+  "real_settled": 16,
+  "real_open": 3,
+  "post_policy_settled": 0,
+  "maker_limit_settled": 2,
+  "wins": 0,
+  "losses": 15,
+  "flat": 1,
+  "win_rate_pct": 0.0,
+  "total_pnl_settled_real": -1.0015,
+  "settled_by_month": {
+    "2026-05": 2,
+    "2026-06": 14
+  },
+  "order_modes": {
+    "unknown": 11,
+    "taker": 6,
+    "maker_limit": 2
+  },
+  "top_forecast_bins": [
+    [
+      ">=96",
+      3
+    ],
+    [
+      "95-96",
+      2
+    ],
+    [
+      ">=97",
+      2
+    ],
+    [
+      "88-89",
+      2
+    ],
+    [
+      "90-91",
+      2
+    ],
+    [
+      "94-95",
+      2
+    ],
+    [
+      "89-90",
+      2
+    ],
+    [
+      "86-87",
+      1
+    ],
+    [
+      "85-86",
+      1
+    ],
+    [
+      "<=87",
+      1
+    ]
+  ],
+  "open_tickers": [
+    "KXHIGHMIA-26JUN24-T95",
+    "KXHIGHMIA-26JUN25-B94.5",
+    "KXHIGHMIA-26JUN25-T95"
+  ],
+  "loss_samples": [
+    {
+      "market_ticker": "KXHIGHMIA-26JUN20-B90.5",
+      "target_date": "2026-06-20",
+      "pnl": -0.19,
+      "forecast_bin": "90-91",
+      "execution_price": 0.19,
+      "quantity": 25,
+      "model_probability": 0.297,
+      "order_mode": "taker",
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26JUN23-B95.5",
+      "target_date": "2026-06-23",
+      "pnl": -0.1715,
+      "forecast_bin": "95-96",
+      "execution_price": 0.1715,
+      "quantity": 14,
+      "model_probability": 0.2826,
+      "order_mode": "taker",
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26JUN21-B90.5",
+      "target_date": "2026-06-21",
+      "pnl": -0.16,
+      "forecast_bin": "90-91",
+      "execution_price": 0.16,
+      "quantity": 1,
+      "model_probability": 0.4715,
+      "order_mode": null,
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26MAY16-B86.5",
+      "target_date": "2026-05-16",
+      "pnl": -0.12,
+      "forecast_bin": "86-87",
+      "execution_price": 0.12,
+      "quantity": 1,
+      "model_probability": 0.2776,
+      "order_mode": null,
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26JUN20-B94.5",
+      "target_date": "2026-06-20",
+      "pnl": -0.1,
+      "forecast_bin": "94-95",
+      "execution_price": 0.1,
+      "quantity": 1,
+      "model_probability": 0.4424,
+      "order_mode": null,
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26JUN21-T95",
+      "target_date": "2026-06-21",
+      "pnl": -0.06,
+      "forecast_bin": ">=96",
+      "execution_price": 0.06,
+      "quantity": 1,
+      "model_probability": 0.3435,
+      "order_mode": null,
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26MAY21-B85.5",
+      "target_date": "2026-05-21",
+      "pnl": -0.05,
+      "forecast_bin": "85-86",
+      "execution_price": 0.05,
+      "quantity": 1,
+      "model_probability": 0.2102,
+      "order_mode": null,
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26JUN22-B89.5",
+      "target_date": "2026-06-22",
+      "pnl": -0.04,
+      "forecast_bin": "89-90",
+      "execution_price": 0.04,
+      "quantity": 2,
+      "model_probability": 0.1772,
+      "order_mode": "maker_limit",
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26JUN20-B88.5",
+      "target_date": "2026-06-20",
+      "pnl": -0.03,
+      "forecast_bin": "88-89",
+      "execution_price": 0.03,
+      "quantity": 23,
+      "model_probability": 0.2853,
+      "order_mode": "taker",
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26JUN21-B88.5",
+      "target_date": "2026-06-21",
+      "pnl": -0.02,
+      "forecast_bin": "88-89",
+      "execution_price": 0.02,
+      "quantity": 1,
+      "model_probability": 0.2823,
+      "order_mode": null,
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26JUN23-T96",
+      "target_date": "2026-06-23",
+      "pnl": -0.02,
+      "forecast_bin": ">=97",
+      "execution_price": 0.02,
+      "quantity": 25,
+      "model_probability": 0.1281,
+      "order_mode": null,
+      "loss_taxonomy": null
+    },
+    {
+      "market_ticker": "KXHIGHMIA-26JUN18-B95.5",
+      "target_date": "2026-06-18",
+      "pnl": -0.01,
+      "forecast_bin": "95-96",
+      "execution_price": 0.01,
+      "quantity": 3535,
+      "model_probability": 0.3074,
+      "order_mode": null,
+      "loss_taxonomy": null
+    }
+  ],
+  "win_samples": [],
+  "gates": {
+    "real_settled_target": 20,
+    "real_settled_current": 16,
+    "maker_limit_settled_target": 10,
+    "maker_limit_settled_current": 2,
+    "policy_reapproval_allowed": false
+  }
+}

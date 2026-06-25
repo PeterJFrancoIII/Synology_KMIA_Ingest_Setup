@@ -28,6 +28,9 @@ See: `docs/architecture/KALSHI_TRADING_BRIDGE_STATE.md`, `docs/ops/PAPER_TRADING
 - [x] NAS daily pipeline ingest-only (`SKIP_POLICY_SWEEP=1`); Legion5 weekly sweep owns science
 - [ ] Legion5→NAS research robocopy via `nas_smb_write_password` (Mac SSH fallback works; automate)
 - [ ] Forward paper n≥20 before next policy tier review (`paper_forward_scorecard.json` weekly)
+  - **2026-06-25 dossier:** 16 real KXHIGHMIA settled (0 wins); scorecard 11% includes 2 MOCK wins — see [`docs/ops/paper_forward_analysis/PAPER_FORWARD_ANALYSIS_20260625.md`](../docs/ops/paper_forward_analysis/PAPER_FORWARD_ANALYSIS_20260625.md)
+  - **Hold re-approval until:** real settled n≥20, maker_limit-era n≥10, WS archive ≥14d (~2026-07-06) — tracked in [`docs/ops/ACCUMULATION_GATES.md`](../docs/ops/ACCUMULATION_GATES.md)
+  - **Ops fixes (2026-06-25):** NWS `current_temp_f` fallback, honest scorecard splits, RED/YELLOW ops watch, weekly dossier automation
 
 ### Kalshi WS orderbook ingest (NAS)
 - [x] WebSocket `orderbook_delta` daemon (`kmia-orderbook-ws` container)

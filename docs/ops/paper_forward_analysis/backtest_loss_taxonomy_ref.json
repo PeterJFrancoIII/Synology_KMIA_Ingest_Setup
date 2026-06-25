@@ -1,0 +1,10 @@
+{
+  "source": "Research/.../Kalshi_Price_Backtest/policy_pattern_analysis_20260623T074519Z.json",
+  "tier": "9% min_forecast_edge (Legion5 draft tier, 24 trades)",
+  "loss_taxonomy": {
+    "win": 14,
+    "both_miss": 10
+  },
+  "win_rate_pct": 58.3,
+  "note": "Forward real KXHIGHMIA settled: 0% win (0/16) as of 2026-06-25 — see PAPER_FORWARD_ANALYSIS_20260625.md"
+}

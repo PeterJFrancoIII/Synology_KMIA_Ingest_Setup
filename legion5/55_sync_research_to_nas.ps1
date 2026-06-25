@@ -36,4 +36,25 @@ if ($Password) {
 Write-Host "robocopy $Source -> $Dest /E /XO"
 robocopy $Source $Dest /E /XO /R:2 /W:5 /NFL /NDL /NP
 if ($LASTEXITCODE -ge 8) { exit 1 }
+
+$manifest = @{
+    synced_at_utc = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+    source = $Source
+    dest = $Dest
+    files = @()
+}
+$policyPath = Join-Path $Dest "trading_policy.json"
+if (Test-Path $policyPath) {
+    $policy = Get-Content -Raw $policyPath | ConvertFrom-Json
+    $manifest.policy_order_mode = $policy.order_mode
+    $manifest.policy_generated_at = $policy.generated_at_utc
+    if (-not $manifest.policy_generated_at) { $manifest.policy_generated_at = $policy.approved_at_utc }
+}
+Get-ChildItem -Path $Dest -File | ForEach-Object {
+    $manifest.files += $_.Name
+}
+$manifestPath = Join-Path $Dest "legion5_sync_manifest.json"
+$manifest | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 $manifestPath
+Write-Host "wrote manifest $manifestPath"
 Write-Host "research sync ok"
+Write-Host "Verify from Mac: NAS_HOST=MediaServer2 python3 ingest/scripts/verify_nas_research_sync.py"
